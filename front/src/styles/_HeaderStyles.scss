@@ -1,0 +1,129 @@
+@import "./Colors.scss";
+@import "./Variables.scss";
+
+
+header {
+  
+ height: 200px;
+//   max-height: 200px; /* Définir la hauteur maximale que tu souhaites pour le header */
+//   overflow: hidden; /* Masquer tout contenu qui dépasse la hauteur du header */
+  
+  display: flex;
+  flex-direction: column;
+  font-weight: bold;
+  font-size: $fontZiseNav;
+
+  border-bottom: 1px solid rgb(199, 198, 198);
+ 
+
+  .topHeader {
+    
+   // height: 60px;
+    display: flex;
+    justify-content: center;
+    background-color: $secondary;
+    
+
+    color: #fff;
+
+    .ulMenu{
+        width: 90%;
+        display: flex;
+        justify-content: space-between;
+        list-style: none;
+        padding-left: 0;
+
+        .ulMenuZone{
+            display: flex;
+            flex-direction: column;
+            list-style: none;
+            margin-top: 10px;
+          
+        }
+    }
+    
+  }
+
+  nav{
+  
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    
+    a{
+        text-decoration: none;
+        color: #333;
+    }
+    .linkContact{
+        color: white;
+    }
+    
+   
+
+    .container-fluid{
+        width: 90%;
+        height: 135px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+       // border: solid 1px #333;
+        
+
+        .navbar-brand{
+
+            width: 20%;
+            max-height: 80px; /*définition de la hauteur maximal que le containeur peux avoir ça ne dépassera jamais ainsi on peut redimensionner sans problème*/
+            overflow: hidden; /* Masquage de tout contenu qui dépasse la hauteur du header */
+            display: flex;
+            justify-content: start;
+            align-items: center;
+
+
+            //border: solid 1px #333;
+
+            img{
+                width: 250px;
+                height: 350px;
+               
+            }
+        }
+        .navbar-collapse{
+
+            width: 70%;
+           
+            // border: solid 1px #333;
+
+            .ulMenuNav{
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                list-style: none;
+                padding-left: 0;
+                
+
+                .contact{
+                    width: 20%;
+                    height: 40px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    border: solid 1px #333;
+                    // padding: 10px;
+                    // margin: 10px;
+                    background-color: $primary;
+                    border-color: $primary;
+                    color: white;
+                    border-radius: 5px;
+                    font-weight: bold;
+                   
+                    cursor: pointer;
+                }
+
+            }
+        }
+    }
+  }
+    
+}

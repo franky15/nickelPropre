@@ -1,9 +1,12 @@
 import React from 'react';
 
+import CarteServices from '../../components/CarteServices';
+
 const Home = () => {
     return (
         <div className='Home'>
-            Bienvenue au Home
+           
+            <CarteServices />
         </div>
     );
 };

@@ -1,13 +1,109 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@charset "UTF-8";
+header {
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  font-weight: bold;
+  font-size: 18px;
+  border-bottom: 1px solid rgb(199, 198, 198);
+}
+header .topHeader {
+  display: flex;
+  justify-content: center;
+  background-color: #1C3A4E;
+  color: #fff;
+}
+header .topHeader .ulMenu {
+  width: 90%;
+  display: flex;
+  justify-content: space-between;
+  list-style: none;
+  padding-left: 0;
+}
+header .topHeader .ulMenu .ulMenuZone {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  margin-top: 10px;
+}
+header nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+header nav a {
+  text-decoration: none;
+  color: #333;
+}
+header nav .linkContact {
+  color: white;
+}
+header nav .container-fluid {
+  width: 90%;
+  height: 135px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+header nav .container-fluid .navbar-brand {
+  width: 20%;
+  max-height: 80px; /*définition de la hauteur maximal que le containeur peux avoir ça ne dépassera jamais ainsi on peut redimensionner sans problème*/
+  overflow: hidden; /* Masquage de tout contenu qui dépasse la hauteur du header */
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
+header nav .container-fluid .navbar-brand img {
+  width: 250px;
+  height: 350px;
+}
+header nav .container-fluid .navbar-collapse {
+  width: 70%;
+}
+header nav .container-fluid .navbar-collapse .ulMenuNav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  list-style: none;
+  padding-left: 0;
+}
+header nav .container-fluid .navbar-collapse .ulMenuNav .contact {
+  width: 20%;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: solid 1px #333;
+  background-color: #1093EB;
+  border-color: #1093EB;
+  color: white;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.CarteServices {
+  width: 80%;
+  margin-top: 50px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
+.CarteServices .service h2 {
+  width: 100%;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  background-color: #1093EB;
+  position: absolute;
+  top: -20px;
+}
+
+.Home {
+  display: flex;
+  justify-content: center;
+}
+
+/*# sourceMappingURL=index.css.map */
