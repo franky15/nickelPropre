@@ -17,7 +17,7 @@ const CarteServices = () => {
 
                         <Link 
                             to={`/service/${service.id}`} // Lien redirigeant vers la page du service
-                            key={index-"CarteServices"}
+                            key={`service-${service.id}-${service.title}`}
                             style={{
                                 textDecoration: 'none', // Pour enlever la décoration du texte sur le lien
                                 color: 'inherit' // Hérite la couleur du texte
@@ -25,7 +25,7 @@ const CarteServices = () => {
                             className='service-link'
                         >
                             <div 
-                                key={index}
+                               
                                 className='service'
                                 style={{
                                     backgroundImage: `url(${service.picture})`, // Utilisation correcte de backgroundImage via style

@@ -27,37 +27,13 @@ const Service = () => {
         }
         
     }
-    , [id, servicesData]);
+    , [id]);
 
     //console.log('service', service);
 
     return (
         <div className='ServiceContainer'>
 
-            <div className='ServiceContainer__describ'>
-
-                <h1>{service.title}</h1>
-                <p>{service.description}</p>
-                
-                <div className='ServiceContainer__describ--details'>
-
-                        {service.details && service.details.map((detail, index) => {
-                            return (
-                                <div key={ index-"ServiceContainer" } className='ServiceContainer__describ--details--detail'>
-                                    <p> <i class="fa-solid fa-check"></i>{detail}</p>
-                                </div>
-                            );
-
-                        })
-                        }
-                </div>
-
-                <Revieuws/>
-                <button className='btn__contact'>Nous contacter</button>
-            </div>
-
-            
-           
             {
                 service  !== undefined && 
                 <>
@@ -87,6 +63,33 @@ const Service = () => {
                 </>
             
             }
+
+
+            <div className='ServiceContainer__describ'>
+
+                <h1>{service.title}</h1>
+                <p>{service.description}</p>
+                
+                <div className='ServiceContainer__describ--details'>
+
+                        {service.details && service.details.map((detail, index) => {
+                            return (
+                                <div key={`ServiceContainer-${service.id}-${service.title}`} className='describ--detailsItemp'>
+                                    <p> <i className="fa-solid fa-check"></i>{detail}</p>
+                                </div>
+                            );
+
+                        })
+                        }
+                </div>
+
+                <Revieuws/>
+                <button className='btn__contact'>Nous contacter</button>
+            </div>
+
+            
+           
+           
             
             
 

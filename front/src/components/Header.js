@@ -111,7 +111,7 @@ const Header = () => {
                                             {
                                                 servicesData.map((service, index) => {
                                                     return (
-                                                        <li key={index-"nav"} >
+                                                        <li key={`nav-${service.id}-${service.title}`} >
                                                             
                                                             <Link 
                                                                 className="services-link"

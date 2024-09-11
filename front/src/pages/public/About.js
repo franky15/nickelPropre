@@ -6,6 +6,7 @@ import Revieuws from '../../components/Revieuws';
 
 const About = () => {
 
+    
     // Divise la liste en deux parties
     const half = Math.ceil(servicesData.length / 2);  // Division de la liste en deux si elle est impaire (Math.ceil() arrondi supérieur) la première moitié contiendra un élément de plus
     const firstHalf = servicesData.slice(0, half);    // slice permet de découper la liste avec deux paramètres, le premier est l'index de départ et le deuxième est l'index de fin sans modification de la liste d'origine
@@ -29,18 +30,22 @@ const About = () => {
         }
 
         if(hasHalfStar) {
-            stars.push(<i class="fa-regular fa-star-half-stroke"></i>); // Ajoute une demi-étoile si nécessaire
+            stars.push(<i className="fa-regular fa-star-half-stroke"></i>); // Ajoute une demi-étoile si nécessaire
         }
 
         // Ajouter les étoiles vides pour compléter jusqu'à 5 étoiles
-        /*let emptyStars = totalStars - fullStars - (hasHalfStar ? 1 : 0);
+        let emptyStars = totalStars - fullStars - (hasHalfStar ? 1 : 0);
         for (let i = 0; i < emptyStars; i++) {
             stars.push(<i key={`empty-${i}`} className="fa-regular fa-star"></i>);
-        }*/
+        }
         return stars;
     };
    
+    console.log('servicesData', servicesData);
 
+    console.log('firstHalf', firstHalf);
+    console.log('secondHalf', secondHalf);
+    
     return (
         <div className='About'>
 
@@ -50,46 +55,53 @@ const About = () => {
 
             
                 {/* Première moitié de la liste */}
-                {firstHalf.map(service => {
-                    return (
-                        <div key={service.id-"about0"} className='About__cartContainer--service'
-                            style={{
-                                backgroundImage: `url(${service.picture})`,
-                                backgroundSize: 'cover',
-                                backgroundPosition: 'center',
-                                borderRadius: '10px',
-                                position: 'relative',
-                                overflow: 'hidden',
-                            }}
-                        >
-                            <p>{service.description}</p>
-                        </div>
-                    );
-                })}
+                <div className='About__cartContainer--itemGroupe'>
 
-                <div className='About__describ'>
+                    {firstHalf.map(service => {
+                        return (
+                            <div key={`about0-${service.id}-${service.title}`} className='About__cartItem'
+                                style={{
+                                    backgroundImage: `url(${service.picture})`,
+                                    backgroundSize: 'cover',
+                                    backgroundPosition: 'center',
+                                    borderRadius: '10px',
+                                    position: 'relative',
+                                    overflow: 'hidden',
+                                }}
+                            >
+                            
+                            </div>
+                        );
+                    })}
+
+               </div>
+
+                <div className='About__cartContainer--describ'>
                     <p >
                         Notre entreprise est spécialisée dans la vente de produits de qualité. Nous mettons tout en oeuvre pour vous satisfaire.
                     </p>
                 </div>
 
-                {/* Deuxième moitié de la liste */}
-                {secondHalf.map(service => {
-                    return (
-                        <div key={service.id-"about1"} className='About__cartContainer--service'
-                            style={{
-                                backgroundImage: `url(${service.picture})`,
-                                backgroundSize: 'cover',
-                                backgroundPosition: 'center',
-                                borderRadius: '10px',
-                                position: 'relative',
-                                overflow: 'hidden',
-                            }}
-                        >
-                            <p>{service.description}</p>
-                        </div>
-                    );
-                })}
+                <div className='About__cartContainer--itemGroupe'>
+                    {/* Deuxième moitié de la liste */}
+                    {secondHalf.map(service => {
+                        return (
+                            <div key={`about1-${service.id}-${service.title}`}  className='About__cartItem'
+                                style={{
+                                    backgroundImage: `url(${service.picture})`,
+                                    backgroundSize: 'cover',
+                                    backgroundPosition: 'center',
+                                    borderRadius: '10px',
+                                    position: 'relative',
+                                    overflow: 'hidden',
+                                }}
+                            >
+                            
+                            </div>
+                        );
+                    })}
+
+                </div>
 
             </div>
 
@@ -109,8 +121,8 @@ const About = () => {
                     {
                         servicesData.map(service => {
                             return (
-                                <div key={service.id-"about2"} className='services'>
-                                    <i class="fa-regular fa-square-check"></i>
+                                <div key={`about3-${service.id}-${service.title}`} className='services'>
+                                    <i className="fa-regular fa-square-check"></i>
                                     <h3>{service.title}</h3>
                                     
                                 </div>
@@ -121,28 +133,35 @@ const About = () => {
 
                 <div className='containerRang'>
 
-                    <Revieuws/>
+                    <div className='revieuws'>
+                        <Revieuws/>
+                    </div>
+                   
                     <div className='certicate'>
 
                         <div className='certicate__container'>
-                            <div className=''>
-                                <p>Bio</p>
+                            <div className='contenu'>
+                                <p className='contenu__title'>Bio</p>
                                 <p>Produit non-toxique</p>
-                                <i class="fa-solid fa-ribbon"></i>
+                                <p> <i className="fa-solid fa-ribbon"></i></p>
+                        
+                               
                             </div>
                         </div>
                         <div className='certicate__container'>
-                            <div className=''>
-                                <p>Bio</p>
+                            <div className='contenu'>
+                                <p className='contenu__title'>Bio</p>
                                 <p>Produit non-toxique</p>
-                                <i class="fa-solid fa-trophy"></i>
+                                <p> <i className="fa-solid fa-trophy"></i></p>
+                               
                             </div>
                         </div>
                         <div className='certicate__container'>
-                            <div className=''>
-                                <p>Bio</p>
+                            <div className='contenu'>
+                                <p className='contenu__title'>Bio</p>
                                 <p>Produit non-toxique</p>
-                                <i class="fa-solid fa-euro-sign"></i>
+                                <p>  <i className="fa-solid fa-euro-sign"></i></p>
+                               
                             </div>
                         </div>
 
@@ -165,10 +184,10 @@ const About = () => {
                 <div className='footer'>
                     <p className='title'>Suivez notre actualité sur nos réseaux sociaux</p>
                     <div className='social'>
-                        <i class="fa-brands fa-facebook"></i>
-                        <i class="fa-brands fa-instagram"></i>
+                        <i className="fa-brands fa-facebook"></i>
+                        <i className="fa-brands fa-instagram"></i>
                     </div>
-                    <p className='triangle'><i class="fa-solid fa-caret-up"></i></p>
+                    <div className='triangle'><i className="fa-solid fa-caret-up"></i></div>
                 </div>
             
             </div>

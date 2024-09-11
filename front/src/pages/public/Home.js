@@ -46,7 +46,7 @@ const Home = () => {
 
                     services.map((service, index) => {
                         return (
-                            <div key={index-"home"} className='blockServices__service'>
+                            <div key={`home-${service.id}-${service.title}`} className='blockServices__service'>
                                 <h4>{service.title}</h4>
                                 <p>{service.description}</p>
                                 <button className='btn__services'>En savoir plus</button>
@@ -72,21 +72,21 @@ const Home = () => {
 
                 <div className='blockEntreprise__garantie'>
                     <div className='blockEntreprise__garantie__item'>
-                        <i class="fa-regular fa-square-check"></i>
+                        <i className="fa-regular fa-square-check"></i>
                         <h3>Satisfaction Garanthies</h3>
                         <p>
                             Nous nous Engageons pour un Résultat impeccable, nous garantissons votre satisfaction.
                         </p>
                     </div>
                     <div className='blockEntreprise__garantie__item'>
-                        <i class="fa-solid fa-car"></i>
+                        <i className="fa-solid fa-car"></i>
                         <h3>Déplacement Gratuit</h3>
                         <p>
                             Nos Professionnels se déplace chez vous gratuitement.
                         </p>
                     </div>
                     <div className='blockEntreprise__garantie__item'>
-                        <i class="fa-regular fa-circle-check"></i>
+                        <i className="fa-regular fa-circle-check"></i>
                         <h3>Paiement sécurisé</h3>
                         <p>
                             Payez Après le travail vérifié et terminé.
