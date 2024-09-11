@@ -1,5 +1,463 @@
+@import "./Variables.scss";
+
+
+
 
 .Home{
+
+    width: 90%;
+    margin: auto;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+
+    // border: solid;
+
+    .blockH1{
+        width: 100%;
+        //height: 50px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 50px;
+        
+        //border: solid 1px red;
+
+        /*&__title{
+
+            font-size: 40px;
+            border: solid 1px red;
+        }*/
+
+        &__describ{
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: -20px;
+            font-size: 15px;
+            //font-weight: bold;
+        }
+       
+    }
+
+    .btn__contact{
+        
+        @include btnContact();
+    }
+
+    .H2__title{
+        width: 100%;
+        height: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: $primary;
+        font-size: $title;
+        //background-color: $primary;
+        margin-top: 50px;
+        //border: solid 1px red;
+    }
+    .descripConseil{
+        width: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: bold;
+        font-size: $subTitle;
+        //margin-top: 50px;
+        //border: solid 1px red;
+    }
+    .H3__title{
+        width: 100%;
+        height: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: $primary;
+        font-size: $title;
+        //background-color: $primary;
+        margin-top: 50px;
+        //border: solid 1px red;
+    }
+
+    .blockServices{
+
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        
+        //border: solid 1px red;
+
+        &__service{
+            width: 32%;
+            //height: 400px;
+            margin-bottom: 35px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: $subTitle;
+            border-radius: $borderRadiusBlock;
+            border: none;  //$borderBlueSolid
+            box-shadow: $boxShadow;
+
+            p{
+                width: 90%;
+                flex-grow: 1;
+            }
+            .btn__services{
+                @include btnContact($width: 70%, $font-size: 12px);
+                margin-top: 20px;
+                margin-bottom: 20px;
+                
+            }
+
+           
+        }
+        &__appelAction{
+            width: 32%;
+            height: 400px;
+            font-size: $title;
+            font-weight: bold;
+
+            //border: solid 1px red;
+            
+        }
+    }
+
+
+    .blockEntreprise{
+
+        width: 80%;
+        flex-direction: column;
+        align-items: center;
+
+        //border: solid 1px red;
+
+        h2{
+            width: 100%;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            //color: $primary;
+            font-size: $title;
+            //background-color: $primary;
+            margin-top: 50px;
+            //border: solid 1px red;
+        }
+        &__describ{
+
+            width: 80%;
+            margin: auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            //font-weight: normal;
+            font-size: $subTitle;
+            margin-top: 50px;
+
+            //border: solid 1px red;
+        }
+        &__garantie{
+            width: 80%;
+            margin: auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            //font-weight: bolder;
+            //font-size: $subTitle;
+            margin-top: 50px;
+
+            //border: solid 1px red;
+        }
+        &__garantie__item{
+            width: 31%;
+            height: 200px;
+            margin: auto;
+            padding-top: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border-radius: $borderRadiusBlock;
+            box-shadow: $boxShadow;
+           
+
+            //border: solid 1px blue;
+
+            i{
+                font-size: 50px;
+                color: $primary;
+            }
+            p{
+                width: 90%;
+                margin: auto;
+                //font-size: $subTitle;
+            }
+        }
+        .btn__contact{
+
+            margin: auto;
+           margin-top: 50px;
+            
+        };
+        &__products{
+            width: 100%;
+            height: 150px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            margin: auto;
+            margin-top: 50px;
+            font-size: $subTitle;
+            color: white;
+            background-color: $primary;
+            border: solid 1px $primary;
+            border-radius: $borderRadiusBlock;
+            box-shadow: $boxShadow;
+
+            
+        }
+    
+    }
+
+    .blockCanap{
+
+        width: 80%;
+        margin-top: 50px;
+
+        //border: solid 1px red;
+
+        &__imageCanape{
+
+            width: 100%;  /* Utilise 100% de la largeur du conteneur */
+            height: 400px;  /* Hauteur fixe de l'image */
+            background-size: cover;  /* L'image couvre tout le conteneur */
+            background-position: center;  /* Centre l'image horizontalement et verticalement */
+            border-radius: 10px;
+            box-shadow: $boxShadow; // Ombre portée
+        }
+        .blockCanap__text{
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: $subTitle;
+            margin-top: 50px;
+    
+            //border: solid 1px red;
+        }
+        &__prix{
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: $subTitle;
+            font-weight: bold;
+            color: $primary;
+            margin-top: 50px;
+    
+            //border: solid 1px red;
+        }
+
+    }
+
+    .blockReviews{
+
+        width: 100%;
+        background-color: $primary;
+        margin-top: 50px;
+        border-radius: $borderRadiusBlock;
+        box-shadow: $boxShadow;
+
+        &__avis{
+            width: 80%;
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: $subTitle;
+            color: white;
+            margin-top: 50px;
+           
+
+            //border: solid 1px red;
+
+            .avis{
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-top: 20px;
+                background-color: white;
+                
+                //border: solid 1px red;
+            }
+            p{
+                margin-bottom: 50px;
+            }
+
+        }
+       
+
+    }
+
+    .blockMethodTravail{
+            
+            width: 100%;
+            margin-top: 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+    
+            //border: solid 1px red;
+    
+            h3{
+                width: 100%;
+                height: 50px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                color: $primary;
+                font-size: $title;
+                //background-color: $primary;
+                margin-top: 50px;
+                //border: solid 1px red;
+            }
+            &__describ{
+                width: 80%;
+                margin: auto;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: $subTitle;
+                margin-top: 50px;
+    
+                border: solid 1px red;
+            }
+            &__method{
+                width: 80%;
+                margin: auto;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                font-size: $subTitle;
+                margin-top: 50px;
+    
+                //border: solid 1px red;
+    
+                .method{
+                    width: 32%;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    //border: solid 1px blue;
+    
+                    i{
+                        font-size: 50px;
+                        color: $primary;
+                    }
+                    p{
+                        width: 90%;
+                        margin: auto;
+                        //font-size: $subTitle;
+                    }
+                }
+            }
+    }
+
+    .blockWhy{
+            
+            width: 100%;
+            margin-top: 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+    
+            //border: solid 1px red;
+    
+            h3{
+                width: 100%;
+                height: 50px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                color: $primary;
+                font-size: $title;
+                //background-color: $primary;
+                margin-top: 50px;
+                //border: solid 1px red;
+            }
+            &__Item{
+                width: 80%;
+                margin: auto;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: $subTitle;
+                margin-top: 50px;
+    
+                //border: solid 1px red;
+    
+                i{
+                    font-size: 50px;
+                    color: $primary;
+                }
+                p{
+                    width: 90%;
+                    margin: auto;
+                    //font-size: $subTitle;
+
+                    span{
+                        font-weight: bold;
+                    }
+                }
+            }
+
+           
+            
+           
+           
+    }
+   
+
+    .blockContact{
+
+        
+        width: 80%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        //border: solid 1px red;
+
+        &__title{
+            width: 100%;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: $primary;
+            font-size: $title;
+            //background-color: $primary;
+            margin-top: 50px;
+            
+            //border: solid 1px red;
+        }
+        h3{
+            width: 100%;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            //color: $primary;
+            font-size: $title;
+            //background-color: $primary;
+            margin-top: 50px;
+            
+            //border: solid 1px red;
+        }
+    }
 }

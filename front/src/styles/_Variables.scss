@@ -1,1 +1,54 @@
-$fontZiseNav: 18px
+
+
+/////// Text ///////
+$fontZiseNav: 18px;
+$fontZiseBtnContact: 23px;
+$title: 30px;
+$subTitle: 18px;
+
+
+///////// couleurs ///////
+$colorTextBtnContact: #fff;
+$primary: #1093EB;
+$secondary: #1C3A4E;
+$success: #28a745;
+$danger: #dc3545;
+$warning: #ffc107;
+
+
+////// Border ///////
+$borderBlueSolid: 1px solid #1093EB;
+$borderRadiusBlock: 5px;
+
+
+
+
+///////// Box shadow ///////
+$boxShadow: 0px 0px 10px 0px $primary;
+
+
+
+
+
+
+
+////////////////// mixins //////////////////
+
+@mixin btnContact($width: 300px, $height: 50px, $color: $primary, $font-size: $fontZiseBtnContact, $colorText: $colorTextBtnContact){
+        width: $width;
+        height: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20px;
+        font-weight: bold;
+        background-color: $primary;
+        font-size: $fontZiseBtnContact;
+        color: $colorTextBtnContact;
+        border-radius: 5px;
+        border: solid $primary;
+        box-shadow: 0px 0px 5px 0px $primary;
+        cursor: pointer;
+
+}
+

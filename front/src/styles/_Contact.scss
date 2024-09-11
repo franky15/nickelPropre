@@ -1,0 +1,93 @@
+
+
+
+.Contact{
+
+    width: 100%;
+    padding-top: 10px;
+    padding-bottom: 50px;
+    margin-bottom: 50px;
+    box-shadow: $boxShadow;
+    border-radius: $borderRadiusBlock;
+    
+   // border: solid 1px $primary;
+
+   .form-group{
+
+    width: 90%;
+    margin: auto;
+    margin-top: 50px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+
+    //border: solid;
+
+    .itemInputContainer{
+        width: 45%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        margin-bottom: 20px;
+
+        //border: solid 1px red;
+    }
+    .itemInput{
+        width: 100%;
+        height: 50px;
+        border-radius: $borderRadiusBlock;
+        //margin-bottom: 20px;
+    }
+
+    select{
+
+        border: solid 2px ;
+    }
+    textarea{
+        width: 100%;
+        height: 200px;
+        border-radius: $borderRadiusBlock;
+        
+        //margin-bottom: 20px;
+    }
+    
+
+   }
+
+   .dateInputContainer{
+        width: 90%;
+        margin: auto;
+        margin-top: 50px;
+        margin-bottom: 50px;
+        display: flex;
+        flex-direction: column;
+
+       // border: solid red;
+
+        .dateInput{
+
+            width: 45%;
+            height: 50px;
+            border-radius: $borderRadiusBlock;
+            //margin-bottom: 20px;
+        }
+    }
+   
+
+   button{
+
+        margin: auto;
+        margin-top: 50px;
+       @include btnContact();
+   }
+
+   .error-field {
+    border-color: $danger;
+    color: $danger;
+    }
+    .error{
+         color: $danger;
+         font-size: 12px;
+    }
+
+}

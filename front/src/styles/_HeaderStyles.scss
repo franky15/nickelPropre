@@ -4,6 +4,16 @@
 
 header {
   
+    a{
+        text-decoration: none;
+        color: #333;
+    }
+    ul {
+        list-style-type: none;
+        padding-left: 0;
+        //margin: 0;
+    }
+
  height: 200px;
 //   max-height: 200px; /* Définir la hauteur maximale que tu souhaites pour le header */
 //   overflow: hidden; /* Masquer tout contenu qui dépasse la hauteur du header */
@@ -16,6 +26,7 @@ header {
   border-bottom: 1px solid rgb(199, 198, 198);
  
 
+  //première partie du header
   .topHeader {
     
    // height: 60px;
@@ -30,19 +41,33 @@ header {
         width: 90%;
         display: flex;
         justify-content: space-between;
-        list-style: none;
         padding-left: 0;
 
+        //border: solid 1px yellow;
+
+        
+
+       
+       
         .ulMenuZone{
             display: flex;
             flex-direction: column;
-            list-style: none;
             margin-top: 10px;
+
+            font-size: 13px;
+            font-weight: bold;
+            border: solid 2px white;
+            border-radius: 5px;
+            padding-left: 5px;
+            padding-right: 5px;
           
         }
     }
     
   }
+
+
+  //deuxième partie du header
 
   nav{
   
@@ -51,10 +76,7 @@ header {
     align-items: center;
 
     
-    a{
-        text-decoration: none;
-        color: #333;
-    }
+    
     .linkContact{
         color: white;
     }
@@ -73,25 +95,26 @@ header {
 
         .navbar-brand{
 
-            width: 20%;
+            width: 25%;
             max-height: 80px; /*définition de la hauteur maximal que le containeur peux avoir ça ne dépassera jamais ainsi on peut redimensionner sans problème*/
-            overflow: hidden; /* Masquage de tout contenu qui dépasse la hauteur du header */
             display: flex;
             justify-content: start;
             align-items: center;
+            overflow: hidden;
 
-
-            //border: solid 1px #333;
+            //border: solid 1px orange;
 
             img{
-                width: 250px;
-                height: 350px;
+                width: 300px;
+                height: 400px;
+                position: relative;
+                left: -20px;
                
             }
         }
         .navbar-collapse{
 
-            width: 70%;
+            width: 65%;
            
             // border: solid 1px #333;
 
@@ -99,26 +122,28 @@ header {
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                list-style: none;
                 padding-left: 0;
                 
 
-                .contact{
-                    width: 20%;
-                    height: 40px;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    border: solid 1px #333;
-                    // padding: 10px;
-                    // margin: 10px;
-                    background-color: $primary;
-                    border-color: $primary;
-                    color: white;
-                    border-radius: 5px;
-                    font-weight: bold;
+                .ulMenu{
                    
-                    cursor: pointer;
+                    border: solid 2px $primary;
+                    border-radius: 5px;
+                    padding-left: 5px;
+                    padding-right: 5px;
+                }
+                .services-link{
+                    font-size: 13px;
+                    font-weight: bold;
+
+                    &:hover{
+                        color: $primary;
+                    }
+                    //color: red;
+                }
+                .contact{
+                    
+                    @include btnContact();
                 }
 
             }

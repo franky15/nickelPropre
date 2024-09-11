@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import logo from "../images/logo.png";
 
+import servicesData from "../datas";
+
 //importation des styles
 import { Colors } from "../styles/GlobalStyles";
 
@@ -22,6 +24,8 @@ const Header = () => {
         contact: false
     });
 
+    console.log('isOpenArrow', isOpenArrow);
+
     const barHeight = "2px";
 
     // Utilisation de useEffect pour synchroniser isActive avec l'URL
@@ -30,7 +34,7 @@ const Header = () => {
             setIsActive({ home: true, about: false, services: false, blog: false, contact: false });
         } else if (location.pathname.startsWith('/about')) {
             setIsActive({ home: false, about: true, services: false, blog: false, contact: false });
-        } else if (location.pathname.startsWith('/services')) {
+        } else if (location.pathname.startsWith('/service')) {
             setIsActive({ home: false, about: false, services: true, blog: false, contact: false });
         } else if (location.pathname.startsWith('/blog')) {
             setIsActive({ home: false, about: false, services: false, blog: true, contact: false });
@@ -42,10 +46,14 @@ const Header = () => {
         }
     }, [location.pathname]); // Cette fonction se déclenche à chaque changement de route
 
+    
+    
+
     return (
         <header>
             <div className="topHeader">
                 <ul className="ulMenu">
+
                     <li className="nav-item">
                         <span className="nav-link"
                             onClick={() => setIsOpenArrow({ ...isOpenArrow, zone: !isOpenArrow.zone })}
@@ -63,6 +71,7 @@ const Header = () => {
                             </div>
                         }
                     </li>
+
                     <li className="nav-item">
                         <i className="fas fa-phone"></i> +33768893729
                     </li>
@@ -93,14 +102,29 @@ const Header = () => {
                                 onClick={() => setIsOpenArrow({ ...isOpenArrow, services: !isOpenArrow.services })}
                                 style={isActive.services ? { borderTop: `${barHeight} solid ${Colors.primary}` } : { border: "none" }}
                             >
-                                <Link className="nav-link" to="/services">Services</Link>
+                                <Link className="nav-link" >Services</Link>
                                 {isOpenArrow.services ? <i className="fas fa-chevron-up"></i> : <i className="fas fa-chevron-down"></i>}
                                 {isOpenArrow.services &&
                                     <div className="subMenuServices">
-                                        <ul className="ulMenu">
-                                            <li><Link to="/services">Meubles</Link></li>
-                                            <li><Link to="/services">Matelas</Link></li>
-                                            <li><Link to="/services">Voitures</Link></li>
+                                        <ul className="ulMenu ">
+                                       
+                                            {
+                                                servicesData.map((service, index) => {
+                                                    return (
+                                                        <li key={index-"nav"} >
+                                                            
+                                                            <Link 
+                                                                className="services-link"
+                                                                to={`/service/${service.id}`}
+                                                            >{service.keyWords}</Link>
+                                                        </li>
+                                                    );
+                                                })
+
+                                                
+                                            }
+                                            
+
                                         </ul>
                                     </div>
                                 }
@@ -113,7 +137,7 @@ const Header = () => {
                             <li className="nav-item contact"
                                 style={isActive.contact ? { borderTop: `${barHeight} solid ${Colors.primary}` } : { border: "none" }}
                             >
-                                <Link className="nav-link linkContact" to="/contact">Contact</Link>
+                                <Link className="nav-link linkContact" to="/contact"> Nous contacter</Link>
                             </li>
                         </ul>
                     </div>

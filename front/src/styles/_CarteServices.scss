@@ -4,7 +4,7 @@
 
 .CarteServices{
 
-    width: 80%;
+    width: 100%;
     margin-top: 50px;
     display: flex;
     flex-wrap: wrap;
@@ -13,8 +13,21 @@
 
     //border: solid 1px #333;
 
+    .service-link{
+
+        height: 400px;
+        width:  49%;
+        margin-bottom: 35px;
+
+        //border: solid 1px red;
+    }
     .service{
 
+        height: 100%;
+         width: 100%;
+         box-shadow: $boxShadow;
+         //box-Shadow: 0 0 10px $primary; // Ombre portée
+         //boxShadow: 0 0 10px rgba(0, 0, 0, 0.5); // Ombre portée
         
 
         h2{
