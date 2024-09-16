@@ -9,7 +9,8 @@ const Contact = () => {
         tel: '',
         service: '',
         message: '',
-        date: ''
+        dateAppel: '',
+        heureAppel: '' 
     });
 
     // State pour stocker les erreurs de validation
@@ -80,9 +81,14 @@ const Contact = () => {
             formErrors.message = "Veuillez fournir plus de détails sur votre besoin.";
         }
 
-        if (!formData.date) {
+        if (!formData.dateAppel) {
             isValid = false;
             formErrors.date = "Veuillez choisir une date.";
+        }
+
+        if (!formData.heureAppel) {
+            isValid = false;
+            formErrors.heure = "Veuillez indiquer une heure pour vous appeler.";
         }
 
         setErrors(formErrors);
@@ -105,7 +111,8 @@ const Contact = () => {
                 tel: '',
                 service: '',
                 message: '',
-                date: ''
+                date: '',
+                heure: '' // Réinitialise le champ heure aussi
             });
 
             // Réinitialise les champs touchés et les erreurs
@@ -219,18 +226,36 @@ const Contact = () => {
                 {errors.message && <p className="error">{errors.message}</p>}
             </div>
 
-            <div className='form-group dateInputContainer'>
-                <input 
-                    type='date' 
-                    id='date' 
-                    name='date' 
-                    className='form-control dateInput'
-                    value={formData.date}
-                    onChange={handleChange}
-                    style={getInputStyle('date')}
-                />
-                {errors.date && <p className="error">{errors.date}</p>}
+
+            <div className='form-group'>
+                <div className='itemInputContainer'>
+                    <input 
+                        type='date' 
+                        id='dateAppel' 
+                        name='dateAppel' 
+                        className='form-control itemInput'
+                        value={formData.date}
+                        onChange={handleChange}
+                        style={getInputStyle('date')}
+                    />
+                    {errors.date && <p className="error">{errors.date}</p>}
+                </div>
+
+                <div className='itemInputContainer'>
+                    <input 
+                        type='time' 
+                        id='heureAppel' 
+                        name='heureAppel' 
+                        className='form-control itemInput'
+                        placeholder='Heure pour vous appeler*'
+                        value={formData.heure}
+                        onChange={handleChange}
+                        style={getInputStyle('heure')}
+                    />
+                    {errors.heure && <p className="error">{errors.heure}</p>}
+                </div>
             </div>
+
 
             <button type='submit' className='btn__contact'>Envoyer</button>
         </form>
