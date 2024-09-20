@@ -217,7 +217,7 @@ exports.signum = async (req, res, next) => {
         
             idUser = resSqlInsertUsers.insertId;  // Utiliser insertId après une insertion
 
-            res.status(200).json({ message: "utilisateur créé avec succès" });
+            //res.status(200).json({ message: "utilisateur créé avec succès" });
         
         }
 
@@ -259,7 +259,7 @@ exports.signum = async (req, res, next) => {
             
             await DB.query(sqlInsertChantier, valuesChantier);
 
-            res.status(200).json({ messageChantier: "chantier créé avec succès", messageUser: "utilisateur créé ou modifié avec succès" });
+            res.status(200).json({  messageUser: "utilisateur et chantier créé ou modifié avec succès" });
         
             console.log("****chantier créé avec succès");
 

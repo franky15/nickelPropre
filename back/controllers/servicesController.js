@@ -4,7 +4,9 @@ const moment = require('moment'); //permet de formater la date
 const DB = require("../mysql.config");
 const bcrypt = require("bcrypt");
 
+const path = require("path");
 const fs = require("fs");
+
 
 //POST création d'un Services
 exports.createService = async (req, res, next) => {
@@ -29,29 +31,32 @@ exports.createService = async (req, res, next) => {
         return res.status(400).json({ message: "Nom et description sont obligatoires." });
     }
 
-    let picture;
-    if (req.file) {
-        picture = `${req.protocol}://${req.get("host")}/images/${req.file.filename}`;
-    }
+    
+    let pictureformat;
+    if (req.file !== undefined && req.file.filename !== undefined) {
+
+        console.log("***req.file existe", req.file);
+        //pictureformat = `${req.protocol}://${req.get("host")}/images/${req.file.filename}`;
+        pictureformat = `${req.file.filename}`; // Stockage uniquement du nom du fichier tel qu'il est arrivé du front
+    
+    } 
 
     let columns = [ "Users_id", "nom", "description"];
     let values = [idAuth, nom, description];
     
-    if (picture) {
-        columns.push("picture");
-        values.push(picture);
-    }
 
     const sqlInsertService = `INSERT INTO Services (${columns.join(',')}) VALUES (${columns.map(() => '?').join(', ')})`;
     console.log("***sqlInsertService", sqlInsertService);
 
     try {
+
+        //creation du Service
         const [result] = await DB.query(sqlInsertService, values);
         console.log("*** Service créé avec succès");
 
-        // Insertion de l'image dans BanqueImages
+        // Création de l'image associée au Service
         let columnsImage = ["Users_id", "Services_id", "file_path"];
-        let valuesImage = [idAuth, result.insertId, picture];
+        let valuesImage = [idAuth, result.insertId, pictureformat];
 
         if (alt_text) {
             columnsImage.push("alt_text");
@@ -180,9 +185,24 @@ exports.deleteService = async (req, res, next) => {
 
         const imagePath = Service.file_path;
 
+        console.log("***imagePath", imagePath);
+
         // Suppression du fichier image du système de fichiers
         if (imagePath) {
-            const fullImagePath = path.join(__dirname, '../images', imagePath);
+
+            let imageName = imagePath;
+
+            //vérification si le chemin stocké dans la base de données contient une URL complète, extraire uniquement le nom du fichier
+            if (imagePath.includes('/')) {
+                imageName = imagePath.split('/').pop(); // split sur le caractère '/' obtient un tableau et pop() récupère le dernier élément du tableau et le retourne qui est le nom du fichier
+            }
+
+            console.log("***imageName", imageName);
+
+            const fullImagePath = path.join('images', imageName);
+
+            console.log("***fullImagePath", fullImagePath);
+
             try {
                 fs.unlinkSync(fullImagePath);
                 console.log("Image supprimée avec succès");
@@ -192,6 +212,7 @@ exports.deleteService = async (req, res, next) => {
             }
         }
 
+        // Suppression du Service et de l'image associée dans la base de données
         const sqlDeleteService = `DELETE Services, BanqueImages 
                                   FROM Services 
                                   LEFT JOIN BanqueImages 
@@ -199,8 +220,11 @@ exports.deleteService = async (req, res, next) => {
                                   WHERE Services.id = ?`;
 
         await DB.query(sqlDeleteService, [idParams]);
+
         console.log("*** Service supprimé avec succès");
+
         res.status(200).json({ message: "Service et image supprimés avec succès" });
+
     } catch (err) {
         console.log("Erreur dans la requête de suppression", err.message);
         res.status(500).json({ message: "Erreur dans la requête de suppression", err });
@@ -222,33 +246,43 @@ exports.updateService = async (req, res, next) => {
     console.log("***idParams", idParams);
 
     let { nom, description } = req.body;
-    let picture;
+    
+    let pictureformat;
+    if (req.file !== undefined && req.file.filename !== undefined) {
 
-    if (req.file) {
-        picture = `${req.protocol}://${req.get("host")}/images/${req.file.filename}`;
-    }
+        console.log("***req.file existe", req.file);
+        //pictureformat = `${req.protocol}://${req.get("host")}/images/${req.file.filename}`;
+        pictureformat = `${req.file.filename}`; // Stockage uniquement du nom du fichier tel qu'il est arrivé du front
+    
+    } 
+
+    console.log("***pictureformat", pictureformat);
 
     const columns = ["nom", "description"];
     const values = [nom, description];
 
-    if (picture) {
-        columns.push("picture");
-        values.push(picture);
+    if (pictureformat) {
+        columns.push("file_path");
+        values.push(pictureformat);
     }
+
+    const sqlSelectService = `SELECT * FROM Services LEFT JOIN BanqueImages 
+                            ON Services.id = BanqueImages.Services_id 
+                            WHERE Services.id = ?`;
 
     const sqlUpdateService = `UPDATE Services, BanqueImages 
                               SET ${columns.map((col) => `${col} = ?`).join(', ')} 
                               WHERE Services.id = ? 
                               AND BanqueImages.Services_id = ?`;
 
-    const sqlSelectService = `SELECT * FROM Services LEFT JOIN BanqueImages 
-                              ON Services.id = BanqueImages.Services_id 
-                              WHERE Services.id = ?`;
+  
 
     try {
         let resSqlSelectService = await DB.query(sqlSelectService, [idParams]);
 
         resSqlSelectService = resSqlSelectService[0];
+
+        console.log("***resSqlSelectService", resSqlSelectService);
 
         if (resSqlSelectService.length === 0) {
             console.log("*** Aucun Service trouvé");
@@ -261,17 +295,42 @@ exports.updateService = async (req, res, next) => {
 
         const oldImagePath = Service.file_path;
 
+        console.log("***oldImagePath", oldImagePath);
+
         // Suppression de l'ancienne image physique si une nouvelle image a été téléchargée
         if ((req.file || req.file !== null )  && (oldImagePath || oldImagePath  !== null)) {
             try {
-                const fullImagePath = path.join(__dirname, '../images', oldImagePath);
-                fs.unlinkSync(fullImagePath);
-                console.log("Ancienne image supprimée avec succès");
+
+                //récupération du nom du fichier image
+
+                const imageName = oldImagePath;
+
+                // Si le chemin contient une URL complète, extraire uniquement le nom du fichier
+                if (oldImagePath.includes('/')) {
+                    imageName = oldImagePath.split('/').pop(); // Obtenir uniquement le nom du fichier
+                }
+                
+                console.log("***imageName", imageName);
+
+                const fullImagePath = path.join('images', imageName);
+
+                console.log("***fullImagePath", fullImagePath);
+
+                try {
+                    fs.unlinkSync(fullImagePath);
+                    console.log("***Image supprimée avec succès");
+                }catch (err) {
+                    console.log("erreur dans la suppression de l'image", err.message);
+                    res.status(500).json({ message: "erreur dans la suppression de l'image" });
+
+                }
+            
             } catch (err) {
                 console.log("Erreur lors de la suppression de l'ancienne image", err);
                 return res.status(500).json({ message: "Erreur lors de la suppression de l'ancienne image" });
             }
         }
+
 
         await DB.query(sqlUpdateService, [...values, idParams, idParams]);
 

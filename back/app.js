@@ -11,6 +11,7 @@ const fs = require('fs');
 const dotenv = require("dotenv").config();
 
 
+
 //importation de la base de données
 const db = require("./mysql.config")        
  
@@ -21,6 +22,7 @@ const chantierRoutes = require("./routes/chantiersRoutes");
 const articleRoutes = require("./routes/articlesRoutes"); 
 const banqueImagesRoutes = require("./routes/BanqueImagesRoutes");
 const servicesRoutes = require("./routes/servicesRoutes"); 
+const stripeRoutes = require("./routes/stripeRoutes");
  
 
 //creation de l'api
@@ -38,6 +40,9 @@ app.use("/chantiers", chantierRoutes);
 app.use("/articles", articleRoutes);
 app.use("/images", banqueImagesRoutes);
 app.use("/services", servicesRoutes);
+
+//gestion des routes de stripe
+app.use("/stripe", stripeRoutes);
 
  
 

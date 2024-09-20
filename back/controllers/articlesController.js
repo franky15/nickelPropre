@@ -20,23 +20,19 @@ exports.createArticle = async (req, res, next) => {
     
     let pictureformat;
     if (req.file !== undefined && req.file.filename !== undefined) {
+
         console.log("***req.file existe", req.file);
-        pictureformat = `${req.protocol}://${req.get("host")}/images/${req.file.filename}`;
-    } else {
-        console.log("***Pas de fichier uploadé ou le fichier n'a pas de nom");
-        pictureformat = ''; // ou une autre valeur par défaut
-    }
+        //pictureformat = `${req.protocol}://${req.get("host")}/images/${req.file.filename}`;
+        pictureformat = `${req.file.filename}`; // Stockage uniquement du nom du fichier tel qu'il est arrivé du front
+    
+    } 
 
     console.log("***pictureformat", pictureformat);
 
     let columns = ["title", "contenu", "auteur", "category", "Users_id"];
     let values = [title, contenu, auteur, category, req.auth.userId];
     
-    /*if (pictureformat) {
-        columns.push("file_path");
-        values.push(pictureformat);
-    }*/
-
+    
     const sqlInsertArticle = `INSERT INTO Articles (${columns.join(',')}) VALUES (${columns.map(() => '?').join(', ')})`;
 
     console.log("***sqlInsertArticle", sqlInsertArticle);
@@ -50,6 +46,7 @@ exports.createArticle = async (req, res, next) => {
 
         console.log("*** Article créé avec succès");
 
+        //création de l'image associée à l'article
         let columnsImage = ["Users_id", "Articles_id"];
         let valuesImage = [req.auth.userId, resSqlInsertArticle.insertId];
         
@@ -175,9 +172,21 @@ exports.deleteArticle = async (req, res, next) => {
         const article = resSqlSelectArticle[0];
         const imagePath = article.file_path;
 
-        // Suppression du fichier image du système de fichiers
+
+
+        // Suppression de l'image du système de fichiers  associée à l'article 
         if (imagePath) {
-            const fullImagePath = path.join(__dirname, '../images', imagePath);
+
+            let imageName = imagePath;
+
+            //vérification si le chemin stocké dans la base de données contient une URL complète, extraire uniquement le nom du fichier
+            if (imagePath.includes('/')) {
+                imageName = imagePath.split('/').pop(); // split sur le caractère '/' obtient un tableau et pop() récupère le dernier élément du tableau et le retourne qui est le nom du fichier
+            }
+
+            //construction du chemin complet du fichier image à supprimer qui est le chemin du dossier images + le nom du fichier image
+            const fullImagePath = path.join('images', imageName);
+
             try {
                 fs.unlinkSync(fullImagePath);
                 console.log("Image supprimée avec succès");
@@ -187,6 +196,7 @@ exports.deleteArticle = async (req, res, next) => {
             }
         }
 
+        // Suppression de l'article associé à l'image dans la base de données
         const sqlDeleteArticle = `DELETE Articles, BanqueImages 
                                   FROM Articles 
                                   LEFT JOIN BanqueImages 
@@ -200,7 +210,7 @@ exports.deleteArticle = async (req, res, next) => {
         console.log("Erreur dans la requête de suppression", err.message);
         res.status(500).json({ message: "Erreur dans la requête de suppression", err });
     }
-};
+}; 
 
 
 
@@ -235,14 +245,16 @@ exports.updateArticle = async (req, res, next) => {
         values.push(pictureformat);
     }
 
+
+    const sqlSelectArticle = `SELECT * FROM Articles LEFT JOIN BanqueImages 
+                              ON Articles.id = BanqueImages.Articles_id 
+                              WHERE Articles.id = ?`;
+
     const sqlUpdateArticle = `UPDATE Articles, BanqueImages 
                               SET ${columns.map((col) => `${col} = ?`).join(', ')} 
                               WHERE Articles.id = ? 
                               AND BanqueImages.Articles_id = ?`;
 
-    const sqlSelectArticle = `SELECT * FROM Articles LEFT JOIN BanqueImages 
-                              ON Articles.id = BanqueImages.Articles_id 
-                              WHERE Articles.id = ?`;
 
     try {
         let resSqlSelectArticle = await DB.query(sqlSelectArticle, [idParams]);
@@ -262,16 +274,27 @@ exports.updateArticle = async (req, res, next) => {
         // Suppression de l'ancienne image physique si une nouvelle image a été téléchargée
         if (req.file && oldImagePath) {
             try {
-                // Ici, on n'utilise pas __dirname, on suppose que les images sont dans le dossier 'images' relatif
-                const fullImagePath = path.join('images', oldImagePath);
+                
+                let imageName = oldImagePath;
+
+                //vérification si le chemin stocké dans la base de données contient une URL complète, extraire uniquement le nom du fichier
+                if (oldImagePath.includes('/')) {
+                    imageName = oldImagePath.split('/').pop(); // split sur le caractère '/' obtient un tableau et pop() récupère le dernier élément du tableau et le retourne qui est le nom du fichier
+                }
+                
+                //construction du chemin complet de l'image à supprimer qui est le chemin du dossier images + le nom du fichier image
+                const fullImagePath = path.join('images', imageName);
                 fs.unlinkSync(fullImagePath);
+
                 console.log("Ancienne image supprimée avec succès");
+
             } catch (err) {
                 console.log("Erreur lors de la suppression de l'ancienne image", err);
                 return res.status(500).json({ message: "Erreur lors de la suppression de l'ancienne image" });
             }
         }
 
+        // Mise à jour de l'article et de l'image associée
         await DB.query(sqlUpdateArticle, [...values, idParams, idParams]);
        
         console.log("*** Article mis à jour avec succès");

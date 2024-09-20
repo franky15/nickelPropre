@@ -2,7 +2,9 @@
 const DB = require("../mysql.config");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+//const { path } = require("../app");
 
+const path = require("path");
 //importation du package pour les variables d'environnement
 const dotenv = require("dotenv").config();
 
@@ -25,7 +27,8 @@ exports.createImage = async (req, res, next) => {
     let pictureformat;
     if (req.file !== undefined && req.file.filename !== undefined) {
         console.log("***req.file existe", req.file);
-        pictureformat = `${req.protocol}://${req.get("host")}/images/${req.file.filename}`;
+        //pictureformat = `${req.protocol}://${req.get("host")}/images/${req.file.filename}`;
+        pictureformat = `${req.file.filename}`; //on ne met pas le chemin complet juste le nom du fichier (image)
     } else {
         console.log("***Pas de fichier uploadé ou le fichier n'a pas de nom");
         pictureformat = ''; // ou une autre valeur par défaut
@@ -136,7 +139,8 @@ exports.updateOneImage = async (req, res, next) => {
     let pictureformat;
     if (req.file !== undefined && req.file.filename !== undefined) {
         console.log("***req.file existe", req.file);
-        pictureformat = `${req.protocol}://${req.get("host")}/images/${req.file.filename}`;
+        //pictureformat = `${req.protocol}://${req.get("host")}/images/${req.file.filename}`;
+        pictureformat = `${req.file.filename}`; //on ne met pas le chemin complet juste le nom du fichier (image)
     } 
 
     let column = [];
@@ -157,14 +161,56 @@ exports.updateOneImage = async (req, res, next) => {
     addColumn();
 
     // S'assurer qu'il y a au moins une colonne à mettre à jour
-    if (column.length === 0) {
+    /*if (column.length === 0) {
         return res.status(400).json({ message: "Aucune donnée à mettre à jour" });
-    }
-    
+    }*/
+
+    //récupération de l'image à modifier pour la supprimer du dossier images
+    let sqlSelectImage = `SELECT * FROM BanqueImages WHERE id = ?`;
+
+
     let sqlUpdateBanqueImage = `UPDATE BanqueImages SET ${column.map((col) => `${col} = ?`).join(', ')} WHERE id = ?`;
 
     if (req.auth.role === "Admin" || req.auth.role === "User") {
         try {
+            let resSelectImage = await DB.query(sqlSelectImage, idParams);
+
+            console.log("***resSelectImage", resSelectImage);
+
+            resSelectImage = resSelectImage[0][0];
+
+            console.log("***resSelectImage", resSelectImage);
+
+            const oldImagePath = resSelectImage.file_path;
+
+            if (resSelectImage.file_path) {
+
+               //récupération du nom du fichier image
+
+               const imageName = oldImagePath;
+
+               // Si le chemin contient une URL complète, extraire uniquement le nom du fichier
+               if (oldImagePath.includes('/')) {
+                   imageName = oldImagePath.split('/').pop(); // Obtenir uniquement le nom du fichier
+               }
+               
+               console.log("***imageName", imageName);
+
+               const fullImagePath = path.join('images', imageName);
+
+               console.log("***fullImagePath", fullImagePath);
+
+               try {
+                   fs.unlinkSync(fullImagePath);
+                   console.log("***Image supprimée avec succès");
+               }catch (err) {
+                   console.log("erreur dans la suppression de l'image", err.message);
+                   res.status(500).json({ message: "erreur dans la suppression de l'image" });
+
+               }
+                
+            }
+            
             let resSqlUpdateBanqueImage = await DB.query(sqlUpdateBanqueImage, [...values, idParams]);
             
             resSqlUpdateBanqueImage = resSqlUpdateBanqueImage[0];
@@ -194,17 +240,59 @@ exports.deleteOneImage = async (req, res, next) => {
 
     if (req.auth.role === "Admin" || req.auth.role === "User") {
         try {
+             //récupération de l'image à modifier pour la supprimer du dossier images
+            let sqlSelectImage = `SELECT * FROM BanqueImages WHERE id = ?`;
+
+            let resSelectImage = await DB.query(sqlSelectImage, idParams);
+
+            console.log("***resSelectImage", resSelectImage);
+
+            resSelectImage = resSelectImage[0][0];
+
+            console.log("***resSelectImage", resSelectImage);
+
+            const imagePath = resSelectImage.file_path;
+
+            //suppression du fichier image dans le dossier images si l'image existe
+            if (resSelectImage.file_path) {
+                    
+                let imageName = imagePath;
+
+                //vérification si le chemin stocké dans la base de données contient une URL complète, extraire uniquement le nom du fichier
+                if (imagePath.includes('/')) {
+                    imageName = imagePath.split('/').pop(); // split sur le caractère '/' obtient un tableau et pop() récupère le dernier élément du tableau et le retourne qui est le nom du fichier
+                }
+
+                console.log("***imageName", imageName);
+
+                const fullImagePath = path.join('images', imageName);
+
+                console.log("***fullImagePath", fullImagePath);
+
+                try {
+                    fs.unlinkSync(fullImagePath);
+                    console.log("Image supprimée avec succès");
+                } catch (err) {
+                    console.log("Erreur lors de la suppression du fichier image", err);
+                    return res.status(500).json({ message: "Erreur lors de la suppression du fichier image" });
+                }
+            }
+
+            //suppression de l'image dans la base de données
             let resDeleteOneImage = await DB.query(`DELETE FROM BanqueImages WHERE id = ?`, idParams);
             
             resDeleteOneImage = resDeleteOneImage[0];
             
             console.log("*** BanqueImage supprimé avec succès");
 
-            res.status(200).json(resDeleteOneImage);
+            res.status(200).json({ message: "Image supprimée avec succès" });
+            
+
         } catch (err) {
             console.log("erreur dans la requête", err.message);
             res.status(500).json({ message: "erreur dans la requête" });
         }
+
     } else {
         res.status(401).json({
             message: "Vous n'êtes pas autorisé à supprimer des images dans la Banque Images, veuillez demander les droits",

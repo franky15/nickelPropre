@@ -15,7 +15,7 @@ exports.createChantier = async (req, res) => {
 
     console.log('****client_id', client_id);
 
-    const { userCreatorId, service, besoin, prix, status, dateAppel, heureAppel, datePrestation, prestataire, heurePrestation, infoComplementaire } = req.body;
+    const { userCreatorId, service, besoin, prix, status, dateAppel, heureAppel, datePrestation, prestataire, heurePrestation, infoComplementaire, adresse,ville, codePostal } = req.body;
     let idAuth = req.auth.userId;
     const role = req.auth.role;
 
@@ -24,7 +24,7 @@ exports.createChantier = async (req, res) => {
     console.log('****role', role);
 
     let columnChantier = ["service", "besoin", "prix", "Users_id", "userCreatorId"];
-    let chantier = [service, besoin, prix, client_id, idAuth];
+    let chantier = [service, besoin, prix, client_id, idAuth, userCreatorId];
 
     const addColumn = () => {
         if (status) {
@@ -54,6 +54,18 @@ exports.createChantier = async (req, res) => {
         if (infoComplementaire) {
             columnChantier.push("infoComplementaire");
             chantier.push(infoComplementaire);
+        }
+        if (adresse) {
+            columnChantier.push("adresse");
+            chantier.push(adresse);
+        }
+        if (ville) {
+            columnChantier.push("ville");
+            chantier.push(ville);
+        }
+        if (codePostal) {
+            columnChantier.push("codePostal");
+            chantier.push(codePostal);
         }
     };
     addColumn();
@@ -147,7 +159,7 @@ exports.getOneChantier = async (req, res) => {
 //update one chantier
 exports.updateChantier = async (req, res) => {
     let idChantier = parseInt(req.params.id);
-    const { service, besoin, prix, status, dateAppel, heureAppel, datePrestation, prestataire, heurePrestation,infoComplementaire } = req.body;
+    const { service, besoin, prix, status, dateAppel, heureAppel, datePrestation, prestataire, heurePrestation,infoComplementaire, adresse,ville, codePostal } = req.body;
     let idAuth = req.auth.userId;
     const role = req.auth.role;
 
@@ -155,8 +167,8 @@ exports.updateChantier = async (req, res) => {
     console.log('****idAuth', idAuth);
     console.log('****role', role);
 
-    let columnChantier = [ "service", "besoin", "prix", "status", "dateAppel", "heureAppel", "datePrestation", "prestataire", "heurePrestation", "infoComplementaire"];
-    let chantier = [service, besoin, prix, status, dateAppel, heureAppel, datePrestation, prestataire, heurePrestation, infoComplementaire];
+    let columnChantier = [ "service", "besoin", "prix", "status", "dateAppel", "heureAppel", "datePrestation", "prestataire", "heurePrestation", "infoComplementaire", "adresse", "ville", "codePostal"];
+    let chantier = [service, besoin, prix, status, dateAppel, heureAppel, datePrestation, prestataire, heurePrestation, infoComplementaire, adresse, ville, codePostal];
 
     let sqlUpdateChantier = `UPDATE Chantiers SET ${columnChantier.map((column) => `${column} = ?`).join(', ')} WHERE id = ?`;
 

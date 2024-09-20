@@ -23,4 +23,5 @@ const server = http.createServer(app)
 //lancement du server
 server.listen(process.env.PORT, () => { 
     console.log(`---------------ce server tourne au port ${process.env.PORT}-------------`)  
+    console.log('Serveur Stripe est également actif sur ce port');
 }) 
