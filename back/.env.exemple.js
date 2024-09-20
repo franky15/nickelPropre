@@ -9,3 +9,4 @@ DB_DATABASE = "xxxxxx"
 BCRYPT_SALT_ROUND = "xxxxxxxxx"
 
 STRIPE_SECRET_KEY = "xxxxxxxxx"
+STRIPE_WEBHOOK_SECRET = "xxxxxxxxx"
