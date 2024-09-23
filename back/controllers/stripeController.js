@@ -40,8 +40,11 @@ exports.createCheckoutSession = async (req, res) => {
 
     console.log('****Bienvenue dans createCheckoutSession****');
 
+    console.log('****req.body:', req.body);
+
     //données provenant du formulaire de paiement
     let { email, nom, prenom, tel, service, prix, adresse,ville, codePostal } = req.body;
+
 
     try {
         // Vérification ou création du chantier dans la base de données
@@ -51,7 +54,7 @@ exports.createCheckoutSession = async (req, res) => {
         const sqlSelectChantierUser = `
             SELECT * FROM Users LEFT JOIN Chantiers 
             ON Users.id = Chantiers.Users_id 
-            WHERE Users.tel = ? AND Users.nom = ? AND Chantiers.adresse = ? AND Chantiers.status = 'En cours'`;
+            WHERE Users.tel = ? AND Users.nom = ? AND Chantiers.adresse = ? AND Chantiers.status = 'Encours'`;
 
         let resSelectChantierUser = await DB.query(sqlSelectChantierUser, [ tel, nom, adresse]); 
 
@@ -60,9 +63,9 @@ exports.createCheckoutSession = async (req, res) => {
         if (resSelectChantierUser[0].length !== 0) {
             // Si le chantier existe  on récupère son ID
             
-            chantierId = resSelectChantierUser[0][0].id;
+            chantierId = resSelectChantierUser[0][0].id; 
 
-       
+        
         } else {
             // Si le chantier n'existe pas, 
             console.log('****Chantier non trouvé ');
@@ -73,7 +76,7 @@ exports.createCheckoutSession = async (req, res) => {
         console.log('****chantierId:', chantierId);
 
         // Création de la session Stripe Checkout
-        const session = await stripe.checkout.sessions.create({
+        const session = await stripe.checkout.sessions.create({ 
             payment_method_types: ['card'],
             line_items: [
                 {
@@ -88,8 +91,8 @@ exports.createCheckoutSession = async (req, res) => {
                 },
             ],
             mode: 'payment',
-            success_url: `${process.env.CLIENT_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
-            cancel_url: `${process.env.CLIENT_URL}/cancel`,
+            success_url: `${process.env.CLIENT_URL}/stripe/success?session_id={CHECKOUT_SESSION_ID}`,
+            cancel_url: `${process.env.CLIENT_URL}/stripe/cancel`,
             customer_email: email || "Manquant", // Email du client s'il est fourni
             metadata: {
                 customer_name: `${nom} ${prenom}`,  // Nom et prénom du client
@@ -139,7 +142,7 @@ exports.stripeWebhook = async (req, res) => {
         //res.status(200).send('Webhook reçu');
     } catch (err) {
         console.error('Erreur de signature du webhook Stripe', err.message);
-        return res.sendStatus(400);
+        return res.sendStatus(400); 
     }
 
     // Gestion des événements de paiement
@@ -193,4 +196,30 @@ exports.stripeWebhook = async (req, res) => {
     }
 
     res.sendStatus(200); 
+};
+
+
+//GET récupération des détails de la session envue de les afficher sur la page de succès
+exports.getSessionDetails = async (req, res) => {
+
+    console.log('****Bienvenue dans getSession');
+
+    const sessionId = req.params.id;
+
+    console.log('****sessionId:', sessionId);
+
+    try {
+        const session = await stripe.checkout.sessions.retrieve(sessionId);
+
+        // Renvoyer les informations pertinentes au frontend
+        res.status(200).json({
+            customer_name: session.metadata.customer_name,
+            customer_tel: session.metadata.customer_tel,
+            service_type: session.metadata.service_type,
+            amount_total: session.amount_total,
+        });
+    } catch (error) {
+        console.error('Erreur lors de la récupération des détails de la session:', error.message);
+        res.status(500).json({ error: 'Erreur lors de la récupération des détails de la session' });
+    }
 };

@@ -9,7 +9,7 @@ const fs = require('fs');
 
 //importation du package pour les variables d'environnement
 const dotenv = require("dotenv").config();
-// const bodyParser = require('body-parser');
+const bodyParser = require('body-parser');
 
 
 
@@ -34,11 +34,16 @@ const app = express();
 var __dirname = path.resolve();  //récupération du chemin absolu du répertoire du fichier actuel si non on aura une erreur sur __dirname
 app.use(cors());   //evite les erreurs cors
 
-//gestion des routes de stripe
-app.use("/stripe", stripeRoutes);
 
 // Utiliser bodyParser.raw() uniquement pour le webhook Stripe
-//app.post('/stripe/stripe-webhook', bodyParser.raw({ type: 'application/json' }), stripeController.stripeWebhook);
+/**
+  * NB: Cette route nécessite obligatoirement bodyParser.raw car Stripe doit recevoir la requête brute (non modifiée) pour vérifier la signature. 
+  * donc il faut convertir le json en raw pour que stripe puisse le lire d'ou l'utilisation de bodyParser.raw étant donné
+  * que par défaut notre application express communique en json
+  */
+//Attention toujours palcer ces routes avant les routes qui utilisent express.json() ou express.urlencoded() sinon on aura une erreur car on ne souhaite pas convertir le json en raw
+app.post('/stripe/stripe-webhook', bodyParser.raw({ type: 'application/json' }), stripeController.stripeWebhook);
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); 
@@ -49,12 +54,10 @@ app.use("/articles", articleRoutes);
 app.use("/images", banqueImagesRoutes);
 app.use("/services", servicesRoutes);
 
+//gestion des routes de stripe
+app.use("/stripe", stripeRoutes);
 
 
-
-
-
- 
 
 
 app.use('/images', express.static(path.join(__dirname, 'images')));  

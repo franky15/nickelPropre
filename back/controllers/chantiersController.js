@@ -24,7 +24,7 @@ exports.createChantier = async (req, res) => {
     console.log('****role', role);
 
     let columnChantier = ["service", "besoin", "prix", "Users_id", "userCreatorId"];
-    let chantier = [service, besoin, prix, client_id, idAuth, userCreatorId];
+    let chantier = [service, besoin, prix, client_id, userCreatorId];
 
     const addColumn = () => {
         if (status) {
