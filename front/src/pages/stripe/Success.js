@@ -7,7 +7,10 @@ const Success = () => {
     console.log('**** bienvenue dans  Success');
 
     const [searchParams] = useSearchParams();
+
+    // Récupération de l'identifiant de la session  stripe dans l'URL
     const sessionId = searchParams.get('session_id');
+   
     const [sessionDetails, setSessionDetails] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);

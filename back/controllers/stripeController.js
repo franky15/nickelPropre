@@ -91,8 +91,12 @@ exports.createCheckoutSession = async (req, res) => {
                 },
             ],
             mode: 'payment',
+
+            //redirection après paiement réussi ou annulé de l'utilisateur de façon à ce que stripe puisse rediriger l'utilisateur vers ces pages puis coté front on pourra récupérer les données de la session
+            //en faisant un appel à stripe pour récupérer les détails de la session
             success_url: `${process.env.CLIENT_URL}/stripe/success?session_id={CHECKOUT_SESSION_ID}`,
             cancel_url: `${process.env.CLIENT_URL}/stripe/cancel`,
+            
             customer_email: email || "Manquant", // Email du client s'il est fourni
             metadata: {
                 customer_name: `${nom} ${prenom}`,  // Nom et prénom du client
