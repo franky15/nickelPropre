@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"; 
-import { useNavigate } from 'react-router-dom';
-import {jwtDecode }from "jwt-decode";
+
 
 
 import { accountServices } from "../../_services.js/Account.services";
@@ -8,7 +7,6 @@ import { accountServices } from "../../_services.js/Account.services";
 const initialState = {
 
     token: null,
-    userTokenDecode: null, 
     status: null,
     error: null,
 }
@@ -60,7 +58,6 @@ const authSlice = createSlice({
             accountServices.logout(); 
 
             state.token = null;
-            state.userTokenDecode = null;
             state.status = null;
             state.error = null;
         },

@@ -21,10 +21,11 @@ const Header = () => {
         about: false,
         services: false,
         blog: false,
-        contact: false
+        contact: false,
+        login: false
     });
 
-    console.log('isOpenArrow', isOpenArrow);
+    //console.log('isOpenArrow', isOpenArrow);
 
     const barHeight = "2px";
 
@@ -40,7 +41,10 @@ const Header = () => {
             setIsActive({ home: false, about: false, services: false, blog: true, contact: false });
         } else if (location.pathname.startsWith('/contact')) {
             setIsActive({ home: false, about: false, services: false, blog: false, contact: true });
-        } else {
+        }else if (location.pathname.startsWith('/auth')) {
+            setIsActive({ home: false, about: false, services: false, blog: false, contact: false, login: true });
+        }else {
+         
             // Reset if no match
             setIsActive({ home: false, about: false, services: false, blog: false, contact: false });
         }
@@ -134,11 +138,17 @@ const Header = () => {
                             >
                                 <Link className="nav-link" to="/blog">Blog</Link>
                             </li>
+                            <li className="nav-item"
+                                style={isActive.login ? { borderTop: `${barHeight} solid ${Colors.primary}` } : { border: "none" }}
+                            >
+                                <Link className="nav-link" to="/auth/login">Login</Link>
+                            </li>
                             <li className="nav-item contact"
                                 style={isActive.contact ? { borderTop: `${barHeight} solid ${Colors.primary}` } : { border: "none" }}
                             >
                                 <Link className="nav-link linkContact" to="/contact"> Nous contacter</Link>
                             </li>
+
                         </ul>
                     </div>
                 </div>
