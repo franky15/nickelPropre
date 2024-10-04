@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 //importation des éléments de redux
@@ -20,6 +20,20 @@ const LoginPage = () => {
   });
   
   const [errors, setErrors] = useState({});
+
+   //gestion du state de l'affichage progressive de la page
+   const [isVisibleHome, setIsVisibleHome] = useState(false);
+
+   useEffect(() => {
+
+       
+       setTimeout(() => {
+           setIsVisibleHome(true); // Déclenche l'affichage progressif
+       }, 100); // Délai de 100ms avant de lancer l'animation
+     
+       
+   }
+   , []);
 
   // Fonction de validation des champs
   const validate = () => {
@@ -89,34 +103,38 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="login-container">
+    <div className={`login-container ${isVisibleHome ? 'visibleHome' : ''}`}>
       <h2>Connexion</h2>
       <form onSubmit={handleSubmit} className="login-form">
         
         {/* Champ Email */}
         <div className="form-group">
-          <label htmlFor="email">Email</label>
+          
           <input
             type="email"
             id="email"
             name="email"
             value={formData.email}
-            onChange={handleChange}
             className={`form-control ${errors.email ? 'is-invalid' : ''}`}
+            placeholder='Email*'
+            onChange={handleChange}
+            
           />
           {errors.email && <span className="invalid-feedback">{errors.email}</span>}
         </div>
 
         {/* Champ Mot de Passe */}
         <div className="form-group">
-          <label htmlFor="password">Mot de passe</label>
+         
           <input
             type="password"
             id="password"
             name="password"
             value={formData.password}
-            onChange={handleChange}
             className={`form-control ${errors.password ? 'is-invalid' : ''}`}
+            placeholder='Mot de passe*'
+            onChange={handleChange}
+           
           />
           {errors.password && <span className="invalid-feedback">{errors.password}</span>}
         </div>

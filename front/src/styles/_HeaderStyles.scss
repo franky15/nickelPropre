@@ -2,11 +2,41 @@
 @import "./Variables.scss";
 
 
+//recet du css de la page 
+* {
+    font-family: "Open Sans", sans-serif;
+    margin-inline: 0;
+    box-sizing: border-box;
+
+   
+  }
+  
+  html, body {
+    background-color: $backgroungColorPage;
+   
+  }
+
 header {
   
+    width: 100%;
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+    background-color: white;
+
+    // margin: 0;
+    // padding: 0;
+    //position: relative; /* Assurez-vous qu'il n'est pas affecté par une autre position */
+    
+
     a{
         text-decoration: none;
         color: #333;
+
+        
+    }
+    a:hover{
+        color: $primary;
     }
     ul {
         list-style-type: none;
@@ -24,6 +54,7 @@ header {
   font-size: $fontZiseNav;
 
   border-bottom: 1px solid rgb(199, 198, 198);
+  box-shadow: $boxShadow;
  
 
   //première partie du header
@@ -42,7 +73,8 @@ header {
         display: flex;
         justify-content: space-between;
         padding-left: 0;
-
+        font-size: 13px;
+        font-weight: bold;
         //border: solid 1px yellow;
 
         
@@ -54,13 +86,30 @@ header {
             flex-direction: column;
             margin-top: 10px;
 
-            font-size: 13px;
-            font-weight: bold;
+            
             border: solid 2px white;
             border-radius: 5px;
             padding-left: 5px;
             padding-right: 5px;
           
+        }
+
+        .social{
+
+            width: 100px;
+            display: flex;
+            justify-content: space-between;
+            
+            //border: solid 2px white;
+
+            a{
+                cursor: pointer;
+            }
+            i{
+                font-size: 30px;
+                //color: $primary;
+                color: white;
+            }
         }
     }
     
@@ -75,10 +124,12 @@ header {
     justify-content: center;
     align-items: center;
 
+   
     
     
     .linkContact{
         color: white;
+
     }
     
    
@@ -89,6 +140,7 @@ header {
         display: flex;
         justify-content: space-between;
         align-items: center;
+        
 
        // border: solid 1px #333;
         
@@ -101,6 +153,8 @@ header {
             justify-content: start;
             align-items: center;
             overflow: hidden;
+            position: relative;
+            top: -20px;
 
             //border: solid 1px orange;
 
@@ -127,10 +181,12 @@ header {
 
                 .ulMenu{
                    
-                    border: solid 2px $primary;
-                    border-radius: 5px;
+                    
+                    
                     padding-left: 5px;
                     padding-right: 5px;
+                    // border-radius: 5px;
+                    border: solid 2px $primary;
                 }
                 .services-link{
                     font-size: 13px;
@@ -144,6 +200,12 @@ header {
                 .contact{
                     
                     @include btnContact();
+
+                    transition: transform 200ms ease-in-out , opacity 200ms ease-in-out;
+                    &:hover{
+                        transform: scale(1.1);
+                        //opacity: 0.8;
+                    }
                 }
 
             }

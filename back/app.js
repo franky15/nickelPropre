@@ -28,11 +28,11 @@ const stripeController = require('./controllers/stripeController'); // Ajoute di
  
 
 //creation de l'api
-const app = express();     
+const app = express();      
 
 
 var __dirname = path.resolve();  //récupération du chemin absolu du répertoire du fichier actuel si non on aura une erreur sur __dirname
-app.use(cors());   //evite les erreurs cors
+app.use(cors());   //evite les erreurs cors 
 
 
 // Utiliser bodyParser.raw() uniquement pour le webhook Stripe

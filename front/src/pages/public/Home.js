@@ -1,32 +1,45 @@
 import React,{useState, useEffect} from 'react';
 
 import CarteServices from '../../components/CarteServices';
+import { GetServices } from '../admin/service';
 
 import canape from '../../images/canapeInfo.png';
+import terrasse from '../../images/terrasse.jpg';
+
+
 
 import servicesData from '../../datas';
 import Contact from './Contact';
 
 const Home = () => {
 
+
+    //gestion du state de l'affichage progressive de la page
+    const [isVisibleHome, setIsVisibleHome] = useState(false);
+
     const [services, setServices] = useState([]);
+
+
 
     useEffect(() => {
 
         if(servicesData && servicesData.length > 0){
             setServices(servicesData);
         }
-       
-    }
-    ,[]);
-   // console.log('services', services);
-   console.log(canape);
 
+        setTimeout(() => {
+            setIsVisibleHome(true); // Déclenche l'affichage progressif
+          }, 100); // Délai de 100ms avant de lancer l'animation
+      
+
+       
+    } ,[]);
+   
 
     return (
-        <div className='Home'>
+        <div className={`Home ${isVisibleHome ? 'visibleHome' : ''}`}>
            
-            <CarteServices />
+            <GetServices />
 
             <div className='blockH1'>
                 <h1 className='blockH1__title'> Le Nettoyage En profondeur </h1>
@@ -42,18 +55,20 @@ const Home = () => {
 
             <div className='blockServices'>
                 
+                <div className='blockServices__subService'>
                 {
 
                     services.map((service, index) => {
                         return (
-                            <div key={`home-${service.id}-${service.title}`} className='blockServices__service'>
+                            <div key={`home-${service.id}-${service.title}`} className='blockServices__subService--cart'>
                                 <h4>{service.title}</h4>
                                 <p>{service.description}</p>
-                                <button className='btn__services'>En savoir plus</button>
+                                <button className='btn__subService'>En savoir plus</button>
                             </div>
                         )
                     })
                 }
+                </div>
                 <div className='blockServices__appelAction'>
                     Vos Priorités au coeur de nos Prestations
                 </div>
@@ -117,7 +132,7 @@ const Home = () => {
                 </div>
                
                 <div className='blockCanap__text'>
-                    <p>
+                    <p className='blockCanap__text--item'>
                         Sans un nettoyage en profondeur, votre canapé peut rapidement se transformer en un véritable foyer de bactéries. Nous utilisons des produits professionnels spécialement conçus pour traiter toutes les taches et tous les types de tissus.
                     </p>
                     <p className='blockCanap__prix'>
@@ -138,91 +153,115 @@ const Home = () => {
                     <div className='avis'>
                        //////////////////////////////
                     </div>
-                    <p>
+                    <p className='describTitle'>
                         ⚠ Saviez-vous qu’un canapé contient 12 fois plus de bactéries qu’un siège de toilette ? 
+                       
+                    </p>
+                    <p className='describTitleSub'>
                         Un canapé familial abrite 19 200 microbes par 100 cm², contre 1 600 pour un siège de toilette (UNICEF). Nettoyez-le régulièrement pour maintenir une hygiène optimale.
                     </p>
                 </div>
             </div>
 
-            <div className='blockMethodTravail'>
-                <h3>
-                    Nettoyage de Canapés en Tissu, Cuir, Microfibre, Daim et Velours
-                </h3>
-                <p>
-               
-
-                    Chez Nikel Propre, nous intervenons à domicile pour nettoyer tous types de canapés, qu'ils soient en tissu, cuir, microfibre, daim ou velours. 
-                    Nous savons que chaque matière nécessite une attention particulière et des techniques de nettoyage spécifiques pour garantir un résultat impeccable.
-
-                    💡 Pourquoi faire appel à nous ?
-                    Notre équipe, formée aux meilleures pratiques, utilise des produits écologiques et des méthodes adaptées pour éliminer les taches tenaces et les mauvaises odeurs tout en préservant l’intégrité et l’éclat de votre canapé.
-
-                    Nous proposons aussi des traitements anti-acariens et anti-bactériens pour une hygiène parfaite, ainsi que des soins pour raviver les couleurs et prolonger la durée de vie de vos tissus et cuirs.
-                    Avec Nikel Propre, vous êtes assuré d’un nettoyage en profondeur, respectueux de vos meubles et de votre santé.
-                </p>
-            </div>
-
             <div className='blockWhy'>
-                <h3>
+                <h3 className='blockWhy__title'>
                     Pouquoi Travailler avec Nickel Propre?
                 </h3>
                 <div className='blockWhy__Item'>
 
-                    <i className="fas fa-check"></i>
+                    
                     <p>
-                        <span>Expertise multi-matériaux :</span> Nettoyage adapté pour tous types de canapés (tissu, cuir, microfibre, daim, velours).
+                    <i className="fas fa-check"></i><span>Expertise multi-matériaux :</span> Nettoyage adapté pour tous types de canapés (tissu, cuir, microfibre, daim, velours).
                     </p>
                 </div>
                 <div className='blockWhy__Item'>
-                    <i className="fas fa-check"></i>
+                   
                     <p>
-                        <span>Produits écologiques :</span> Utilisation de produits bio, respectueux des tissus et de l’environnement.
+                    <i className="fas fa-check"></i><span>Produits écologiques :</span> Utilisation de produits bio, respectueux des tissus et de l’environnement.
                     </p>
                 </div>
                 <div className='blockWhy__Item'>
-                    <i className="fas fa-check"></i>
+                   
                     <p>
-                        <span>Garantie satisfaction :</span> Si des taches réapparaissent sous 24h, nous revenons gratuitement.
+                    <i className="fas fa-check"></i><span>Garantie satisfaction :</span> Si des taches réapparaissent sous 24h, nous revenons gratuitement.
                     </p>
                 </div>
                 <div className='blockWhy__Item'>
-                    <i className="fas fa-check"></i>
+                  
                     <p>
-                        <span>Déplacement gratuit :</span> Intervention partout en Île-de-France sans frais supplémentaires.
+                        <i className="fas fa-check"></i><span>Déplacement gratuit :</span> Intervention partout en Île-de-France sans frais supplémentaires.
                     </p>
                 </div>
                 <div className='blockWhy__Item'>
-                    <i className="fas fa-check"></i>
+                  
                     <p>
-                        <span>Traitements anti-acariens et anti-bactériens :</span> Pour une hygiène impeccable.
+                        <i className="fas fa-check"></i><span>Traitements anti-acariens et anti-bactériens :</span> Pour une hygiène impeccable.
                     </p>
                 </div>
                 <div className='blockWhy__Item'>
-                    <i className="fas fa-check"></i>
+                   
                     <p>
-                        <span>Soins des tissus :</span> Ravivement des couleurs et protection longue durée.
+                        <i className="fas fa-check"></i><span>Soins des tissus :</span> Ravivement des couleurs et protection longue durée.
                     </p>
                 </div>
                 <div className='blockWhy__Item'>
-                    <i className="fas fa-check"></i>
+                   
                     <p>
-                        <span>Résultats visibles : </span>Avant/Après qui montrent l’efficacité de notre service.
+                        <i className="fas fa-check"></i><span>Résultats visibles : </span>Avant/Après qui montrent l’efficacité de notre service.
                     </p>
                 </div>
             </div>
 
-            <div className='blockContact'>
-                <p className='blockContact__title'>
-                    Contact
-                </p>
-                <h3>
-                    Faites-nous part de vos souhaits
-                </h3>
-                <p>
-                    Exprimez vos besoins via ce formulaire, et notre équipe vous répondra rapidement.
-                </p>
+            <div className='blockTerasse'>
+                    <div className='blockTerasse__img'
+                        style={{
+                            backgroundImage: `url(${terrasse})`,
+                            backgroundSize: 'cover', // Ajuster la taille de l'image
+                            backgroundPosition: 'center', // Centrer l'image
+                            // height: '100%', // Ajuster la hauteur
+                            // width: '100%', // Largeur à 100%
+                        }}
+                    >
 
+                    </div>
+                    <div className='blockTerasse__text'>
+                        <h3 className='blockTerasse__text--title'>
+                            Particuliers :
+                        </h3>
+                        <p className='blockTerasse__text--describ'>
+                            Afin de pouvoir pleinement profiter de votre terrasse, il est nécessaire de la nettoyer régulièrement. Lorsqu’on nettoie une terrasse, il faut bien faire attention aux produits et aux outils utilisés pour éviter de l’endommager.
+                        </p>
+                        <button className='btn__contact'>Nous contacter</button>
+                    
+                    </div>
+            </div>
+
+            <div className='blockTerasseReverse'>
+                    <div className='blockTerasseReverse__img'
+                        style={{
+                            backgroundImage: `url(${terrasse})`,
+                            backgroundSize: 'cover', // Ajuster la taille de l'image
+                            backgroundPosition: 'center', // Centrer l'image
+                            // height: '100%', // Ajuster la hauteur
+                            // width: '100%', // Largeur à 100%
+                        }}
+                    >
+
+                    </div>
+                    <div className='blockTerasseReverse__text'>
+                        <h3 className='blockTerasseReverse__text--title'>
+                            Professionnels :
+                        </h3>
+                        <p className='blockTerasseReverse__text--describ'>
+                            Afin de pouvoir pleinement profiter de votre terrasse, il est nécessaire de la nettoyer régulièrement. Lorsqu’on nettoie une terrasse, il faut bien faire attention aux produits et aux outils utilisés pour éviter de l’endommager.
+                        </p>
+                        <button className='btn__contact'>Nous contacter</button>
+                    
+                    </div>
+            </div>
+
+            <div className='blockContact'>
+               
                 <Contact />
 
             </div>

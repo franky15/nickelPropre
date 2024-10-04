@@ -1,93 +1,125 @@
 
 
+//recet du css de la page 
+* {
+    font-family: "Open Sans", sans-serif;
+    margin-inline: 0;
+    box-sizing: border-box;
 
-.Contact{
+   
+  }
+  
+  html, body {
+    background-color: $backgroungColorPage;
+    // width: 100%;
+    // height: 100%;
+    // font-family: sans-serif; /* Définir une police par défaut (optionnel) */
+  }
 
+
+
+.containerContact {
     width: 100%;
-    padding-top: 10px;
-    padding-bottom: 50px;
-    margin-bottom: 50px;
-    box-shadow: $boxShadow;
-    border-radius: $borderRadiusBlock;
-    
-   // border: solid 1px $primary;
-
-   .form-group{
-
-    width: 90%;
-    margin: auto;
-    margin-top: 50px;
     display: flex;
+    flex-direction: row-reverse;
     flex-wrap: wrap;
-    justify-content: space-between;
+   
+    margin-bottom: 50px;
+    margin-top: $margintopSection;
+    padding-bottom: 50px;
 
-    //border: solid;
-
-    .itemInputContainer{
-        width: 45%;
+    .titleForm {
+        width: 100%;
         display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        margin-bottom: 20px;
-
-        //border: solid 1px red;
-    }
-    .itemInput{
-        width: 100%;
-        height: 50px;
-        border-radius: $borderRadiusBlock;
-        //margin-bottom: 20px;
-    }
-
-    select{
-
-        border: solid 2px ;
-    }
-    textarea{
-        width: 100%;
-        height: 200px;
-        border-radius: $borderRadiusBlock;
-        
-        //margin-bottom: 20px;
-    }
-    
-
-   }
-
-   .dateInputContainer{
-        width: 90%;
-        margin: auto;
+        justify-content: center;
+        font-size: $subTitle;
+        font-weight: bold;
         margin-top: 50px;
         margin-bottom: 50px;
+    }
+
+    .Contact {
+        width: 50%;
         display: flex;
         flex-direction: column;
+        justify-content: center;
+        align-items: center;
 
-       // border: solid red;
+        // border: solid yellow;
 
-        .dateInput{
+        .titleForm {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            font-size: $subTitle;
+            font-weight: bold;
+            color: $primary;
+        }
 
-            width: 45%;
-            height: 50px;
-            border-radius: $borderRadiusBlock;
-            //margin-bottom: 20px;
+        .form-group {
+            width: 90%;
+            margin: auto;
+            margin-top: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+           
+
+           
+            .itemInputContainer {
+                width: 48%;
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-between;
+            }
+
+            .itemInput {
+                width: 100%;
+                height: 70px;
+                padding: 20px;
+                border-radius: $borderRadiusInput;
+                border: solid 2px $borderColorInput;
+            }
+
+            .itemInput::placeholder {
+                color: $colorTextplaceHolder;
+            }
+
+            select {
+                border: solid 2px $borderColorInput;
+            }
+
+            textarea {
+                width: 100%;
+                height: 200px;
+                border-radius: $borderRadiusInput;
+                border: solid 2px $borderColorInput;
+                padding: 20px;
+            }
+            .form-control::placeholder{
+                color: $colorTextplaceHolder;
+            }
+
+            button {
+                //margin: auto;
+                @include btnContact();  /* Assurez-vous que cette mixin est bien définie */
+            }
+
+            .error-field {
+                border-color: $danger;
+                color: $danger;
+            }
+
+            .error {
+                color: $danger;
+                font-size: 12px;
+            }
         }
     }
-   
 
-   button{
-
-        margin: auto;
-        margin-top: 50px;
-       @include btnContact();
-   }
-
-   .error-field {
-    border-color: $danger;
-    color: $danger;
+    .containerContact__im {
+        width: 50%;
+        height: 700px;
+        border-radius: $borderRadiusBlock;
     }
-    .error{
-         color: $danger;
-         font-size: 12px;
-    }
-
 }

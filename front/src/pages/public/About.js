@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState, useEffect} from 'react';
 import servicesData from '../../datas';
 import note from '../../datasNote';
 import Revieuws from '../../components/Revieuws';
@@ -6,6 +6,19 @@ import Revieuws from '../../components/Revieuws';
 
 const About = () => {
 
+    //gestion du state de l'affichage progressive de la page
+    const [isVisibleHome, setIsVisibleHome] = useState(false);
+
+    useEffect(() => {
+
+        
+        setTimeout(() => {
+            setIsVisibleHome(true); // Déclenche l'affichage progressif
+        }, 100); // Délai de 100ms avant de lancer l'animation
+      
+        
+    }
+    , []);
     
     // Divise la liste en deux parties
     const half = Math.ceil(servicesData.length / 2);  // Division de la liste en deux si elle est impaire (Math.ceil() arrondi supérieur) la première moitié contiendra un élément de plus
@@ -47,7 +60,7 @@ const About = () => {
     console.log('secondHalf', secondHalf);
     
     return (
-        <div className='About'>
+        <div className= {`About ${isVisibleHome ? 'visibleHome' : ''}`}>
 
             <h1> Nos valeurs</h1>
 
@@ -174,23 +187,28 @@ const About = () => {
 
             <div className='About__team'>
                 <h2>Nos Equipes</h2>
-                <p>Tous nos collaborateurs s'engagent ensemble pour :</p>
-                <ul>
-                    <li>Relever les défis du nettoyage en utilisant des produits qui préservent la qualité de vos tissus. </li>
-                    <li>Suivre l'évolution des attentes de nos clients et les accompagner dans l'entretien et la rénovation de leurs meubles et intérieurs.</li>
-                </ul>
-                <p>Nos équipes mettent tout en œuvre au quotidien pour garantir des résultats impeccables, en veillant à ne jamais compromettre la durabilité de vos tissus et à toujours satisfaire nos clients.</p>
-                    
-                <div className='footer'>
-                    <p className='title'>Suivez notre actualité sur nos réseaux sociaux</p>
-                    <div className='social'>
-                        <i className="fa-brands fa-facebook"></i>
-                        <i className="fa-brands fa-instagram"></i>
-                    </div>
-                    <div className='triangle'><i className="fa-solid fa-caret-up"></i></div>
+                <div className='About__team--descrip'>
+                    <p>Tous nos collaborateurs s'engagent ensemble pour :</p>
+                    <ul>
+                        <li>Relever les défis du nettoyage en utilisant des produits qui préservent la qualité de vos tissus. </li>
+                        <li>Suivre l'évolution des attentes de nos clients et les accompagner dans l'entretien et la rénovation de leurs meubles et intérieurs.</li>
+                    </ul>
+                    <p>Nos équipes mettent tout en œuvre au quotidien pour garantir des résultats impeccables, en veillant à ne jamais compromettre la durabilité de vos tissus et à toujours satisfaire nos clients.</p>
+                   
                 </div>
+                
+                
             
             </div>
+
+            {/*<div className='footer'>
+                <p className='title'>Suivez notre actualité sur nos réseaux sociaux</p>
+                <div className='social'>
+                    <i className="fa-brands fa-facebook"></i>
+                    <i className="fa-brands fa-instagram"></i>
+                </div>
+                <div className='triangle'><i className="fa-solid fa-caret-up"></i></div>
+            </div>*/}
 
         </div>
     );

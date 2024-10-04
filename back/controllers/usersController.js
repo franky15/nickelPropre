@@ -70,7 +70,7 @@ exports.signum = async (req, res, next) => {
 
     const { reduction, nom, prenom, email, password, tel, adresse, ville, region, codePostal, genre, age, role, typeClient, service, besoin, dateAppel, heureAppel } = req.body;
 
-    let roleUser = role || "Client";
+    let roleUser = role || "Client"; 
 
     console.log("****roleUser", roleUser);
 
@@ -263,7 +263,7 @@ exports.signum = async (req, res, next) => {
         
             console.log("****chantier créé avec succès");
 
-        } 
+        }  
 
     } catch (err) {
         console.log("erreur dans la requete", err);

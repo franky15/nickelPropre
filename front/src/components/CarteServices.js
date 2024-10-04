@@ -34,7 +34,7 @@ const CarteServices = () => {
                                     height: '100%', // Ajuster la hauteur
                                     width: '100%', // Largeur à 100%
                                    
-                                    borderRadius: '10px', // Coins arrondis
+                                    //borderRadius: '10px', // Coins arrondis
                                     display: 'flex', // Utilisation de flexbox
                                     alignItems: 'flex-start', // Aligner le texte en bas
                                 
@@ -45,7 +45,7 @@ const CarteServices = () => {
 
                                 }}
                             >
-                                <h2>{service.title}</h2>
+                                {/*<h2>{service.title}</h2>*/}
                             </div>
                         </Link>
                     )

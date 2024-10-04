@@ -45,7 +45,7 @@ const Revieuws = () => {
         
 
         <div className='rang'>
-            <h2> <i className="fa-solid fa-star"></i>AVIS CLIENTS</h2>
+            <h2> AVIS CLIENTS</h2>
             <p className='star'> {displayStars()}</p>
             <p className='note'>Noté {note}/5</p>
         </div>

@@ -8,8 +8,8 @@ import { userServices } from "../../../_services.js/User.services";
 //le choix de ce state est dû au fait que l'authentification est un état global donc on choisit le state global
 const initialState = {
 
-    users: null,
-    user: null,
+    users: [],
+    user: {},
     status: null,
     error: null,
     
@@ -106,6 +106,22 @@ export const deleteUser = createAsyncThunk(
     }
 );
 
+export const createUser = createAsyncThunk(
+    
+    'user/createUser', 
+    async (userObject) => {
+
+
+        await userServices.addUser(userObject);
+
+        console.log("userObject dans createUser", userObject);
+
+        return userObject;
+
+    }
+
+);
+
 //création du slice pour gérer les actions et le state
 export const userSlice = createSlice({
 
@@ -180,7 +196,24 @@ export const userSlice = createSlice({
                 //filtrage des utilisateurs à supprimer
                 state.users = state.users.filter((user) => user.id !== action.payload.id);
 
+            })////////////////////////
+            .addCase(createUser.fulfilled, (state, action) => {
+
+                //ajout de l'utilisateur dans la liste
+                state.users.push(action.payload);
+
             })
+            .addCase(createUser.pending, (state, action) => {
+
+                state.status = "loading";
+
+            })
+            .addCase(createUser.rejected, (state, action) => {
+
+                state.status = "failed";
+                state.error = action.error.message;
+
+            })////////////////////////
 
     }
 

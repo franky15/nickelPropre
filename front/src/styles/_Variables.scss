@@ -3,8 +3,8 @@
 /////// Text ///////
 $fontZiseNav: 18px;
 $fontZiseBtnContact: 23px;
-$title: 30px;
-$subTitle: 18px;
+$title: 60px;
+$subTitle: 30px;
 
 
 ///////// couleurs ///////
@@ -15,40 +15,50 @@ $success: #28a745;
 $danger: #dc3545;
 $warning: #ffc107;
 $colorFooter: #E0E0E0;
+$backgroungColorPage: #F1F6F6;
+$backgroungColorSection: #fff;
+$colorTextplaceHolder: #393737;
+
 
 
 ////// Border ///////
 $borderBlueSolid: 1px solid #1093EB;
-$borderRadiusBlock: 5px;
+$borderRadiusBlockImg: 28px;
+$borderRadiusBlock: 15px;
+$borderRadiusInput: 10px;
+$borderColorInput: #E0E0E0;
 
 
 
 
 ///////// Box shadow ///////
-$boxShadow: 0px 0px 10px 0px $primary;
+$boxShadow: 7px 8px 17px -1px rgba(0,0,0,0.41);//0px 0px 10px 0px $primary;
+
+///////// padding  marging///////
+$margintopSection: 100px;  
+$margintopSupSection: 50px;  
 
 
-
-
-
+/////////// height width //////////
+$heightSectionImg: 600px;
 
 
 ////////////////// mixins //////////////////
 
-@mixin btnContact($width: 300px, $height: 50px, $color: $primary, $font-size: $fontZiseBtnContact, $colorText: $colorTextBtnContact){
+@mixin btnContact($width: 300px, $height: 60px, $color: $colorTextBtnContact, $font-size: $fontZiseBtnContact, $colorText: $colorTextBtnContact, $background-color: $primary, $border: solid $primary, $margin-top: 20px) {
         width: $width;
-        height: 50px;
+        height: $height;
         display: flex;
         justify-content: center;
         align-items: center;
-        margin-top: 20px;
+        margin-top: $margin-top;
         font-weight: bold;
-        background-color: $primary;
+        background-color: $background-color;
         font-size: $fontZiseBtnContact;
-        color: $colorTextBtnContact;
-        border-radius: 5px;
-        border: solid $primary;
-        box-shadow: 0px 0px 5px 0px $primary;
+        color: $color;
+        border-radius: 10px;
+        border: $border;
+       //box-shadow: 0px 0px 5px 0px $primary;
         cursor: pointer;
 
 }

@@ -10,6 +10,7 @@ import UserRouter from './pages/admin/user/UserRouter';
 import BanqueImagesRouter from './pages/admin/banqueImages/BanqueImageRouter';
 import ChantierRouter from './pages/admin/chantier/ChantierRouter';
 import ServiceRouter from './pages/admin/service/ServiceRouter';
+import Dashboard from './pages/admin/Dashboard';
 
 
 import AuthGuard from './_helpers/AuthGuard';
@@ -30,7 +31,7 @@ function App() {
 
       <Route path='/auth/*' element={<AuthRouter/>} /> 
       <Route path='/admin/*' element={<UserRouter/>} />
-      <Route path='/admin/services*' element={<ServiceRouter/>} />
+      <Route path='/admin/services/*' element={<ServiceRouter/>} />
       
       <Route path='/admin/traveaux/*' element={
           <AuthGuard>
@@ -43,11 +44,19 @@ function App() {
             <BanqueImagesRouter />
           </AuthGuard>
         } />
+
+      <Route path='/admin/dashboard' element={
+          <AuthGuard>
+            <Dashboard />
+          </AuthGuard>
+        } />
       
+      <Route path='blog/*' element={<ArticlesRouter/>} />
+    
 
       {/*sans layout juste avec  router */}
       <Route path='/*' element={<PublicRouter/>} />
-      <Route path='blog/*' element={<ArticlesRouter/>} />
+
 
     </Routes>
   </BrowserRouter>

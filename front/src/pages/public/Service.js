@@ -12,6 +12,8 @@ const Service = () => {
     // console.log('id', id);
     // console.log('servicesData', servicesData);
 
+        //gestion du state de l'affichage progressive de la page
+        const [isVisibleHome, setIsVisibleHome] = useState(false);
 
     const [service, setService] = useState({});
 
@@ -25,6 +27,11 @@ const Service = () => {
             setService({...serviceData});
 
         }
+
+        setTimeout(() => {
+            setIsVisibleHome(true); // Déclenche l'affichage progressif
+        }, 100); // Délai de 100ms avant de lancer l'animation
+      
         
     }
     , [id]);
@@ -32,7 +39,7 @@ const Service = () => {
     //console.log('service', service);
 
     return (
-        <div className='ServiceContainer'>
+        <div className={`ServiceContainer ${isVisibleHome ? 'visibleHome' : ''}`}>
 
             {
                 service  !== undefined && 
@@ -68,7 +75,7 @@ const Service = () => {
             <div className='ServiceContainer__describ'>
 
                 <h1>{service.title}</h1>
-                <p>{service.description}</p>
+                <p className='ServiceContainer__describ--item'>{service.description}</p>
                 
                 <div className='ServiceContainer__describ--details'>
 

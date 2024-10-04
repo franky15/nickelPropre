@@ -4,11 +4,18 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-top: 250px;
+
+    opacity: 0; /* Contenu invisible */
+    transform: translateY(-100px); /* Contenu déplacé vers le haut */
+    transition: opacity 300ms ease-in-out, transform 400ms ease-in-out; /* Transition sur l'opacité et la position */
 
     //border: solid red;
     h1{
         margin-top: 50px;
         margin-bottom: 50px;
+        font-size: $title;
+        color: $primary;
     }
 
     &__cartContainer{
@@ -51,6 +58,8 @@
             justify-content: center;
             align-items: center;
             text-align: center;
+            font-size: $subTitle;
+            padding: 10px 10px;
             border-radius: $borderRadiusBlock;
             box-shadow: $boxShadow;
         }
@@ -58,36 +67,51 @@
 
     &__describ{
 
-        h2{
-            color: $primary;
-        }
         width: 80%;
-        margin-top: 50px;
-        margin-bottom: 50px;
+        margin-top: $margintopSupSection;
+        //margin-bottom: 50px;
         display: flex;
         flex-direction: column;
         align-items: center;
         text-align: center;
+
+        h2{
+            color: $primary;
+            font-size: $title;
+        }
+        
         
         //border: solid;
      
+    }
+    .About__describ--us{
+
+        position: relative;
+        top: -50px;
+        // border: solid red;
     }
 
     &__reviews{
 
         width: 80%;
+        height: 300px;
         display: flex;
         justify-content: space-between;
+        align-items: center;
+        margin-top: $margintopSupSection;
+        margin-bottom: $margintopSupSection;
+        padding: 20px 20px;
+        background-color: $backgroungColorSection;
+        border-radius: $borderRadiusBlock;
 
-        //border: solid 1px #333; 
+        //border: solid red;
 
         .reviews{
-            width: 48%;
+            width: 35%;
             display: flex;
             flex-direction: column;
-            // border: solid red;
-            // border-radius: $borderRadiusBlock;
-            // box-shadow: $boxShadow;
+            
+            //border: solid red;
 
             .services{
                 width: 100%;
@@ -107,7 +131,7 @@
         }
         .containerRang{
 
-            width: 48%;
+            width: 61%;
             display: flex;
             justify-content: space-between;
 
@@ -173,42 +197,62 @@
 
         h2{
             color: $primary;
+            font-size: $title;
         }
-
-        .footer{
-
+        .About__team--descrip{
             width: 100%;
-            height: 199px;
-            margin-top: 50px;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            background-color: $colorFooter;
+            text-align: center;
+            font-size: $subTitle;
+            padding: 10px 10px;
+            // border-radius: $borderRadiusBlock;
+            // box-shadow: $boxShadow;
+        }
 
-            .title{
-                font-size: $title;
-                font-weight: bold;
-            }
-            .social{
-                width: 100px;
-                display: flex;
-                justify-content: space-between;
-                //border: solid red;
+        
+    }
 
-                i{
-                    font-size: 30px;
-                    color: $primary;
-                }
-            }
-            .triangle{
-               
-                position: relative;
-                top: -20px;
-                i{
-                    font-size: 200px;
-                    color: white;
-                }
+    /*
+    .footer{
+
+        width: 100%;
+        height: 199px;
+        margin-top: 50px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: $colorFooter;
+
+        .title{
+            font-size: $title;
+            font-weight: bold;
+        }
+        .social{
+            width: 100px;
+            display: flex;
+            justify-content: space-between;
+            //border: solid red;
+
+            i{
+                font-size: 30px;
+                color: $primary;
             }
         }
-    }
+        .triangle{
+           
+            position: relative;
+            top: -20px;
+            i{
+                font-size: 200px;
+                color: white;
+            }
+        }
+    }*/
+}
+
+//application de l'animation de l'affichage progressif de la page
+.visibleHome {
+    opacity: 1; //Le contenu devient visible 
+    transform: translateY(0); // Le contenu revient à sa position d'origine /
 }

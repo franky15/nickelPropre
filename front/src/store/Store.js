@@ -5,7 +5,7 @@ import authReducer from '../pages/auth/AuthSlice';
 import userReducer from '../pages/admin/user/SliceUser';
 import chantierReducer from '../pages/admin/chantier/SliceChantier';
 import servicesReducer from '../pages/admin/service/SliceService';
-import imagesReducer from '../pages/admin/service/SliceImage';
+import imagesReducer from '../pages/admin/banqueImages/SliceImage';
 import articleReducer from '../pages/admin/blog/SliceArticle';
 
 
