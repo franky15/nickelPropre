@@ -17,16 +17,57 @@
   }
 
 
+.containerGlobalContact{
+
+    // width: 100%;
+    // .iconLock{
+    //     width: 100%;
+    //     display: flex;
+    //     justify-content: center;
+    //     background-color: $danger;
+    //     color: white;
+    //     font-weight: bold;
+    //     border-radius: $borderRadiusInput;
+    //     // font-size: 50px;
+    //     // color: $primary;
+
+    //     // border: solid yellow;
+    // }
+}
 
 .containerContact {
-    width: 100%;
-    display: flex;
-    flex-direction: row-reverse;
-    flex-wrap: wrap;
-   
-    margin-bottom: 50px;
-    margin-top: $margintopSection;
-    padding-bottom: 50px;
+    // width: 100%;
+    // display: flex;
+    // flex-direction: row-reverse;
+    // flex-wrap: wrap;
+    // justify-content: center;
+    // margin-bottom: 50px;
+    // margin-top: $margintopSection;
+
+    // padding-bottom: 50px;
+    // padding: 50px;
+    // background-color: $backgroungColorSection;
+    // box-shadow: $boxShadow;
+    
+
+    // position: absolute;
+    // top: 0;
+
+    // border: solid 2px $primary;
+
+    .iconLock{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        background-color: $danger;
+        color: white;
+        font-weight: bold;
+        border-radius: $borderRadiusInput;
+        // font-size: 50px;
+        // color: $primary;
+
+        // border: solid yellow;
+    }
 
     .titleForm {
         width: 100%;
@@ -35,6 +76,7 @@
         font-size: $subTitle;
         font-weight: bold;
         margin-top: 50px;
+        margin-left: 30px;
         margin-bottom: 50px;
     }
 
@@ -45,6 +87,7 @@
         justify-content: center;
         align-items: center;
 
+        
         // border: solid yellow;
 
         .titleForm {
@@ -64,7 +107,12 @@
             flex-wrap: wrap;
             justify-content: space-between;
            
-
+            label {
+                font-size: 12px;
+                font-weight: bold;
+                margin-bottom: 10px;
+                color: $primary;
+            }
            
             .itemInputContainer {
                 width: 48%;

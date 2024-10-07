@@ -2,7 +2,7 @@
 import Axios from "./Caller.services";
 
 let getUsers = () =>{
-    return Axios.get("/users")  //routes du back
+    return Axios.get("/users/getAll")  //routes du back
 }
 
 let getUser = (id) =>{

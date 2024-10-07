@@ -1,12 +1,28 @@
 import React,{useState, useEffect} from 'react';
 
+//importation des éléments de redux
+import { useDispatch, useSelector } from 'react-redux';
+
 import Header from '../../components/Header';
 import { GetArticles } from '../blog';
 import { GetChantiers } from './chantier';
 import { GetServices } from './service';
 import { GetUsers } from './user';
 
+//importation des éléments de redux
+import { getChantiers } from '../../pages/admin/chantier/SliceChantier';
+import { getUsers } from '../../pages/admin/user/SliceUser';
+
 const Dashboard = () => {
+
+    const dispatch = useDispatch();
+    // const userStore = useSelector((state) => state.chantier);
+
+    // console.log("***userStore dans GetChantiers:", userStore);
+
+    const [allChantiers, setAllChantiers] = useState([]);  // Stocke tous les chantiers
+    const [chantiers, setchantiers] = useState([]);
+
 
     //gestion du state de l'affichage progressive de la page
     const [isVisibleHome, setIsVisibleHome] = useState(false);
@@ -19,9 +35,72 @@ const Dashboard = () => {
         banqueImagesIsopen: false,
         chantiersIsopen: true,
         servicesIsopen: false,
-        utilisateursIsopen: false
+        utilisateursIsopen: false,
+
     });
 
+
+    ///////////////////////////////////
+
+    useEffect(() => {
+
+        const fetchData = async () => {
+
+            try {
+
+                const response = await dispatch(getChantiers());
+
+                if (response.payload) {
+
+                    const chantiersData = response.payload.data.resGetAllChantiers;
+                    
+                    /*const checkedItemsValue = chantiersData.map((item) => item.id);
+
+                    //stockage des valeurs en clé/valeur
+                    setCheckedItems(checkedItemsValue.reduce((acc, item) => {
+                        acc[item] = false;
+                        return acc;
+                    }, {}));*/
+
+                    // Récupération des utilisateurs
+                    const responseUsers = await dispatch(getUsers());
+
+                    if (responseUsers.payload) {
+
+                        const usersData = responseUsers.payload.data;
+                        const updatedChantiers = chantiersData.map(chantier => {
+                            
+                            // Clonage de chaque chantier avant modification car chantier provient de redux et est en lecture seule on ne peut pas le modifier directement
+                            const chantierClone = { ...chantier };
+                            
+                            const userMatch = usersData.find(user => parseInt(chantierClone.Users_id) === parseInt(user.id));
+                            if (userMatch) {
+                                chantierClone.Users_id = `${userMatch.nom} ${userMatch.prenom}`;
+                            }
+                            return chantierClone;
+                        });
+
+                        setchantiers(updatedChantiers);
+                        setAllChantiers(updatedChantiers);
+                    }
+                }
+            } catch (error) {
+                console.log("error dans GetChantiers:", error);
+            }
+
+        }
+        fetchData();
+
+        
+       
+    } ,[dispatch]); 
+
+
+
+
+    
+
+    ///////////////////////////////////
 
     useEffect(() => {
 
@@ -97,7 +176,7 @@ const Dashboard = () => {
         }
     }
 
-    console.log('***modal', modal);
+    // console.log('***modal', modal);
 
 
     return (
@@ -121,15 +200,17 @@ const Dashboard = () => {
 
                 <div className='Dashboard__content'>
 
+                {   chantiers.length > 0 && allChantiers.length > 0 &&
                     <div className='children'>
 
                         { modal.blogIsopen && <GetArticles />}
                         { modal.banqueImagesIsopen && <GetArticles />}
-                        { modal.chantiersIsopen && <GetChantiers />}
+                        { modal.chantiersIsopen && <GetChantiers chantiers={chantiers} setchantiers={setchantiers}  allChantiers = {allChantiers} />}
                         { modal.servicesIsopen && <GetServices />}
                         { modal.utilisateursIsopen && <GetUsers />}
                         
                     </div>
+                }
                     <div className='containerIcons'>
                         <i class="fa-regular fa-bell"></i>
                         <i class="fa-regular fa-comment"></i>

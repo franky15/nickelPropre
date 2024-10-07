@@ -48,11 +48,11 @@ export const getUsers = createAsyncThunk(
     'user/getAllUser',
     async (_, { rejectWithValue }) => {
         try {
-            //console.log("***Bienvenue dans le getUsers de UserSlice");
+            // console.log("***Bienvenue dans le getUsers de UserSlice");
 
             const response = await userServices.getUsers();
 
-            //console.log("Réponse API dans getUsers:", response);
+            // console.log("Réponse API dans getUsers:", response);
 
             if (!response) {
                 throw new Error("La réponse de l'API est invalide");

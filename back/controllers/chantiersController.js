@@ -15,7 +15,7 @@ exports.createChantier = async (req, res) => {
 
     console.log('****client_id', client_id);
 
-    const { userCreatorId, service, besoin, prix, status, dateAppel, heureAppel, datePrestation, prestataire, heurePrestation, infoComplementaire, adresse,ville, codePostal } = req.body;
+    const { userCreatorId, service, besoin, prix, status, dateAppel, heureAppel, datePrestation, prestataire, heurePrestation, infoComplementaire, adresse,ville, codePostal, nombrePlaces } = req.body;
     let idAuth = req.auth.userId;
     const role = req.auth.role;
 
@@ -66,6 +66,10 @@ exports.createChantier = async (req, res) => {
         if (codePostal) {
             columnChantier.push("codePostal");
             chantier.push(codePostal);
+        }
+        if (nombrePlaces) {
+            columnChantier.push("nombrePlaces");
+            chantier.push(nombrePlaces);
         }
     };
     addColumn();
@@ -159,7 +163,7 @@ exports.getOneChantier = async (req, res) => {
 //update one chantier
 exports.updateChantier = async (req, res) => {
     let idChantier = parseInt(req.params.id);
-    const { service, besoin, prix, status, dateAppel, heureAppel, datePrestation, prestataire, heurePrestation,infoComplementaire, adresse,ville, codePostal } = req.body;
+    const { service, besoin, prix, status, dateAppel, heureAppel, datePrestation, prestataire, heurePrestation,infoComplementaire, adresse,ville, codePostal, nombrePlaces } = req.body;
     let idAuth = req.auth.userId;
     const role = req.auth.role;
 
@@ -167,8 +171,8 @@ exports.updateChantier = async (req, res) => {
     console.log('****idAuth', idAuth);
     console.log('****role', role);
 
-    let columnChantier = [ "service", "besoin", "prix", "status", "dateAppel", "heureAppel", "datePrestation", "prestataire", "heurePrestation", "infoComplementaire", "adresse", "ville", "codePostal"];
-    let chantier = [service, besoin, prix, status, dateAppel, heureAppel, datePrestation, prestataire, heurePrestation, infoComplementaire, adresse, ville, codePostal];
+    let columnChantier = [ "service", "besoin", "prix", "status", "dateAppel", "heureAppel", "datePrestation", "prestataire", "heurePrestation", "infoComplementaire", "adresse", "ville", "codePostal", "nombrePlaces" ];
+    let chantier = [service, besoin, prix, status, dateAppel, heureAppel, datePrestation, prestataire, heurePrestation, infoComplementaire, adresse, ville, codePostal, nombrePlaces];
 
     let sqlUpdateChantier = `UPDATE Chantiers SET ${columnChantier.map((column) => `${column} = ?`).join(', ')} WHERE id = ?`;
 

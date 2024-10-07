@@ -678,14 +678,14 @@ html, body {
   background-color: #F1F6F6;
 }
 
-.containerContact {
+.containerContact .iconLock {
   width: 100%;
   display: flex;
-  flex-direction: row-reverse;
-  flex-wrap: wrap;
-  margin-bottom: 50px;
-  margin-top: 100px;
-  padding-bottom: 50px;
+  justify-content: center;
+  background-color: #dc3545;
+  color: white;
+  font-weight: bold;
+  border-radius: 10px;
 }
 .containerContact .titleForm {
   width: 100%;
@@ -694,6 +694,7 @@ html, body {
   font-size: 30px;
   font-weight: bold;
   margin-top: 50px;
+  margin-left: 30px;
   margin-bottom: 50px;
 }
 .containerContact .Contact {
@@ -718,6 +719,12 @@ html, body {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+}
+.containerContact .Contact .form-group label {
+  font-size: 12px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #1093EB;
 }
 .containerContact .Contact .form-group .itemInputContainer {
   width: 48%;
@@ -1118,13 +1125,13 @@ html, body {
   border: solid 2px #E0E0E0;
   cursor: pointer;
   /* Assurez-vous que cette mixin est bien définie */
-  transition: transform 0.5s ease-in-out background-color 0.5s ease-in-out color 0.5s ease-in-out;
+  transition: transform 200ms ease-in-out, opacity 200ms ease-in-out;
 }
 .Dashboard__globalMenu .DashboardBtn:hover {
   background-color: #1093EB;
   border: solid #1093EB;
   color: #fff;
-  transform: scaleX(1.1);
+  transform: scale(1.1);
 }
 .Dashboard__globalMenu .DashboardBtn p {
   font-size: 18px;
@@ -1187,19 +1194,88 @@ html, body {
 
 .GetChantiers {
   width: 100%;
-  border: solid red;
+  position: relative;
 }
-.GetChantiers__filterBtn {
-  width: 60%;
+.GetChantiers__table {
+  width: 100%;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  border-collapse: collapse;
+  border: solid 2px #1093EB;
+}
+.GetChantiers__table th {
+  border: solid 2px #1093EB;
+  padding: 10px;
+  text-align: center;
+}
+.GetChantiers__table td {
+  border: solid 2px #1093EB;
+  padding: 10px;
+  text-align: center;
+}
+.GetChantiers__table td .tdIcons {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.GetChantiers__table td .tdIcons i {
+  font-size: 15px;
+  cursor: pointer;
+}
+.GetChantiers .containerPage {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.GetChantiers .containerPage .choiceNomberLine {
+  width: 95%;
+}
+.GetChantiers .containerPage .choiceNomberLine label {
+  font-size: 18px;
+  font-weight: bold;
+  margin-right: 10px;
+}
+.GetChantiers .containerPage .choiceNomberLine input {
+  width: 50px;
+  height: 30px;
+  border: solid 2px #1093EB;
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+}
+.GetChantiers .containerPage .btnNextPrev {
+  width: 100px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.GetChantiers .containerPage .btnNextPrev i {
+  font-size: 30px;
+  cursor: pointer;
+}
+
+* {
+  font-family: "Open Sans", sans-serif;
+}
+
+html, body {
+  background-color: #F1F6F6;
+  margin: 0;
+  padding: 0;
+}
+
+.InputFormSearchFilter__filterBtn {
+  width: 100%;
   height: 100px;
   margin: auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border: solid blue;
 }
-.GetChantiers__filterBtn--filter {
-  width: 50%;
+.InputFormSearchFilter__filterBtn--search {
+  width: 30%;
   height: 60px;
   display: flex;
   justify-content: space-between;
@@ -1208,16 +1284,51 @@ html, body {
   border: solid 2px #E0E0E0;
   border-radius: 10px;
 }
-.GetChantiers__filterBtn--filter input {
+.InputFormSearchFilter__filterBtn--search input {
   width: 80%;
   height: 100%;
   border: none;
   outline: none;
-  font-size: 20px;
+  font-size: 18px;
   padding-inline: 10px;
 }
-.GetChantiers__filterBtn button {
-  width: 300px;
+.InputFormSearchFilter__filterBtn--filter {
+  width: 20%;
+  height: 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-inline: 20px;
+  border: solid 2px #E0E0E0;
+  border-radius: 10px;
+}
+.InputFormSearchFilter__filterBtn--filter select {
+  width: 80%;
+  height: 100%;
+  border: none;
+  outline: none;
+  font-size: 18px;
+  padding-inline: 10px;
+}
+.InputFormSearchFilter__filterBtn--date {
+  width: 20%;
+  height: 60px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.InputFormSearchFilter__filterBtn--date .containerDate {
+  width: 48%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.InputFormSearchFilter__filterBtn--date .containerDate label {
+  font-weight: bold;
+}
+.InputFormSearchFilter__filterBtn button {
+  width: 250px;
   height: 60px;
   display: flex;
   justify-content: center;
@@ -1231,15 +1342,16 @@ html, body {
   border: solid #1093EB;
   cursor: pointer;
   /* Assurez-vous que cette mixin est bien définie */
-  transition: transform 0.5s ease-in-out background-color 0.5s ease-in-out color 0.5s ease-in-out;
+  font-size: 18px;
+  transition: transform 200ms ease-in-out, opacity 200ms ease-in-out;
 }
-.GetChantiers__filterBtn button:hover {
+.InputFormSearchFilter__filterBtn button:hover {
   background-color: #1093EB;
   border: solid #1093EB;
   color: #fff;
-  transform: scaleX(1.1);
+  transform: scale(1.1);
 }
-.GetChantiers__filterBtn button i {
+.InputFormSearchFilter__filterBtn button i {
   margin-right: 20px;
 }
 

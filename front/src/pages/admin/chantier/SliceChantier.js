@@ -23,11 +23,11 @@ export const getChantier = createAsyncThunk(
     async (id, { rejectWithValue }) => {
         try {
            
-            console.log("***Bienvenue dans le getChantier de slice", id);
+            // console.log("***Bienvenue dans le getChantier de slice", id);
 
             const response = await chantierServices.getChantier(id);
            
-            console.log("Réponse API dans getChantier:", response);
+            // console.log("Réponse API dans getChantier:", response);
 
             if (!response ) {
                 throw new Error("La réponse de l'API est invalide");
@@ -49,11 +49,11 @@ export const getChantiers = createAsyncThunk(
     async (_, { rejectWithValue }) => {
         try {
             
-            console.log("***Bienvenue dans le getChantiers de Slice");
+            // console.log("***Bienvenue dans le getChantiers de Slice");
 
             const response = await chantierServices.getChantiers();
 
-            console.log("Réponse API dans getChantiers:", response);
+            // console.log("Réponse API dans getChantiers:", response);
 
             if (!response) {
                 throw new Error("La réponse de l'API est invalide");
@@ -168,9 +168,9 @@ export const chantierSlice = createSlice({
             })////////////////////////
             .addCase(getChantiers.fulfilled, (state, action) => {
 
-                console.log("*****Bienvenue dans le getChantiers.fulfilled de chantierSlice");
+                // console.log("*****Bienvenue dans le getChantiers.fulfilled de chantierSlice");
 
-                console.log("***action.payload de chantierSlice", action.payload);
+                // console.log("***action.payload de chantierSlice", action.payload);
 
                 state.chantiers = action.payload;
                 state.status = "success";
