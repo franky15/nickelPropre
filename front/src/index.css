@@ -23,6 +23,13 @@ header {
   border-bottom: 1px solid rgb(199, 198, 198);
   box-shadow: 7px 8px 17px -1px rgba(0, 0, 0, 0.41);
 }
+header i {
+  transition: transform 200ms ease-in-out;
+}
+header i:hover {
+  color: #1093EB;
+  transform: scale(1.3);
+}
 header a {
   text-decoration: none;
   color: #333;
@@ -122,6 +129,19 @@ header nav .container-fluid .navbar-collapse .ulMenuNav .services-link:hover {
   color: #1093EB;
 }
 header nav .container-fluid .navbar-collapse .ulMenuNav .contact {
+  width: 300px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  font-weight: bold;
+  background-color: #1093EB;
+  font-size: 23px;
+  color: #fff;
+  border-radius: 10px;
+  border: solid #1093EB;
+  cursor: pointer;
   width: 300px;
   height: 60px;
   display: flex;
@@ -297,6 +317,13 @@ html, body {
   transform: translateY(-100px); /* Contenu déplacé vers le haut */
   transition: opacity 300ms ease-in-out, transform 400ms ease-in-out; /* Transition sur l'opacité et la position */
 }
+.Home i {
+  transition: transform 200ms ease-in-out;
+}
+.Home i:hover {
+  color: #1093EB;
+  transform: scale(1.3);
+}
 .Home .blockH1 {
   width: 100%;
   display: flex;
@@ -321,6 +348,19 @@ html, body {
   font-size: 30px;
 }
 .Home .btn__contact {
+  width: 300px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  font-weight: bold;
+  background-color: #1093EB;
+  font-size: 23px;
+  color: #fff;
+  border-radius: 10px;
+  border: solid #1093EB;
+  cursor: pointer;
   width: 300px;
   height: 60px;
   display: flex;
@@ -413,6 +453,19 @@ html, body {
   border: solid #1093EB;
   cursor: pointer;
   margin-bottom: 20px;
+  width: 300px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  font-weight: bold;
+  background-color: #1093EB;
+  font-size: 23px;
+  color: #fff;
+  border-radius: 10px;
+  border: solid #1093EB;
+  cursor: pointer;
   transition: transform 200ms ease-in-out, opacity 200ms ease-in-out;
 }
 .Home .blockServices__subService--cart .btn__subService:hover {
@@ -678,14 +731,52 @@ html, body {
   background-color: #F1F6F6;
 }
 
+.containerContact {
+  width: 100%;
+  display: flex;
+  flex-direction: row-reverse;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 50px;
+  margin-top: 100px;
+  padding-bottom: 50px;
+  padding: 50px;
+}
+.containerContact i {
+  transition: transform 200ms ease-in-out;
+}
+.containerContact i:hover {
+  color: #1093EB;
+  transform: scale(1.3);
+}
 .containerContact .iconLock {
   width: 100%;
   display: flex;
   justify-content: center;
-  background-color: #dc3545;
   color: white;
   font-weight: bold;
   border-radius: 10px;
+  cursor: pointer;
+  width: 300px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  font-weight: bold;
+  background-color: #1093EB;
+  font-size: 23px;
+  color: #fff;
+  border-radius: 10px;
+  border: solid #1093EB;
+  cursor: pointer;
+  transition: transform 200ms ease-in-out, opacity 200ms ease-in-out;
+  width: 100%;
+  background-color: #dc3545;
+  border-color: #dc3545;
+}
+.containerContact .iconLock:hover {
+  transform: scale(1.1);
 }
 .containerContact .titleForm {
   width: 100%;
@@ -696,6 +787,116 @@ html, body {
   margin-top: 50px;
   margin-left: 30px;
   margin-bottom: 50px;
+}
+.containerContact .serviceItem {
+  width: 100%;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  padding: 20px;
+  border: solid 2px #1093EB;
+  border-radius: 10px;
+}
+.containerContact .serviceItem__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.containerContact .serviceItem__header .espace {
+  width: 33.33%;
+}
+.containerContact .serviceItem__header .serviceItem__header--titleService {
+  width: 33.33%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  font-weight: bold;
+  color: #1093EB;
+}
+.containerContact .serviceItem__btnAdd {
+  width: 33.33%;
+  display: flex;
+  justify-content: end;
+}
+.containerContact .serviceItem__btnAdd p {
+  border: solid 2px #1093EB;
+  width: 300px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  font-weight: bold;
+  background-color: #1093EB;
+  font-size: 23px;
+  color: #fff;
+  border-radius: 10px;
+  border: solid #1093EB;
+  cursor: pointer;
+  width: 300px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  font-weight: bold;
+  background-color: #1093EB;
+  font-size: 23px;
+  color: #fff;
+  border-radius: 10px;
+  border: solid #1093EB;
+  cursor: pointer;
+  transition: transform 200ms ease-in-out, opacity 200ms ease-in-out;
+  width: 150px;
+  font-size: 18px;
+}
+.containerContact .serviceItem__btnAdd p i {
+  margin-inline: 10px;
+  position: relative;
+  top: -5px;
+}
+.containerContact .serviceItem__btnAdd p:hover {
+  transform: scale(1.1);
+}
+.containerContact .serviceItem__titleService {
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+  color: #1093EB;
+  margin-bottom: 20px;
+}
+.containerContact .serviceItem__item {
+  font-size: 13px;
+}
+.containerContact .serviceItem__item--service {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: solid 2px #1093EB;
+}
+.containerContact .serviceItem__item--service .service {
+  width: 10%;
+  text-align: start;
+}
+.containerContact .serviceItem__item--service .serviceEqual {
+  width: 25%;
+  text-align: start;
+}
+.containerContact .serviceItem__item--service span {
+  font-size: 15px;
+  font-weight: bold;
+  color: #1093EB;
+}
+.containerContact .serviceItem__item--service .tdIcons {
+  width: 10%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.containerContact .serviceItem__item--service .tdIcons i {
+  font-size: 15px;
+  cursor: pointer;
 }
 .containerContact .Contact {
   width: 50%;
@@ -770,6 +971,23 @@ html, body {
   border: solid #1093EB;
   cursor: pointer;
   /* Assurez-vous que cette mixin est bien définie */
+  width: 300px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  font-weight: bold;
+  background-color: #1093EB;
+  font-size: 23px;
+  color: #fff;
+  border-radius: 10px;
+  border: solid #1093EB;
+  cursor: pointer;
+  transition: transform 200ms ease-in-out, opacity 200ms ease-in-out;
+}
+.containerContact .Contact .form-group button:hover {
+  transform: scale(1.1);
 }
 .containerContact .Contact .form-group .error-field {
   border-color: #dc3545;
@@ -778,6 +996,38 @@ html, body {
 .containerContact .Contact .form-group .error {
   color: #dc3545;
   font-size: 12px;
+}
+.containerContact .btn__contact {
+  width: 300px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  font-weight: bold;
+  background-color: #1093EB;
+  font-size: 23px;
+  color: #fff;
+  border-radius: 10px;
+  border: solid #1093EB;
+  cursor: pointer;
+  width: 300px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  font-weight: bold;
+  background-color: #1093EB;
+  font-size: 23px;
+  color: #fff;
+  border-radius: 10px;
+  border: solid #1093EB;
+  cursor: pointer;
+  transition: transform 200ms ease-in-out, opacity 200ms ease-in-out;
+}
+.containerContact .btn__contact:hover {
+  transform: scale(1.1);
 }
 .containerContact .containerContact__im {
   width: 50%;
@@ -1100,15 +1350,23 @@ html, body {
   transform: translateY(-100px); /* Contenu déplacé vers le haut */
   transition: opacity 300ms ease-in-out, transform 400ms ease-in-out; /* Transition sur l'opacité et la position */
 }
+.Dashboard i {
+  transition: transform 200ms ease-in-out;
+}
+.Dashboard i:hover {
+  color: #1093EB;
+  transform: scale(1.3);
+}
 .Dashboard__globalMenu {
   width: 100%;
-  height: 100px;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   flex-wrap: wrap;
   border-radius: 10px;
   background-color: #fff;
-  padding-inline: 20px;
+  padding: 20px;
+  padding-bottom: 40px;
 }
 .Dashboard__globalMenu .DashboardBtn {
   width: 200px;
@@ -1194,66 +1452,13 @@ html, body {
 
 .GetChantiers {
   width: 100%;
-  position: relative;
 }
-.GetChantiers__table {
-  width: 100%;
-  margin-top: 50px;
-  margin-bottom: 50px;
-  border-collapse: collapse;
-  border: solid 2px #1093EB;
+.GetChantiers i {
+  transition: transform 200ms ease-in-out;
 }
-.GetChantiers__table th {
-  border: solid 2px #1093EB;
-  padding: 10px;
-  text-align: center;
-}
-.GetChantiers__table td {
-  border: solid 2px #1093EB;
-  padding: 10px;
-  text-align: center;
-}
-.GetChantiers__table td .tdIcons {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-}
-.GetChantiers__table td .tdIcons i {
-  font-size: 15px;
-  cursor: pointer;
-}
-.GetChantiers .containerPage {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.GetChantiers .containerPage .choiceNomberLine {
-  width: 95%;
-}
-.GetChantiers .containerPage .choiceNomberLine label {
-  font-size: 18px;
-  font-weight: bold;
-  margin-right: 10px;
-}
-.GetChantiers .containerPage .choiceNomberLine input {
-  width: 50px;
-  height: 30px;
-  border: solid 2px #1093EB;
-  text-align: center;
-  font-size: 18px;
-  font-weight: bold;
-}
-.GetChantiers .containerPage .btnNextPrev {
-  width: 100px;
-  margin: auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.GetChantiers .containerPage .btnNextPrev i {
-  font-size: 30px;
-  cursor: pointer;
+.GetChantiers i:hover {
+  color: #1093EB;
+  transform: scale(1.3);
 }
 
 * {
@@ -1273,6 +1478,13 @@ html, body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+.InputFormSearchFilter__filterBtn i {
+  transition: transform 200ms ease-in-out;
+}
+.InputFormSearchFilter__filterBtn i:hover {
+  color: #1093EB;
+  transform: scale(1.3);
 }
 .InputFormSearchFilter__filterBtn--search {
   width: 30%;
@@ -1343,16 +1555,126 @@ html, body {
   cursor: pointer;
   /* Assurez-vous que cette mixin est bien définie */
   font-size: 18px;
+  width: 300px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  font-weight: bold;
+  background-color: #1093EB;
+  font-size: 23px;
+  color: #fff;
+  border-radius: 10px;
+  border: solid #1093EB;
+  cursor: pointer;
   transition: transform 200ms ease-in-out, opacity 200ms ease-in-out;
 }
 .InputFormSearchFilter__filterBtn button:hover {
-  background-color: #1093EB;
-  border: solid #1093EB;
-  color: #fff;
   transform: scale(1.1);
 }
 .InputFormSearchFilter__filterBtn button i {
   margin-right: 20px;
+}
+
+* {
+  font-family: "Open Sans", sans-serif;
+}
+
+html, body {
+  background-color: #F1F6F6;
+  margin: 0;
+  padding: 0;
+}
+
+.containerPage {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.containerPage .choiceNomberLine {
+  width: 95%;
+}
+.containerPage .choiceNomberLine label {
+  font-size: 18px;
+  font-weight: bold;
+  margin-right: 10px;
+}
+.containerPage .choiceNomberLine input {
+  width: 50px;
+  height: 30px;
+  border: solid 2px #1093EB;
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+}
+.containerPage .btnNextPrev {
+  width: 100px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.containerPage .btnNextPrev i {
+  font-size: 30px;
+  cursor: pointer;
+}
+
+* {
+  font-family: "Open Sans", sans-serif;
+}
+
+html, body {
+  background-color: #F1F6F6;
+  margin: 0;
+  padding: 0;
+}
+
+table {
+  width: 100%;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  border-collapse: collapse;
+  border: solid 2px #1093EB;
+}
+table .btnChantier {
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-inline: 5px;
+  border: solid 2px #1093EB;
+  color: #fff;
+  background-color: #1093EB;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 200ms ease-in-out;
+}
+table .btnChantier:hover {
+  transform: scale(1.1);
+}
+table th {
+  border: solid 2px #1093EB;
+  padding: 10px;
+  text-align: center;
+  font-size: 13px;
+}
+table td {
+  border: solid 2px #1093EB;
+  padding: 5px;
+  text-align: center;
+  font-size: 13px;
+}
+table td .tdIcons {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+table td .tdIcons i {
+  font-size: 15px;
+  cursor: pointer;
 }
 
 /*# sourceMappingURL=index.css.map */

@@ -31,7 +31,10 @@
     transform: translateY(-100px); /* Contenu déplacé vers le haut */
     transition: opacity 300ms ease-in-out, transform 400ms ease-in-out; /* Transition sur l'opacité et la position */
 
-   
+    i{
+        @include animationIcons();
+    }
+    
     .blockH1{
         width: 100%;
         //height: 50px;
@@ -73,11 +76,7 @@
     .btn__contact{
         
         @include btnContact();
-        transition: transform 200ms ease-in-out , opacity 200ms ease-in-out;
-        &:hover{
-            transform: scale(1.1);
-            //opacity: 0.8;
-        }
+        @include animationBtn();
     }
 
     .H2__title{
@@ -161,11 +160,7 @@
                     //margin-top: $margintopSection;
                     margin-bottom: 20px;
 
-                    transition: transform 200ms ease-in-out , opacity 200ms ease-in-out;
-                    &:hover{
-                        transform: scale(1.1);
-                        //opacity: 0.8;
-                    }
+                    @include animationBtn();
                     
                 }
     

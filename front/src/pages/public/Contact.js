@@ -4,42 +4,108 @@ import {  useNavigate, useLocation } from "react-router-dom";
 
 
 import { createUser } from '../admin/user/SliceUser';
+import { GetUsers } from '../admin/user';
+import { addChantier } from '../admin/chantier/SliceChantier';
 import contactimg from '../../images/contactimg.png';
+import { getChantiers } from '../admin/chantier/SliceChantier';
+import { updateUser } from '../admin/user/SliceUser';
+import { updateChantier } from '../admin/chantier/SliceChantier';
 
 
-const Contact = ({chantierChoice, setactionsTable, closeModalContact}) => {
+
+
+const Contact = ({allChantiers, itemUpdateChoice, setItemUpdateChoice, 
+      component,setShowItemUser, setShowContactSearchFilter
+     
+}) => {  
 
     const location = useLocation();
 
     const navigate = useNavigate();
 
-    console.log("***chantierChoice dans Contact", chantierChoice);
+    // console.log("***itemUpdateChoice dans Contact", itemUpdateChoice);
 
     const dispatch = useDispatch();
-    const userStore = useSelector((state) => state.auth);
+    // const userStore = useSelector((state) => state.auth);
 
-    console.log("userStore dans Contact", userStore);
+    // console.log("userStore dans Contact", userStore);
 
     // State pour stocker les valeurs du formulaire
     const [formData, setFormData] = useState({
-        nom: chantierChoice && chantierChoice.nom ? chantierChoice.nom : '',
-        prenom: chantierChoice && chantierChoice.prenom ? chantierChoice.prenom : '',
-        email: chantierChoice && chantierChoice.email ? chantierChoice.email : '',
-        tel: chantierChoice && chantierChoice.tel ? chantierChoice.tel : '',
-        service: chantierChoice && chantierChoice.service ? chantierChoice.service : '',
-        besoin: chantierChoice && chantierChoice.besoin ? chantierChoice.besoin : '',
-        dateAppel: chantierChoice && chantierChoice.dateAppel ? chantierChoice.dateAppel : '',
-        heureAppel: chantierChoice && chantierChoice.heureAppel ? chantierChoice.heureAppel : '',
-        genre: chantierChoice && chantierChoice.genre ? chantierChoice.genre : '',
-        typeClient: chantierChoice && chantierChoice.typeClient ? chantierChoice.typeClient : '',
-        codePostal: chantierChoice && chantierChoice.codePostal ? chantierChoice.codePostal : '',
-        region: chantierChoice && chantierChoice.region ? chantierChoice.region : '',
-        ville: chantierChoice && chantierChoice.ville ? chantierChoice.ville : '',
-        adresse: chantierChoice && chantierChoice.adresse ? chantierChoice.adresse : '',
-        password: chantierChoice && chantierChoice.password ? chantierChoice.password : '',
-        age: chantierChoice && chantierChoice.age ? chantierChoice.age : '',
-        role: chantierChoice && chantierChoice.role ? chantierChoice.role : ''
+        nom: itemUpdateChoice && itemUpdateChoice.nom ? itemUpdateChoice.nom : null,
+        prenom: itemUpdateChoice && itemUpdateChoice.prenom ? itemUpdateChoice.prenom : null,
+        email: itemUpdateChoice && itemUpdateChoice.email ? itemUpdateChoice.email : null,
+        tel: itemUpdateChoice && itemUpdateChoice.tel ? itemUpdateChoice.tel : null,
+        service: itemUpdateChoice && itemUpdateChoice.service ? itemUpdateChoice.service : null,
+        besoin: itemUpdateChoice && itemUpdateChoice.besoin ? itemUpdateChoice.besoin : null,
+        dateAppel: itemUpdateChoice && itemUpdateChoice.dateAppel ? itemUpdateChoice.dateAppel : null,
+        heureAppel: itemUpdateChoice && itemUpdateChoice.heureAppel ? itemUpdateChoice.heureAppel : null,
+        genre: itemUpdateChoice && itemUpdateChoice.genre ? itemUpdateChoice.genre : null,
+        typeClient: itemUpdateChoice && itemUpdateChoice.typeClient ? itemUpdateChoice.typeClient : 'Particulier',
+        codePostal: itemUpdateChoice && itemUpdateChoice.codePostal ? itemUpdateChoice.codePostal : null,
+        region: itemUpdateChoice && itemUpdateChoice.region ? itemUpdateChoice.region : null,
+        ville: itemUpdateChoice && itemUpdateChoice.ville ? itemUpdateChoice.ville : null,
+        adresse: itemUpdateChoice && itemUpdateChoice.adresse ? itemUpdateChoice.adresse : null,
+        password: itemUpdateChoice && itemUpdateChoice.password ? itemUpdateChoice.password : null,
+        age: itemUpdateChoice && itemUpdateChoice.age ? itemUpdateChoice.age : null,
+        role: itemUpdateChoice && itemUpdateChoice.role ? itemUpdateChoice.role : 'Client',
+        id: itemUpdateChoice && itemUpdateChoice.Users_id ? parseInt(itemUpdateChoice.Users_id) : null,
+        status: itemUpdateChoice && itemUpdateChoice.status ? itemUpdateChoice.status : null,
+        prix: itemUpdateChoice && itemUpdateChoice.prix ? itemUpdateChoice.prix : null,
+        datePrestation : itemUpdateChoice && itemUpdateChoice.datePrestation ? itemUpdateChoice.datePrestation : null,
+        heurePrestation : itemUpdateChoice && itemUpdateChoice.heurePrestation ? itemUpdateChoice.heurePrestation : null,
+        infoComplementaire : itemUpdateChoice && itemUpdateChoice.infoComplementaire ? itemUpdateChoice.infoComplementaire : null,
+        prestataire : itemUpdateChoice && itemUpdateChoice.prestataire ? itemUpdateChoice.prestataire : null,
+        // userCreatorId : itemUpdateChoice && itemUpdateChoice.userCreatorId ? itemUpdateChoice.userCreatorId : null,
+        nombrePlaces : itemUpdateChoice && itemUpdateChoice.nombrePlaces ? itemUpdateChoice.nombrePlaces : null,
+        
+        Users_id : itemUpdateChoice && itemUpdateChoice.Users_id ? parseInt(itemUpdateChoice.Users_id) : null,
+
     });
+
+    //fonction de reinitialisation des champs du formulaire
+    const resetFormDatas = () => {
+
+        console.log("****resetFormDatas");
+
+            setFormData({
+                nom: null,
+                prenom: null,
+                email: null,
+                tel: null,
+                service: null,
+                besoin: null,
+                dateAppel: null,
+                heureAppel: null,
+                genre: null,
+                typeClient: null,
+                codePostal: null,
+                region: null,
+                ville: null,
+                adresse: null,
+                password: null,
+                age: null,
+                role: null,
+
+                status: null,
+                prix: null,
+                datePrestation: null,
+                heurePrestation: null,
+                infoComplementaire: null,
+                prestataire: null,
+                userCreatorId: null,
+                nombrePlaces: null,
+                // userCreatorId : null,
+
+            });
+
+
+            setTouchedFields({});
+            setErrors({});
+
+
+        };
+
 
     // State pour stocker les erreurs de validation
     const [errors, setErrors] = useState({});
@@ -48,14 +114,31 @@ const Contact = ({chantierChoice, setactionsTable, closeModalContact}) => {
     const [touchedFields, setTouchedFields] = useState({});
 
     //gestion du state de l'affichage des bons éléments
-    let [inputIsVisible, setInputIsVisible] = useState(false);
+    let [isDashboard, setIsDashboard] = useState(false);
+
+    //gestion de l'affichage des champs pour les chantiers et utilisateurs
+    let [valComponentExist, setValComponentExist] = useState("");
+
+    //gestion du state de la liste des doublons de chantiers
+    let [doublonsChantiers, setDoublonsChantiers] = useState([]);
+
+    //gestion du state d'ajout de service ou de chantier ou d'utilisateur quand on est dans le dashboard
+    let [ createUserChantier, setCreateUserChantier ] = useState({
+        isAddchantier: false,
+        isAddUser: false,
+    });
+
+    
+        
 
     // Fonction de gestion des changements dans les champs du formulaire
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({
             ...formData,
-            [name]: value
+            [name]: value,
+            id: (itemUpdateChoice && itemUpdateChoice.id && valComponentExist  )? parseInt(itemUpdateChoice.id) : '',
+            Users_id: (itemUpdateChoice && itemUpdateChoice.Users_id && valComponentExist ) ? parseInt(itemUpdateChoice.Users_id) : '',
         });
 
         // Enlève l'erreur pour le champ concerné
@@ -75,95 +158,208 @@ const Contact = ({chantierChoice, setactionsTable, closeModalContact}) => {
 
     // Validation des champs
     const validateForm = () => {
+
         let formErrors = {};
         let isValid = true;
 
         if (!formData.nom) {
             isValid = false;
             formErrors.nom = "Le nom est requis.";
+
+            console.log("****formErrors.nom", formErrors.nom);
         }
 
         if (!formData.prenom) {
             isValid = false;
             formErrors.prenom = "Le prénom est requis.";
+
+            console.log("****formErrors.prenom", formErrors.prenom);
         }
 
-        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!formData.email || !emailPattern.test(formData.email)) {
-            isValid = false;
-            formErrors.email = "Un email valide est requis.";
+        
+        if(isDashboard && valComponentExist === "GetUsers"){
+
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            if (!formData.email || !emailPattern.test(formData.email)) {
+                isValid = false;
+                formErrors.email = "Un email valide est requis.";
+
+                console.log("****emailPattern", emailPattern);
+            }
+
+            if (!formData.password) {
+                isValid = false;
+                formErrors.password = "Le mot de passe est requis.";
+
+                console.log("****form Errors password", formErrors.password);
+            }
+
+
+            if (!formData.role) {
+                isValid = false;
+                formErrors.role = "Veuillez sélectionner un rôle.";
+
+                console.log("****form Errors role", formErrors.role);
+            }
+
+            if (!formData.typeClient) {
+                isValid = false;
+                formErrors.typeClient = "Veuillez sélectionner le type de client.";
+            
+                console.log("****form Errors typeClient", formErrors.typeClient);
+            
+            }
+
+            if (!formData.genre) {
+                isValid = false;
+                formErrors.genre = "Veuillez sélectionner votre genre.";
+
+                console.log("****form Errors genre", formErrors.genre);
+            }
+
+            if (!formData.codePostal) {
+                isValid = false;
+                formErrors.codePostal = "Le code postal est requis.";
+
+                console.log("****form Errors codePostal", formErrors.codePostal);
+            }
+    
+            if (!formData.region) {
+                isValid = false;
+                formErrors.region = "La région est requise.";
+
+                console.log("****form Errors region", formErrors.region);
+            }
+
+            if (!formData.age || isNaN(formData.age)) {
+                isValid = false;
+                formErrors.age = "Veuillez entrer un âge valide.";
+
+                console.log("****form Errors age", formErrors.age);
+            }
+
+            //////////////////
+
         }
 
-        const telPattern = /^\d{10,15}$/;
-        if (!formData.tel || !telPattern.test(formData.tel)) {
-            isValid = false;
-            formErrors.tel = "Un numéro de téléphone valide est requis (10 chiffres).";
+        //validation des champs qui sont présent dans les chantiers et les utilisateurs
+        if(!valComponentExist || (valComponentExist === "GetChantiers" || valComponentExist === "GetUsers") ){
+            
+            const telPattern = /^\d{10,15}$/;
+            if (!formData.tel || !telPattern.test(formData.tel)) {
+                isValid = false;
+                formErrors.tel = "Un numéro de téléphone valide est requis (10 chiffres).";
+
+                console.log("****formErrors.tel", formErrors.tel);
+            }
+
+            if (!formData.ville) {
+                isValid = false;
+                formErrors.ville = "La ville est requise.";
+
+                console.log("****formErrors.ville", formErrors.ville);
+            }
+
+            if (!formData.adresse) {
+                isValid = false;
+                formErrors.adresse = "L'adresse est requise.";
+
+                console.log("****formErrors.adresse", formErrors.adresse);
+            }
+
         }
 
-        if (!formData.service) {
-            isValid = false;
-            formErrors.service = "Veuillez sélectionner un service.";
+
+        //validation des champs pour les chantiers qui sont présent uniquement dans le chantier
+        if(!valComponentExist || valComponentExist === "GetChantiers" ){
+        
+
+            if (!formData.service) {
+                isValid = false;
+                formErrors.service = "Veuillez sélectionner un service.";
+
+                console.log("****formErrors.service", formErrors.service);
+            }
+
+            if (!formData.besoin) {
+                isValid = false;
+                formErrors.besoin = "Veuillez fournir plus de détails sur votre besoin.";
+
+                console.log("****formErrors.besoin", formErrors.besoin);
+            }
+
+            if (!formData.dateAppel) {
+                isValid = false;
+                formErrors.dateAppel = "Veuillez choisir une date.";
+
+                console.log("****formErrors.dateAppel", formErrors.dateAppel);
+            }
+
+            if (!formData.heureAppel) {
+                isValid = false;
+                formErrors.heureAppel = "Veuillez indiquer une heure pour vous appeler.";
+
+                console.log("****formErrors.heureAppel", formErrors.heureAppel);
+            }
+
+            if (!formData.status) {
+                isValid = false;
+                formErrors.status = "Veuillez sélectionner un statut.";
+
+                console.log("****formErrors.status", formErrors.status);
+            }
+
+            if (!formData.prix || isNaN(formData.prix)) {
+                isValid = false;
+                formErrors.prix = "Veuillez entrer un prix valide.";
+
+                console.log("****formErrors.prix", formErrors.prix);
+            }
+
+            if (!formData.datePrestation) {
+                isValid = false;
+                formErrors.datePrestation = "Veuillez choisir une date de prestation.";
+
+                console.log("****formErrors.datePrestation", formErrors.datePrestation);
+            }
+
+            if (!formData.heurePrestation) {
+                isValid = false;
+                formErrors.heurePrestation = "Veuillez indiquer une heure de prestation.";
+
+                console.log("****formErrors.heurePrestation", formErrors.heurePrestation);
+            }
+
+            if (!formData.infoComplementaire) {
+                isValid = false;
+                formErrors.infoComplementaire = "Veuillez fournir des informations complémentaires.";
+
+                console.log("****formErrors.infoComplementaire", formErrors.infoComplementaire);
+            }
+
+            if (!formData.prestataire) {
+                isValid = false;
+                formErrors.prestataire = "Le prestataire est requis.";
+
+                console.log("****formErrors.prestataire", formErrors.prestataire);
+            }
+
+            if (!formData.nombrePlaces || isNaN(formData.nombrePlaces)) {
+                isValid = false;
+                formErrors.nombrePlaces = "Veuillez entrer un nombre de places valide.";
+
+                console.log("****formErrors.nombrePlaces", formErrors.nombrePlaces);
+
+            }
+
         }
 
-        if (!formData.besoin) {
+        /*
+        if (!formData.userCreatorId) {
             isValid = false;
-            formErrors.besoin = "Veuillez fournir plus de détails sur votre besoin.";
-        }
-
-        if (!formData.dateAppel) {
-            isValid = false;
-            formErrors.dateAppel = "Veuillez choisir une date.";
-        }
-
-        if (!formData.heureAppel) {
-            isValid = false;
-            formErrors.heureAppel = "Veuillez indiquer une heure pour vous appeler.";
-        }
-
-        if (!formData.genre) {
-            isValid = false;
-            formErrors.genre = "Veuillez sélectionner votre genre.";
-        }
-
-        if (!formData.typeClient) {
-            isValid = false;
-            formErrors.typeClient = "Veuillez sélectionner le type de client.";
-        }
-
-        if (!formData.codePostal) {
-            isValid = false;
-            formErrors.codePostal = "Le code postal est requis.";
-        }
-
-        if (!formData.region) {
-            isValid = false;
-            formErrors.region = "La région est requise.";
-        }
-
-        if (!formData.ville) {
-            isValid = false;
-            formErrors.ville = "La ville est requise.";
-        }
-
-        if (!formData.adresse) {
-            isValid = false;
-            formErrors.adresse = "L'adresse est requise.";
-        }
-
-        if (!formData.password) {
-            isValid = false;
-            formErrors.password = "Le mot de passe est requis.";
-        }
-
-        if (!formData.age || isNaN(formData.age)) {
-            isValid = false;
-            formErrors.age = "Veuillez entrer un âge valide.";
-        }
-
-        if (!formData.role) {
-            isValid = false;
-            formErrors.role = "Veuillez sélectionner un rôle.";
-        }
+            formErrors.userCreatorId = "L'identifiant de l'utilisateur est requis.";
+        }*/
 
         setErrors(formErrors);
         return isValid;
@@ -171,41 +367,102 @@ const Contact = ({chantierChoice, setactionsTable, closeModalContact}) => {
 
     // Gestion de la soumission du formulaire
     const handleSubmit = (e) => {
+
         e.preventDefault();
 
-        if (validateForm()) {
+        
+         
+        // if (validateForm() ) {   
+
             console.log("Formulaire envoyé avec succès", formData);
 
-            dispatch(createUser(formData));
+            //création d'un utilisateur si on est pas dans le dashboard
+            if( isDashboard === false || (isDashboard && createUserChantier.isAddUser ) ){
 
-            // Réinitialise le formulaire après la soumission réussie
-            setFormData({
-                nom: '',
-                prenom: '',
-                email: '',
-                tel: '',
-                service: '',
-                besoin: '',
-                dateAppel: '',
-                heureAppel: '',
-                genre: '',
-                typeClient: '',
-                codePostal: '',
-                region: '',
-                ville: '',
-                adresse: '',
-                password: '',
-                age: '',
-                role: ''
-            });
+                console.log("****creation de l'utilisateur dans Contact");
 
-            setTouchedFields({});
+                dispatch(createUser(formData));
 
-            setErrors({});
-        } else {
-            console.log("****Formulaire non valide");
-        }
+                setCreateUserChantier({
+                    isAddchantier: false,
+                    isAddUser: false,
+                });
+
+            }else if( valComponentExist === "GetUsers"  ){  //mise à jour d'un utilisateur
+
+                console.log("****modification de l'utilisateur dans Contact");
+
+                
+
+                console.log("***formData dans Contact", formData);
+
+                if(formData.id){
+
+                    dispatch(updateUser(formData));
+                    
+                }else{
+
+                    console.log("Erreur dans la récupération de l'id de l'utilisateur");
+                }
+
+                setCreateUserChantier({
+                    isAddchantier: false,
+                    isAddUser: false,
+                });
+
+            }else if(valComponentExist === "GetChantiers" && (isDashboard && createUserChantier.isAddchantier === false )){  //mise à jour d'un chantier
+
+                console.log("****Modification du chantier dans Contact");
+
+                console.log("***formData dans Contact", formData);
+
+                if(formData.id){
+
+                    dispatch(updateChantier(formData));
+
+                }else{
+
+                    console.log("Erreur dans la récupération de l'id du chantier");
+                }
+
+                setCreateUserChantier({
+                    isAddchantier: false,
+                    isAddUser: false,
+                });
+
+            }else if(valComponentExist === "GetChantiers" && (isDashboard && createUserChantier.isAddchantier )){  //création d'un chantier quand on est dans le dashboard
+
+                console.log("****Création du chantier dans Contact");
+
+                console.log("***formData dans Contact", formData);
+
+                dispatch(addChantier(formData));
+
+                setCreateUserChantier({
+                    isAddchantier: false,
+                    isAddUser: false,
+                });
+
+            }
+
+            console.log("****formulaire soumis avec succès");
+
+            //déclenchement de l'effet pour récupérer les données du dashboard
+            //setExecuteUseEffectFetchDashboard(prev => !prev);  //ici on inverse la valeur de prev pour déclencher l'effet ainsi elle change à chaque fois qu'on clique sur le bouton
+
+            //resetFormDatas();
+            
+
+        // } else {
+
+        //     console.log("****Formulaire non valide");
+
+
+        // }
     };
+
+    console.log("**itemUpdateChoice dans Contact", itemUpdateChoice); 
+    console.log("valComponentExist", valComponentExist);
 
     // Style dynamique pour les champs en erreur
     const getInputStyle = (fieldName) => {
@@ -219,13 +476,22 @@ const Contact = ({chantierChoice, setactionsTable, closeModalContact}) => {
 
         if(location.pathname.includes("/admin/dashboard") ){
            
-            setInputIsVisible(true);
+            setIsDashboard(true);
+            
+            if(component.length > 0){
+
+                setValComponentExist(component);
+            }
+
 
         }else{
-            setInputIsVisible(false);
+            setIsDashboard(false);
         }
 
     } , [ location.pathname ]);
+
+    // console.log("isDashboard dans Contact", isDashboard);
+    // console.log("valComponentExist dans Contact", valComponentExist);
 
     //fonction de fermeture de la fenêtre modale
     // const closeModal = () => {
@@ -233,47 +499,235 @@ const Contact = ({chantierChoice, setactionsTable, closeModalContact}) => {
        
     // };
    
+    const statusChantier = ["Fait", "Abandonner", "Relancer", "Prospect", "Appeler", "Qualifier", "NonConverti", "En cours"];
+    
+    // Fonction pour afficher les statuts
+    const displayStatus = (status) => {
+        switch (status) {
+            case "Fait": return "Fait";
+            case "Abandonner": return "Abandonner";
+            case "Relancer": return "Relancer";
+            case "Prospect": return "Prospect";
+            case "Appeler": return "Appeler";
+            case "Qualifier": return "Qualifier";
+            case "NonConverti": return "Non converti";
+            case "Encours": return "En cours";
+            default: return "Inconnu";
+        }
+    };
+    
+    //récupération de tous les doublons de allChantiers qui ont le même id que le itemUpdateChoice
+    useEffect(() => {
+
+        if( (allChantiers && allChantiers.length > 0) && itemUpdateChoice && itemUpdateChoice.id){
+            
+            // console.log("allChantiers dans Contact", allChantiers);
+            // console.log("itemUpdateChoice dans Contact", itemUpdateChoice);
+
+            //retrait des objets undefined ou null dans allChantiers
+            allChantiers = allChantiers.filter((item) => item !== null && item !== undefined);
+
+            const listeDoublonChantiers = allChantiers.filter((item) => item.Users_id === itemUpdateChoice.Users_id  && (item.status !== "Fait" && item.status !== "Abandonner" ));
+            
+            console.log("listeDoublonChantiers dans Contact", listeDoublonChantiers);
+
+            setDoublonsChantiers(listeDoublonChantiers);
+
+        }
+
+    }, [allChantiers, itemUpdateChoice]);
+    
+    // console.log("doublonsChantiers dans Contact", doublonsChantiers);
+
+    // Fonction pour gérer les actions de chaque ligne
+    const actionsLineTable = (item, choice) => {
+
+        console.log("item choice dans Contact", item);
+
+        
+        if (choice === "modifier") {
+
+            setItemUpdateChoice(item);
+
+
+            //setModalContact(true);
+            //closeModalContact();
+            
+
+            // setFormData({itemUpdateChoice});
+
+
+        } else if (choice === "telecharger") {
+           
+            // setactionsTable({
+            //     telecharger: !actionsTable.telecharger,
+            //     modifier: false,
+            //     supprimer: false,
+            // });
+
+            //setFormData({item});
+
+        } else if (choice === "supprimer") {
+            
+            // setactionsTable({
+            //     telecharger: false,
+            //     modifier: false,
+            //     supprimer: !actionsTable.supprimer,
+            // });
+
+        }
+
+    };
+
+    //mise à jour du state formData si itemUpdateChoice est modifié
+    useEffect(() => {
+
+        if (itemUpdateChoice && itemUpdateChoice.id) {
+
+            //utilisation du callback pour éviter une boucle infinie ainsi on compare les anciennes valeurs avec les nouvelles valeurs si c'est différent on met à jour le state si non on retourne les anciennes valeurs
+            setFormData((prevFormData) => {
+
+                if (JSON.stringify(prevFormData) !== JSON.stringify(itemUpdateChoice)) {
+                    return {
+                        ...formData,
+                        nom: itemUpdateChoice.nom, // || '',
+                        prenom: itemUpdateChoice.prenom, // || '',
+                        email: itemUpdateChoice.email, // || '',
+                        tel: itemUpdateChoice.tel, // || '',
+                        service: itemUpdateChoice.service, // || '',
+                        besoin: itemUpdateChoice.besoin, // || '',
+                        dateAppel: itemUpdateChoice.dateAppel,// || ''
+                        heureAppel: itemUpdateChoice.heureAppel ,// || ''
+                        genre: itemUpdateChoice.genre, // || '',
+                        typeClient: itemUpdateChoice.typeClient || 'Particulier',
+                        codePostal: itemUpdateChoice.codePostal,// || ''
+                        region: itemUpdateChoice.region || '',
+                        ville: itemUpdateChoice.ville ,// || ''
+                        adresse: itemUpdateChoice.adresse ,// || ''
+                        password: itemUpdateChoice.password ,// || ''
+                        age: itemUpdateChoice.age,// || ''
+                        role: itemUpdateChoice.role,// || ''
+                        status: itemUpdateChoice.status,// || ''
+                        prix: itemUpdateChoice.prix,// || ''
+                        datePrestation: itemUpdateChoice.datePrestation,// || '',
+                        heurePrestation: itemUpdateChoice.heurePrestation ,//|| '',
+                        infoComplementaire: itemUpdateChoice.infoComplementaire || '',
+                        prestataire: itemUpdateChoice.prestataire,// || ''
+                        nombrePlaces: itemUpdateChoice.nombrePlaces,// || ''
+                        // userCreatorId: itemUpdateChoice.userCreatorId,// || ''
+                    };
+                }
+                return prevFormData;
+
+            });
+
+
+        }
+
+    }, [itemUpdateChoice]);
+    
+
+    // console.log("formData dans Contact", formData);
+
+    const listeEnteteServices = ["Service", "Status", "Prix", "Date", "Heure", "Prestataire"];
+
+    //réinitialisation des champs du formulaire en cliquant sur le bouton ajouter chantier
+    const resetForm = (choice) => {
+
+        console.log("choice dans resetForm", choice);
+        
+        if(choice === "chantier"){
+
+            setCreateUserChantier({
+                isAddchantier: true,
+                isAddUser: false,
+            });
+
+        }else if(choice === "user"){
+
+            setCreateUserChantier({
+                isAddchantier: false,
+                isAddUser: true,
+            });
+        }
+
+        setFormData(prevFormData => ({
+            ...prevFormData,  // Conservation des valeurs actuelles
+            service: null,    // Réinitialise uniquement les champs spécifiques
+            besoin: null,
+            dateAppel: null,
+            heureAppel: null,
+            status: 'Prospect',  // Réinitialiser certains champs à des valeurs par défaut
+            prix: null,
+            datePrestation: null,
+            heurePrestation: null,
+            infoComplementaire: null,
+            prestataire: null,
+            nombrePlaces: null,
+        }));
+
+        setErrors({});
+
+        console.log("***itemUpdateChoice dans resetForm", itemUpdateChoice);
+       
+
+        // console.log("allChantiers dans Contact", allChantiers);
+    };
+
+    console.log("formData dans Contact", formData);
+
+    
 
     return (
      
             
             <div className="containerContact"
             
-            style={{ 
+            // style={{ 
                
-                width: "100%",
-                display: "flex",
-                flexDirection: "rowReverse",
-                flexWrap: "wrap",
-                justifyContent: "center",
-                marginBottom: "50px",
-                marginTop: "100px",
+            //     width: "100%",
+            //     display: "flex",
+            //     flexDirection: "rowReverse",
+            //     flexWrap: "wrap",
+            //     justifyContent: "center",
+            //     marginBottom: "50px",
+            //     marginTop: "100px",
 
-                position: inputIsVisible && "relative",
+            //     position: inputIsVisible && "relative",
                 
-                backgroundColor: inputIsVisible &&  "#fff",
-            }}
+            //     backgroundColor: inputIsVisible &&  "#fff",
+            // }}
             >
-
+                
                 
                 <form className='Contact' 
                     style={{ 
-                        padding: inputIsVisible &&  "50px",
-                        backgroundColor: inputIsVisible &&  "#fff",
-                        boxShadow: inputIsVisible && "7px 8px 17px -1px rgba(0,0,0,0.41)",
-                        border : inputIsVisible && "2px solid #1093EB",
-                        position: inputIsVisible && "absolute",
-                        top: inputIsVisible && "150",
-                        zIndex: inputIsVisible && "100",
+                        width: isDashboard && "90%",
+                        // padding: isDashboard &&  "50px",
+                        // backgroundColor: isDashboard &&  "#fff",
+                        // boxShadow: isDashboard && "7px 8px 17px -1px rgba(0,0,0,0.41)",
+                        // border : isDashboard && "2px solid #1093EB",
+                        // borderRadius: isDashboard && "10px",
+                        // position: isDashboard && "relative",
+                        // top: isDashboard && "150",
+                        zIndex: isDashboard && "100",
                     }}
                     onSubmit={handleSubmit}
 
                 >
 
                     {
-                        inputIsVisible &&
+                        isDashboard &&
                         <div className='iconLock'
-                            onClick={closeModalContact}
+                            onClick={
+                                () => { 
+                                    
+                                    setShowItemUser({tableIsOpen: true, paginationIsOpen: true, contactIsOpen: false});
+                                    setShowContactSearchFilter && setShowContactSearchFilter(false);
+                              
+                                }
+                              
+                            }
                         >
                             <p>Fermer </p>
                         
@@ -281,37 +735,108 @@ const Contact = ({chantierChoice, setactionsTable, closeModalContact}) => {
                         </div>
                     }
 
-                   { !inputIsVisible && <p className='titleForm'>Faites-nous part de vos souhaits en</p>}
+                    {
+                        isDashboard && itemUpdateChoice && itemUpdateChoice.id && doublonsChantiers && doublonsChantiers.length > 1 &&
 
-                    <div className='form-group'>
-                        <div className='itemInputContainer'>
-                            <input type='text' name='nom' placeholder='Nom*' value={formData.nom} onChange={handleChange} className='form-control itemInput' style={getInputStyle('nom')} />
-                            {errors.nom && <p className="error">{errors.nom}</p>}
+                        <div className='serviceItem'>
+
+                            <div className='serviceItem__header'>
+                                <p className='espace'></p>
+                                <p className='serviceItem__header--titleService'> Liste des services</p>
+
+                                <div className='serviceItem__btnAdd'
+                                    onClick={ () => resetForm(valComponentExist === "GetUsers" ? "user" : "chantier")}
+                                >
+                                    <p>Ajouter   <i className="fa-solid fa-plus"></i></p>
+                               
+                                </div>
+
+                            </div>
+
+                            <div className='serviceItem__item'>
+
+                                {/* <div className='serviceItem__item--table'>
+                                    {
+                                        listeEnteteServices.map((item, index) => (
+                                            <div key={index} className='serviceItem__item--entete'>
+                                                {item}
+                                            </div>
+                                        ))
+                                    }
+                                </div> */}
+
+                                {
+                                    doublonsChantiers.length > 0 && doublonsChantiers.map((item, index) => (
+                                        <div key={index} className='serviceItem__item--service'>
+                                            <div  className='service serviceEqual'> <span>Service:</span> {item.service}</div>
+                                            <div  className='service serviceEqual'> <span>Prestataire:</span> {item.prestataire}</div>
+                                            <div  className='service servive2'><span>Status:</span> {item.status}</div>
+                                            <div  className='service service3'> <span>Prix:</span> {item.prix}</div>
+                                            <div  className='service service4'> <span>Date :</span> { item && item.datePrestation ? (item.datePrestation).slice(0, 10): "" }</div>
+                                            <div  className='service service5'> <span>Heure :</span> {item.heurePrestation }</div>
+
+                                            
+                                            <div className='tdIcons'>
+                                                <i className="fa-solid fa-download" onClick={() => actionsLineTable(item, "telecharger")}></i>
+                                                <i className="fa-solid fa-pencil" onClick={() => actionsLineTable(item, "modifier")}></i>
+                                                <i className="fa-solid fa-trash" onClick={() => actionsLineTable(item, "supprimer")}></i>
+                                            </div>
+                                        </div>
+
+                                    ))
+                                }
+                            </div>
+                            
                         </div>
 
-                        <div className='itemInputContainer'>
-                            <input type='text' name='prenom' placeholder='Prénom*' value={formData.prenom} onChange={handleChange} className='form-control itemInput' style={getInputStyle('prenom')} />
-                            {errors.prenom && <p className="error">{errors.prenom}</p>}
-                        </div>
-                    </div>
 
-                    <div className='form-group'>
-                        <div className='itemInputContainer'>
-                            <input type='email' name='email' placeholder='E-mail*' value={formData.email} onChange={handleChange} className='form-control itemInput' style={getInputStyle('email')} />
-                            {errors.email && <p className="error">{errors.email}</p>}
-                        </div>
+                    }
 
-                        <div className='itemInputContainer'>
-                            <input type='tel' name='tel' placeholder='Tel*' value={formData.tel} onChange={handleChange} className='form-control itemInput' style={getInputStyle('tel')} />
-                            {errors.tel && <p className="error">{errors.tel}</p>}
+                   { !isDashboard && <p className='titleForm'>Faites-nous part de vos souhaits en</p>}
+
+                    {
+                        
+                        //!isDashboard && (valComponentExist === "GetUsers" || !valComponentExist ) &&
+                        <div className='form-group'>
+                            <div className='itemInputContainer'>
+                                <label>Nom</label>
+                                <input type='text' name='nom' placeholder='Nom*' value={formData.nom} onChange={handleChange} className='form-control itemInput' style={getInputStyle('nom')} />
+                                {errors.nom && <p className="error">{errors.nom}</p>}
+                            </div>
+
+                            <div className='itemInputContainer'>
+                                <label>Prénom</label>
+                                <input type='text' name='prenom' placeholder='Prénom*' value={formData.prenom} onChange={handleChange} className='form-control itemInput' style={getInputStyle('prenom')} />
+                                {errors.prenom && <p className="error">{errors.prenom}</p>}
+                            </div>
                         </div>
-                    </div>
+                    
+                    }
+
+                    {
+                        // !isDashboard && (valComponentExist === "GetUsers" || !valComponentExist ) &&
+                        <div className='form-group'>
+                            <div className='itemInputContainer'>
+                                <label>E-mail</label>
+                                <input type='email' name='email' placeholder='E-mail*' value={formData.email} onChange={handleChange} className='form-control itemInput' style={getInputStyle('email')} />
+                                {errors.email && <p className="error">{errors.email}</p>}
+                            </div>
+
+                            <div className='itemInputContainer'>
+                                <label>Tel</label>
+                                <input type='tel' name='tel' placeholder='Tel*' value={formData.tel} onChange={handleChange} className='form-control itemInput' style={getInputStyle('tel')} />
+                                {errors.tel && <p className="error">{errors.tel}</p>}
+                            </div>
+                        </div>
+                    
+                    }
 
                     <div className='form-group'>
 
                         {
-                            inputIsVisible &&
+                            isDashboard && valComponentExist === "GetUsers" &&
                             <div className='itemInputContainer'>
+                                <label>Genre</label>
                                 <select name='genre' value={formData.genre} onChange={handleChange} className='form-control itemInput' style={getInputStyle('genre')}>
                                     <option value="">Sélectionnez votre genre*</option>
                                     <option value="Masculin">Masculin</option>
@@ -322,32 +847,44 @@ const Contact = ({chantierChoice, setactionsTable, closeModalContact}) => {
                         
                         }
 
-                        <div className='itemInputContainer'>
-                            <select name='service' value={formData.service} onChange={handleChange} className='form-control itemInput' style={getInputStyle('service')}>
-                                <option value="">Sélectionnez un service*</option>
-                                <option value="Nettoyage de moquettes à domicile">Nettoyage de moquettes à domicile</option>
-                                <option value="Remise à neuf et Siège Automobile">Remise à neuf et Siège Automobile</option>
-                                <option value="Nettoyage de Matelas">Nettoyage de Matelas</option>
-                                <option value="Nettoyage de Canapé">Nettoyage de Canapé</option>
-                            </select>
-                            {errors.service && <p className="error">{errors.service}</p>}
-                        </div>
-                    </div>
+                        {
 
-                    <div className='form-group'>
-                        <textarea name='besoin' placeholder='Dites-nous en plus sur votre besoin*' value={formData.besoin} onChange={handleChange} className='form-control' style={getInputStyle('besoin')} />
-                        {errors.besoin && <p className="error">{errors.besoin}</p>}
+                             (!valComponentExist || valComponentExist === "GetChantiers" ) &&
+                            <div className='itemInputContainer'>
+                                <label>Service</label>
+                                <select name='service' value={formData.service} onChange={handleChange} className='form-control itemInput' style={getInputStyle('service')}>
+                                    <option value="">Sélectionnez un service*</option>
+                                    <option value="Nettoyage de moquettes à domicile">Nettoyage de moquettes à domicile</option>
+                                    <option value="Remise à neuf et Siège Automobile">Remise à neuf et Siège Automobile</option>
+                                    <option value="Nettoyage de Matelas">Nettoyage de Matelas</option>
+                                    <option value="Nettoyage de Canapé">Nettoyage de Canapé</option>
+                                </select>
+                                {errors.service && <p className="error">{errors.service}</p>}
+                            </div>
+                        
+                        }
                     </div>
 
                     {
-                        inputIsVisible &&
+                       (!valComponentExist || valComponentExist === "GetChantiers" ) &&
+                        <div className='form-group'>
+                            <label>Besoin</label>
+                            <textarea name='besoin' placeholder='Dites-nous en plus sur votre besoin*' value={formData.besoin} onChange={handleChange} className='form-control' style={getInputStyle('besoin')} />
+                            {errors.besoin && <p className="error">{errors.besoin}</p>}
+                        </div>
+                    }
+
+                    {
+                        isDashboard && //valComponentExist === "GetUsers" &&
                         <div className='form-group'>
                             <div className='itemInputContainer'>
+                                <label>Code Postal</label>
                                 <input type='text' name='codePostal' placeholder='Code Postal*' value={formData.codePostal} onChange={handleChange} className='form-control itemInput' style={getInputStyle('codePostal')} />
                                 {errors.codePostal && <p className="error">{errors.codePostal}</p>}
                             </div>
 
                             <div className='itemInputContainer'>
+                                <label>Région</label>
                                 <input type='text' name='region' placeholder='Région*' value={formData.region} onChange={handleChange} className='form-control itemInput' style={getInputStyle('region')} />
                                 {errors.region && <p className="error">{errors.region}</p>}
                             </div>
@@ -355,16 +892,99 @@ const Contact = ({chantierChoice, setactionsTable, closeModalContact}) => {
                     
                     }
 
+                    {
+                        isDashboard && valComponentExist === "GetChantiers" &&
+                        <>
+                           
+                            <div className='form-group'>
+                                <label>Statut</label>
+                                <select
+                                    name='status'
+                                    className='form-control itemInput'
+                                    style={getInputStyle('status')}
+                                    value={formData.status}
+                                    onChange={handleChange}
+                                >
+                                    <option value="">Statut</option>
+                                    {statusChantier.map((status, index) => (
+                                        <option key={index} value={status}>
+                                            {displayStatus(status).charAt(0).toUpperCase() + status.slice(1).toLowerCase()}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+
+                            <div className='form-group'>
+                                <div className='itemInputContainer'>
+                                    <label>Prix</label>
+                                    <input type='number' name='prix' placeholder='Prix*' value={formData.prix} onChange={handleChange} className='form-control itemInput' style={getInputStyle('prix')} />
+                                    {errors.prix && <p className="error">{errors.prix}</p>}
+                                </div>
+
+                                <div className='itemInputContainer'>
+                                    <label>Date de prestation</label>
+                                    <input type='date' name='datePrestation' value={formData.datePrestation} onChange={handleChange} className='form-control itemInput' style={getInputStyle('datePrestation')} />
+                                    {errors.datePrestation && <p className="error">{errors.datePrestation}</p>}
+                                </div>
+                            </div>
+
+                            <div className='form-group'>
+                                <div className='itemInputContainer'>
+                                    <label>Heure de prestation</label>
+                                    <input type='time' name='heurePrestation' value={formData.heurePrestation} onChange={handleChange} className='form-control itemInput' style={getInputStyle('heurePrestation')} />
+                                    {errors.heurePrestation && <p className="error">{errors.heurePrestation}</p>}
+                                </div>
+
+                                <div className='itemInputContainer'>
+                                    <label>Informations complémentaires</label>
+                                    <input type='text' name='infoComplementaire' placeholder='Informations complémentaires' value={formData.infoComplementaire} onChange={handleChange} className='form-control itemInput' style={getInputStyle('infoComplementaire')} />
+                                    {errors.infoComplementaire && <p className="error">{errors.infoComplementaire}</p>}
+                                </div>
+                            </div>
+
+                            <div className='form-group'>
+                                <div className='itemInputContainer'>
+                                    <label>Prestataire</label>
+                                    <input type='text' name='prestataire' placeholder='Prestataire*' value={formData.prestataire} onChange={handleChange} className='form-control itemInput' style={getInputStyle('prestataire')} />
+                                    {errors.prestataire && <p className="error">{errors.prestataire}</p>}
+                                </div>
+
+                                {/*<div className='itemInputContainer'>
+                                    <label>Utilisateur ayant crée cette fiche</label>
+                                    <input type='text' name='userCreatorId' placeholder='UserCreatorId*' value={formData.userCreatorId} onChange={handleChange} className='form-control itemInput' style={getInputStyle('userCreatorId')} />
+                                    {errors.userCreatorId && <p className="error">{errors.userCreatorId}</p>}
+                                </div>*/}
+                            </div>
+                            
+                            <div className='form-group'>
+                                <div className='itemInputContainer'>
+                                    <label>Nombre de places</label>
+                                    <input type='number' name='nombrePlaces' placeholder='Nombre de places*' value={formData.nombrePlaces} onChange={handleChange} className='form-control itemInput' style={getInputStyle('nombrePlaces')} />
+                                    {errors.nombrePlaces && <p className="error">{errors.nombrePlaces}</p>}
+                                </div>
+                            </div>
+
+                           
+
+                            
+
+                        </>
+
+
+                    }
+
                     <div className='form-group'>
                         <div className='itemInputContainer'>
+                            <label>Ville</label>
                             <input type='text' name='ville' placeholder='Ville*' value={formData.ville} onChange={handleChange} className='form-control itemInput' style={getInputStyle('ville')} />
                             {errors.ville && <p className="error">{errors.ville}</p>}
                         </div>
 
                        { 
-                        inputIsVisible &&
+                         isDashboard && 
                        
                        <div className='itemInputContainer'>
+                            <label>Adresse</label>
                             <input type='text' name='adresse' placeholder='Adresse*' value={formData.adresse} onChange={handleChange} className='form-control itemInput' style={getInputStyle('adresse')} />
                             {errors.adresse && <p className="error">{errors.adresse}</p>}
                         </div>
@@ -374,7 +994,7 @@ const Contact = ({chantierChoice, setactionsTable, closeModalContact}) => {
                     </div>
 
                     {
-                        inputIsVisible &&
+                         isDashboard && valComponentExist === "GetUsers" &&
                         <div className='form-group'>
                             <div className='itemInputContainer'>
                                 <input type='password' name='password' placeholder='Mot de passe*' value={formData.password} onChange={handleChange} className='form-control itemInput' style={getInputStyle('password')} />
@@ -389,22 +1009,26 @@ const Contact = ({chantierChoice, setactionsTable, closeModalContact}) => {
                     
                     }
 
-                    <div className='form-group'>
-                        <div className='itemInputContainer'>
-                            <label>Quand pouvons-nous vous appeler ?</label>
-                            <input type='date' name='dateAppel' value={formData.dateAppel} onChange={handleChange} className='form-control itemInput' style={getInputStyle('dateAppel')} />
-                            {errors.dateAppel && <p className="error">{errors.dateAppel}</p>}
-                        </div>
+                    {       
+                         (!valComponentExist || valComponentExist === "GetChantiers" ) &&
+                        <div className='form-group'>
+                            <div className='itemInputContainer'>
+                                <label>Quand pouvons-nous vous appeler ?</label>
+                                <input type='date' name='dateAppel' value={formData.dateAppel} onChange={handleChange} className='form-control itemInput' style={getInputStyle('dateAppel')} />
+                                {errors.dateAppel && <p className="error">{errors.dateAppel}</p>}
+                            </div>
 
-                        <div className='itemInputContainer'>
-                            <label> A quelles Heure ?</label>
-                            <input type='time' name='heureAppel' value={formData.heureAppel} onChange={handleChange} className='form-control itemInput' style={getInputStyle('heureAppel')} />
-                            {errors.heureAppel && <p className="error">{errors.heureAppel}</p>}
+                            <div className='itemInputContainer'>
+                                <label> A quelles Heure ?</label>
+                                <input type='time' name='heureAppel' value={formData.heureAppel} onChange={handleChange} className='form-control itemInput' style={getInputStyle('heureAppel')} />
+                                {errors.heureAppel && <p className="error">{errors.heureAppel}</p>}
+                            </div>
                         </div>
-                    </div>
+                    
+                    }
 
                     {
-                        inputIsVisible &&
+                         (isDashboard && valComponentExist === "GetUsers") &&
                         <div className='form-group'>
                             <div className='itemInputContainer'>
 
@@ -423,7 +1047,7 @@ const Contact = ({chantierChoice, setactionsTable, closeModalContact}) => {
                     }
 
                     {
-                        inputIsVisible &&
+                         (isDashboard && valComponentExist === "GetUsers") &&
                         
                         <div className='form-group'>
                             <select name='role' value={formData.role} onChange={handleChange} className='form-control itemInput' style={getInputStyle('role')}>
@@ -441,11 +1065,13 @@ const Contact = ({chantierChoice, setactionsTable, closeModalContact}) => {
 
                     
 
-                    <button type='submit' className='btn__contact'>Envoyer</button>
+                    <button type='submit' className='btn__contact'>{
+                        !isDashboard ? "Envoyer" : "Enregistrer"
+                    }</button>
                 </form>
 
                 {
-                    !inputIsVisible &&
+                    !isDashboard &&
                     <div className='containerContact__im'
                     style={{
                         backgroundImage: `url(${contactimg})`,

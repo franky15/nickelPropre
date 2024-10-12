@@ -17,35 +17,19 @@
   }
 
 
-.containerGlobalContact{
 
-    // width: 100%;
-    // .iconLock{
-    //     width: 100%;
-    //     display: flex;
-    //     justify-content: center;
-    //     background-color: $danger;
-    //     color: white;
-    //     font-weight: bold;
-    //     border-radius: $borderRadiusInput;
-    //     // font-size: 50px;
-    //     // color: $primary;
-
-    //     // border: solid yellow;
-    // }
-}
 
 .containerContact {
-    // width: 100%;
-    // display: flex;
-    // flex-direction: row-reverse;
-    // flex-wrap: wrap;
-    // justify-content: center;
-    // margin-bottom: 50px;
-    // margin-top: $margintopSection;
+    width: 100%;
+    display: flex;
+    flex-direction: row-reverse;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 50px;
+    margin-top: $margintopSection;
 
-    // padding-bottom: 50px;
-    // padding: 50px;
+    padding-bottom: 50px;
+    padding: 50px;
     // background-color: $backgroungColorSection;
     // box-shadow: $boxShadow;
     
@@ -55,18 +39,28 @@
 
     // border: solid 2px $primary;
 
+    i{
+        @include animationIcons();
+    }
     .iconLock{
+
         width: 100%;
         display: flex;
         justify-content: center;
-        background-color: $danger;
+       
         color: white;
         font-weight: bold;
         border-radius: $borderRadiusInput;
+        cursor: pointer;
         // font-size: 50px;
         // color: $primary;
 
         // border: solid yellow;
+        @include animationBtn();
+        width: 100%;
+        background-color: $danger;
+        border-color: $danger;
+
     }
 
     .titleForm {
@@ -78,6 +72,133 @@
         margin-top: 50px;
         margin-left: 30px;
         margin-bottom: 50px;
+    }
+
+    .serviceItem{
+
+        
+        width: 100%;
+        margin-top: 50px;
+        margin-bottom: 50px;
+        padding: 20px;
+
+        border: solid 2px $primary;
+        border-radius: $borderRadiusInput;
+
+        &__header{
+
+            //width: 50%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            
+            // border: solid red;
+
+            .espace{
+               
+                width:  33.33%;
+            }
+            .serviceItem__header--titleService{
+
+                width:  33.33%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: $fontZiseNav;
+                font-weight: bold;
+                color: $primary;
+            }
+           
+        }
+        &__btnAdd{
+            width:  33.33%;
+            display: flex;
+            justify-content: end;
+            //margin-bottom: 50px;
+            //border: solid red;
+
+            p{
+                
+               
+                border: solid 2px $primary;
+                i{
+                    margin-inline: 10px;
+                    position: relative;
+                    top: -5px;
+                }
+
+                @include btnContact();
+                @include animationBtn();
+                width: 150px;
+                font-size: $fontZiseNav;
+                
+            }
+        }
+        &__titleService{
+            
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            color: $primary;
+            margin-bottom: 20px;
+        }
+        &__item{
+
+            //width: 70%;
+            font-size: 13px;
+
+            // &--table{
+
+            //     display: flex;
+            //     justify-content: space-between;
+            //     align-items: center;
+            //     border: solid 2px $borderColorInput;
+
+            //     .serviceItem__item--entete{
+
+            //         border-right: solid 2px $borderColorInput;
+            //     }
+            // }
+            &--service{
+
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+                border-bottom: solid 2px $primary;
+
+                .service{
+                    width: 10%;
+                    text-align: start;
+                    //border-right: solid 2px $primary;
+                    // border: solid red;
+                }
+                .serviceEqual{
+                    width: 25%;
+                    text-align: start;
+                    // border: solid red;
+                }
+                
+                span{
+                    font-size: 15px;
+                    font-weight: bold;
+                    color: $primary;
+                }
+                .tdIcons{
+                    width: 10%;
+                    display: flex;
+                    justify-content: space-around;
+                    align-items: center;
+
+                    // border: solid green;
+                    i{
+                        font-size: 15px;
+                        cursor: pointer;
+                    }
+                }
+            }
+           
+        }
     }
 
     .Contact {
@@ -151,6 +272,7 @@
             button {
                 //margin: auto;
                 @include btnContact();  /* Assurez-vous que cette mixin est bien définie */
+                @include animationBtn();
             }
 
             .error-field {
@@ -163,6 +285,13 @@
                 font-size: 12px;
             }
         }
+    }
+
+    .btn__contact{
+
+         //margin: auto;
+         @include btnContact(); 
+         @include animationBtn();
     }
 
     .containerContact__im {

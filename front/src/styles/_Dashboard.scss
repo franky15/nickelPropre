@@ -33,16 +33,23 @@
 
     // border: solid red;
 
+    i{
+        @include animationIcons();
+    }
+    
     &__globalMenu{
 
         width: 100%;
-        height: 100px;
+        //height: 100px;
         display: flex;
         justify-content: space-between;
+        align-items: center;
         flex-wrap: wrap;
+
         border-radius: $borderRadiusInput;
         background-color: $backgroungColorSection;
-        padding-inline: 20px;
+        padding: 20px;
+        padding-bottom: 40px;
         // border: solid blue;
 
         .DashboardBtn{

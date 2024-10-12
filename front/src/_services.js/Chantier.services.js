@@ -10,6 +10,14 @@ let getChantier = (id) =>{
 }
 
 let updateChantier = (chantierObject) => {
+
+    console.log('chantierObject', chantierObject);
+    
+    if(!chantierObject.id ){
+        
+        console.log('chantierObject.id n existe pas dans chantier.services', chantierObject.id);
+    }
+    
     return Axios.put("/chantiers/" +chantierObject.id,  chantierObject)  
 }
 
@@ -18,7 +26,10 @@ let deleteChantier = (id) => {
 }
 
 let addChantier = (chantierObject) => {
-    return Axios.post("/chantiers/add", chantierObject)  
+
+    console.log('***chantierObject dans chantierServices', chantierObject);
+
+    return Axios.post("/chantiers/add/" +chantierObject.Users_id, chantierObject)  
 }
 
 export const chantierServices = {

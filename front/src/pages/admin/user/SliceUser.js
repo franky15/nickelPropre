@@ -137,9 +137,9 @@ export const userSlice = createSlice({
                // console.log("*****Bienvenue dans le getUser.fulfilled de UserSlice");
 
                // console.log("***action.payload de UserSlice", action.payload);
-                state.user = action.payload;
-                state.status = true;
-                //state.error = false;
+               
+                state.user = [...state.user, action.payload];
+                state.status = "success";
 
             })
             .addCase(getUser.pending, (state, action) => {
@@ -163,8 +163,9 @@ export const userSlice = createSlice({
 
                 //console.log("***action.payload de UserSlice", action.payload);
 
-                state.users = action.payload;
-                state.status = true;
+                state.users = [...state.users, action.payload];
+                state.status = "success";
+                
 
             })
             .addCase(getUsers.pending, (state, action) => {
@@ -189,18 +190,24 @@ export const userSlice = createSlice({
                 
                 //modification de l'utilisateur
                 state.users[index] = action.payload;
+                
+                state.status = "success";
 
             })
             .addCase(deleteUser.fulfilled, (state, action) => {
 
                 //filtrage des utilisateurs à supprimer
                 state.users = state.users.filter((user) => user.id !== action.payload.id);
+                
 
             })////////////////////////
             .addCase(createUser.fulfilled, (state, action) => {
 
+                console.log("*****Bienvenue dans le createUser.fulfilled de UserSlice", action.payload);
+                
                 //ajout de l'utilisateur dans la liste
-                state.users.push(action.payload);
+                state.users = [...state.users, action.payload];
+                state.status = "success";
 
             })
             .addCase(createUser.pending, (state, action) => {

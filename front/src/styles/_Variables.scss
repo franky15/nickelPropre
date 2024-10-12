@@ -5,6 +5,7 @@ $fontZiseNav: 18px;
 $fontZiseBtnContact: 23px;
 $title: 60px;
 $subTitle: 30px;
+$fontZiseTable: 13px;
 
 
 ///////// couleurs ///////
@@ -61,5 +62,40 @@ $heightSectionImg: 600px;
        //box-shadow: 0px 0px 5px 0px $primary;
         cursor: pointer;
 
+}
+
+@mixin animationBtn($width: 300px, $height: 60px, $color: $colorTextBtnContact, $font-size: $fontZiseBtnContact, $colorText: $colorTextBtnContact, $background-color: $primary, $border: solid $primary, $margin-top: 20px) {
+        width: $width;
+        height: $height;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: $margin-top;
+        font-weight: bold;
+        background-color: $background-color;
+        font-size: $fontZiseBtnContact;
+        color: $color;
+        border-radius: 10px;
+        border: $border;
+        //box-shadow: 0px 0px 5px 0px $primary;
+        cursor: pointer;
+        transition: transform 200ms ease-in-out , opacity 200ms ease-in-out;
+        &:hover{
+        transform: scale(1.1);
+        // background-color: $primary;
+        // border: solid $primary;
+        // color: $colorTextBtnContact;
+        // transform: scale(1.1);
+        //opacity: 0.8;
+        }
+}
+
+@mixin animationIcons(){
+
+        transition: transform 200ms ease-in-out;
+        &:hover{
+            color: $primary;
+            transform: scale(1.3);
+        }
 }
 

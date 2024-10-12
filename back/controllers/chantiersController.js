@@ -1,5 +1,5 @@
 //importation de la base de données
-const DB = require("../mysql.config");
+const DB = require("../mysql.config"); 
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
@@ -9,22 +9,22 @@ const dotenv = require("dotenv").config();
 //post creation d'un chantier
 exports.createChantier = async (req, res) => {
 
-    console.log('****Bienvenue dans createChantier****');
+    console.log('****Bienvenue dans createChantier****'); 
 
-    let client_id = parseInt(req.params.id);
+    let client_id = parseInt(req.params.id); 
 
     console.log('****client_id', client_id);
 
     const { userCreatorId, service, besoin, prix, status, dateAppel, heureAppel, datePrestation, prestataire, heurePrestation, infoComplementaire, adresse,ville, codePostal, nombrePlaces } = req.body;
-    let idAuth = req.auth.userId;
+    let idAuth = parseInt(req.auth.userId);
     const role = req.auth.role;
 
-    console.log('****req.body', req.body);
+    console.log('****req.body', req.body); 
     console.log('****idAuth', idAuth);
     console.log('****role', role);
 
     let columnChantier = ["service", "besoin", "prix", "Users_id", "userCreatorId"];
-    let chantier = [service, besoin, prix, client_id, userCreatorId];
+    let chantier = [service, besoin, prix, client_id, idAuth];
 
     const addColumn = () => {
         if (status) {
@@ -163,13 +163,20 @@ exports.getOneChantier = async (req, res) => {
 //update one chantier
 exports.updateChantier = async (req, res) => {
     let idChantier = parseInt(req.params.id);
-    const { service, besoin, prix, status, dateAppel, heureAppel, datePrestation, prestataire, heurePrestation,infoComplementaire, adresse,ville, codePostal, nombrePlaces } = req.body;
+    let { service, besoin, prix, status, dateAppel, heureAppel, datePrestation, prestataire, heurePrestation,infoComplementaire, adresse,ville, codePostal, nombrePlaces } = req.body;
     let idAuth = req.auth.userId;
     const role = req.auth.role;
 
     console.log('****req.body', req.body);
     console.log('****idAuth', idAuth);
-    console.log('****role', role);
+    console.log('****role', role);   
+
+    //convertion des dates au format MySQL (YYYY-MM-DD)
+    dateAppel = dateAppel ? new Date(dateAppel).toISOString().slice(0, 10) : null;
+    datePrestation = datePrestation ? new Date(datePrestation).toISOString().slice(0, 10) : null; 
+
+    console.log('****dateAppel', dateAppel);
+    console.log('****datePrestation', datePrestation);
 
     let columnChantier = [ "service", "besoin", "prix", "status", "dateAppel", "heureAppel", "datePrestation", "prestataire", "heurePrestation", "infoComplementaire", "adresse", "ville", "codePostal", "nombrePlaces" ];
     let chantier = [service, besoin, prix, status, dateAppel, heureAppel, datePrestation, prestataire, heurePrestation, infoComplementaire, adresse, ville, codePostal, nombrePlaces];

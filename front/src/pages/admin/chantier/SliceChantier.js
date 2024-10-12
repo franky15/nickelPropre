@@ -5,11 +5,12 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 //importation des services
 import { chantierServices } from "../../../_services.js/Chantier.services";
 
+
 //gestion du state des chantiers
 const initialState = {
 
-    chantiers: null,
-    chantier: null,
+    chantiers: [],
+    chantier: {},
     status: null,
     error: null,
     
@@ -79,9 +80,9 @@ export const updateChantier = createAsyncThunk(
                 throw new Error("Invalid response structure");
             }
 
-            console.log("response.data.body", response.message);
+            console.log("response.data.body", response);
 
-            return response.message;
+            return response;
 
         } catch (error) {
             console.error("Error updating user:", error.message);
@@ -113,6 +114,7 @@ export const addChantier = createAsyncThunk(
         try {
             const response = await chantierServices.addChantier(chantierObject);
 
+            console.log("response.data.body dans addChantier slice", response);
             if (!response ) {
                 throw new Error("Invalid response structure");
             }
@@ -146,8 +148,10 @@ export const chantierSlice = createSlice({
 
                 console.log("***action.payload de Slice", action.payload);
 
-                state.chantier = action.payload;
+                // state.chantier = action.payload;
+                state.chantier = [...state.chantier, action.payload];
                 state.status = "success";
+                
                 //state.error = false;
 
             })
@@ -172,7 +176,7 @@ export const chantierSlice = createSlice({
 
                 // console.log("***action.payload de chantierSlice", action.payload);
 
-                state.chantiers = action.payload;
+                state.chantiers = [...state.chantiers, action.payload];
                 state.status = "success";
 
             })
@@ -193,11 +197,18 @@ export const chantierSlice = createSlice({
             })////////////////////////
             .addCase(updateChantier.fulfilled, (state, action) => {
 
+                // console.log("*****Bienvenue dans le updateChantier.fulfilled de chantierSlice");
+                // console.log("****state.chantiers", state.chantiers);
+                // console.log("****action.payload.data", action.payload.data);
+                // console.log("****initialState.chantiers", initialState.chantiers);
+                
                 //récupération de l'index du chantier à modifier
                 const index = state.chantiers.findIndex((chantier) => chantier.id === action.payload.id);
                 
-                //modification du chantier
-                state.users[index] = action.payload;
+                // //modification du chantier
+                state.chantier[index] = action.payload.data;
+
+                state.status = "success";
 
             })
             .addCase(deleteChantier.fulfilled, (state, action) => {
@@ -212,7 +223,8 @@ export const chantierSlice = createSlice({
 
                 console.log("***action.payload de chantierSlice", action.payload);
 
-                state.chantiers.push(action.payload);
+               
+                state.chantiers = [...state.chantiers, action.payload];
                 state.status = "success";
 
             })
@@ -220,6 +232,7 @@ export const chantierSlice = createSlice({
 
                 console.log("*****Bienvenue dans le addChantier.pending de chantierSlice");
 
+                console.log("action.payload", action.payload);
                 state.status = "loading";
 
             })

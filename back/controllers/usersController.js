@@ -61,20 +61,20 @@ exports.login = async (req, res, next) => {
 };
 
 
-//POST Signum d'un utilisateur
+//POST Signum d'un utilisateur   
 exports.signum = async (req, res, next) => {
     console.log("*** bienvenue dans signum ***");
 
    
     console.log("$$req.body", req.body);
-
+  
     const { reduction, nom, prenom, email, password, tel, adresse, ville, region, codePostal, genre, age, role, typeClient, service, besoin, dateAppel, heureAppel } = req.body;
 
-    let roleUser = role || "Client"; 
+    // let roleUser = role || "Client";  
 
-    console.log("****roleUser", roleUser);
+    // console.log("****roleUser", roleUser);
 
-    const sqlSelectAllUsers = "SELECT * FROM Users";
+    const sqlSelectAllUsers = "SELECT * FROM Users"; 
     let hash = null;
 
     try {
@@ -82,14 +82,14 @@ exports.signum = async (req, res, next) => {
 
         console.log("****resSqlSelectAllUsers", resSqlSelectAllUsers[0]);
 
-        ////////////////////////////
+        //////////////////////////// 
 
-        let usersEmailExist = email && resSqlSelectAllUsers[0].find((user) => user.email === email) 
+        let usersEmailExist = email && resSqlSelectAllUsers[0].find((user) =>  ( user.email === email && (password && password !== "" ) )  ) 
 
         console.log("****usersEmailExist", usersEmailExist);
 
         if(usersEmailExist) {
-
+  
             console.log("****Cet utilisateur existe déjà");
             return res.status(500).json({ message: "Cet utilisateur existe déjà" });
         }
@@ -103,9 +103,24 @@ exports.signum = async (req, res, next) => {
             }
         }
 
-        
+        console.log("****resSqlSelectAllUsers", resSqlSelectAllUsers[0]);
+
         // Vérification si un client existe avec le même nom et prénom ou le même téléphone
-        let usersClientExist = roleUser === "Client" && resSqlSelectAllUsers.find((user) => (user.nom === nom && user.prenom === prenom) || user.tel === tel);
+        let usersClientExist = role === "Client" && resSqlSelectAllUsers[0].find((user) => {
+            
+            
+            // console.log("***user", user);
+
+            // console.log("****user.nom", user.nom , "----  ", nom.trim(),  user.nom === nom.trim());
+            // console.log("****user.prenom", user.prenom , "----  ",prenom,  user.prenom === prenom.trim());
+            // console.log("****user.tel", user.tel , "----  ", tel, user.tel === tel.trim());
+        
+            return (user.nom === nom.trim() && user.prenom === prenom.trim()) || user.tel === tel.trim();
+        
+        });  //|| (user.email === email)
+         
+
+        console.log("****usersClientExist 2", usersClientExist);
 
         if (usersClientExist) {
             console.log("****Ce client existe déjà");
@@ -206,7 +221,7 @@ exports.signum = async (req, res, next) => {
 
             idUser = usersClientExist.id;  // Récupérer l'id de l'utilisateur existant car insertId ne fonctionne pas pour une mise à jour
 
-            res.status(200).json({ message: "Client modifié avec succès" });
+            // res.status(200).json({ message: "Client modifié avec succès" });
 
         }else if(!usersEmailExist && !usersClientExist) {
 
@@ -257,13 +272,13 @@ exports.signum = async (req, res, next) => {
 
             const sqlInsertChantier = `INSERT INTO Chantiers (${columnsChantier.join(', ')}) VALUES (${columnsChantier.map(() => '?').join(', ')})`;
             
-            await DB.query(sqlInsertChantier, valuesChantier);
+            await DB.query(sqlInsertChantier, valuesChantier); 
 
             res.status(200).json({  messageUser: "utilisateur et chantier créé ou modifié avec succès" });
         
             console.log("****chantier créé avec succès");
 
-        }  
+        }   
 
     } catch (err) {
         console.log("erreur dans la requete", err);

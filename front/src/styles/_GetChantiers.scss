@@ -19,90 +19,13 @@
 .GetChantiers{
 
     width: 100%;
-    position: relative;
+    // position: relative;
+  
     // border: solid red;
 
-   
-
-    &__table{
-
-        width: 100%;
-        margin-top: $margintopSupSection;
-        margin-bottom: $margintopSupSection;
-        border-collapse: collapse;
-        border: solid 2px $primary;
-
-        th{
-            border: solid 2px $primary;
-            padding: 10px;
-            text-align: center;
-        }
-        td {
-            border: solid 2px $primary;
-            padding: 10px;
-            text-align: center;
-
-           
-            .tdIcons{
-
-                display: flex;
-                justify-content: space-around;
-                align-items: center;
-
-                i{
-                    font-size: 15px;
-                    cursor: pointer;
-                    //margin-inline: 10px;
-                }
-            }
-            
-        }
-        
+    i{
+        @include animationIcons();
     }
 
-    .containerPage{
-
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-
-        .choiceNomberLine{
-                
-            width: 95%;
-
-            label{
-                font-size: $fontZiseNav;
-                font-weight: bold;
-                margin-right: 10px;
-            }
-            input{
-                width: 50px;
-                height: 30px;
-                border: solid 2px $primary;
-                text-align: center;
-                font-size: $fontZiseNav;
-                font-weight: bold;
-               
-            }
-               
-    
-        }
-        .btnNextPrev{
-
-            width: 100px;
-            margin: auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-    
-            // border: solid red;
-    
-            i{
-                font-size: 30px;
-                cursor: pointer;
-            }
-        }
-    }
     
 }
