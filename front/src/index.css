@@ -1667,6 +1667,57 @@ table td {
   text-align: center;
   font-size: 13px;
 }
+table td .statusInput {
+  border: solid 2px #1093EB;
+  border-radius: 5px;
+  padding: 5px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: bold;
+  color: #1093EB;
+  background-color: #fff;
+}
+table td .containerAction {
+  width: 80%;
+  margin: auto;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border: solid 2px #1093EB;
+  border-radius: 5px;
+  background-color: #1093EB;
+  margin-bottom: 5px;
+}
+table td .containerAction span {
+  width: 70%;
+  font-weight: bold;
+  color: #fff;
+}
+table td .containerAction .containerAction__btn {
+  width: 30%;
+}
+table td .containerAction .containerAction__btn input {
+  width: 100%;
+  border: solid 2px #1093EB;
+  border-radius: 5px;
+  padding: 5px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: bold;
+  color: #1093EB;
+  background-color: #fff;
+}
+table td .nombreRelancesInput {
+  width: 50%;
+  border: solid 2px #1093EB;
+  border-radius: 5px;
+  padding: 5px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: bold;
+  color: #1093EB;
+  background-color: #fff;
+}
 table td .tdIcons {
   display: flex;
   justify-content: space-around;
@@ -1674,6 +1725,10 @@ table td .tdIcons {
 }
 table td .tdIcons i {
   font-size: 15px;
+  cursor: pointer;
+}
+table td .seeMoreTable {
+  color: #1093EB;
   cursor: pointer;
 }
 

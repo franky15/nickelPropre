@@ -15,9 +15,12 @@ import { updateChantier } from '../admin/chantier/SliceChantier';
 
 
 const Contact = ({allChantiers, itemUpdateChoice, setItemUpdateChoice, 
-      component,setShowItemUser, setShowContactSearchFilter
-     
+      setShowItemUser, setShowContactSearchFilter, showContactSearchFilter, flagUsers, setFlagUsers, 
+      component, //,componentHome ,  //showContactSearchFilter, setShowContactSearchFilter
+      setShowHideInputUser, showHideInputUser,
 }) => {  
+
+   
 
     const location = useLocation();
 
@@ -30,6 +33,36 @@ const Contact = ({allChantiers, itemUpdateChoice, setItemUpdateChoice,
 
     // console.log("userStore dans Contact", userStore);
 
+
+    const [propsValidated, setPropsValidated] = useState(false); // Pour vérifier si les props sont valides
+    
+    // Validation des props si elles sont présentes
+    // useEffect(() => {
+    //     if (
+    //         allChantiers && 
+    //         itemUpdateChoice && 
+    //         setItemUpdateChoice && 
+    //         setShowItemUser && 
+    //         flagUsers && 
+    //         setFlagUsers && 
+    //         component
+    //     ) {
+
+    //         console.log('Validation des props dans Contact');
+
+    //         setPropsValidated(true);
+    //     } else {
+    //         console.warn('Erreur dans la validation des props dans Contact');
+    //         setPropsValidated(false);
+    //     }
+    // }, [allChantiers, itemUpdateChoice, setItemUpdateChoice, setShowItemUser, flagUsers, component]);
+
+    // // Assurez-vous de ne pas exécuter le reste du code si component est undefined ou null
+    // if (!component) {
+    //     console.warn("La prop 'component' est undefined");
+    //     return null;  // Vous pouvez choisir d'afficher un fallback ici
+    // }
+    
     // State pour stocker les valeurs du formulaire
     const [formData, setFormData] = useState({
         nom: itemUpdateChoice && itemUpdateChoice.nom ? itemUpdateChoice.nom : null,
@@ -63,6 +96,7 @@ const Contact = ({allChantiers, itemUpdateChoice, setItemUpdateChoice,
 
     });
 
+
     //fonction de reinitialisation des champs du formulaire
     const resetFormDatas = () => {
 
@@ -95,6 +129,7 @@ const Contact = ({allChantiers, itemUpdateChoice, setItemUpdateChoice,
                 prestataire: null,
                 userCreatorId: null,
                 nombrePlaces: null,
+                commentaire: null,
                 // userCreatorId : null,
 
             });
@@ -289,6 +324,13 @@ const Contact = ({allChantiers, itemUpdateChoice, setItemUpdateChoice,
                 console.log("****formErrors.besoin", formErrors.besoin);
             }
 
+            // if (!formData.commentaire) {
+            //     isValid = false;
+            //     formErrors.besoin = "Veuillez fournir plus de détails sur votre commentaire.";
+
+            //     console.log("****formErrors.besoin", formErrors.besoin);
+            // }
+
             if (!formData.dateAppel) {
                 isValid = false;
                 formErrors.dateAppel = "Veuillez choisir une date.";
@@ -355,12 +397,7 @@ const Contact = ({allChantiers, itemUpdateChoice, setItemUpdateChoice,
 
         }
 
-        /*
-        if (!formData.userCreatorId) {
-            isValid = false;
-            formErrors.userCreatorId = "L'identifiant de l'utilisateur est requis.";
-        }*/
-
+       
         setErrors(formErrors);
         return isValid;
     };
@@ -374,12 +411,12 @@ const Contact = ({allChantiers, itemUpdateChoice, setItemUpdateChoice,
          
         // if (validateForm() ) {   
 
-            console.log("Formulaire envoyé avec succès", formData);
+            // console.log("Formulaire envoyé avec succès", formData);
 
             //création d'un utilisateur si on est pas dans le dashboard
             if( isDashboard === false || (isDashboard && createUserChantier.isAddUser ) ){
 
-                console.log("****creation de l'utilisateur dans Contact");
+                // console.log("****creation de l'utilisateur dans Contact");
 
                 dispatch(createUser(formData));
 
@@ -390,11 +427,11 @@ const Contact = ({allChantiers, itemUpdateChoice, setItemUpdateChoice,
 
             }else if( valComponentExist === "GetUsers"  ){  //mise à jour d'un utilisateur
 
-                console.log("****modification de l'utilisateur dans Contact");
+                // console.log("****modification de l'utilisateur dans Contact");
 
                 
 
-                console.log("***formData dans Contact", formData);
+                // console.log("***formData dans Contact", formData);
 
                 if(formData.id){
 
@@ -412,9 +449,9 @@ const Contact = ({allChantiers, itemUpdateChoice, setItemUpdateChoice,
 
             }else if(valComponentExist === "GetChantiers" && (isDashboard && createUserChantier.isAddchantier === false )){  //mise à jour d'un chantier
 
-                console.log("****Modification du chantier dans Contact");
+                // console.log("****Modification du chantier dans Contact");
 
-                console.log("***formData dans Contact", formData);
+                // console.log("***formData dans Contact", formData);
 
                 if(formData.id){
 
@@ -432,9 +469,7 @@ const Contact = ({allChantiers, itemUpdateChoice, setItemUpdateChoice,
 
             }else if(valComponentExist === "GetChantiers" && (isDashboard && createUserChantier.isAddchantier )){  //création d'un chantier quand on est dans le dashboard
 
-                console.log("****Création du chantier dans Contact");
-
-                console.log("***formData dans Contact", formData);
+                
 
                 dispatch(addChantier(formData));
 
@@ -445,7 +480,7 @@ const Contact = ({allChantiers, itemUpdateChoice, setItemUpdateChoice,
 
             }
 
-            console.log("****formulaire soumis avec succès");
+         
 
             //déclenchement de l'effet pour récupérer les données du dashboard
             //setExecuteUseEffectFetchDashboard(prev => !prev);  //ici on inverse la valeur de prev pour déclencher l'effet ainsi elle change à chaque fois qu'on clique sur le bouton
@@ -461,8 +496,8 @@ const Contact = ({allChantiers, itemUpdateChoice, setItemUpdateChoice,
         // }
     };
 
-    console.log("**itemUpdateChoice dans Contact", itemUpdateChoice); 
-    console.log("valComponentExist", valComponentExist);
+    // console.log("**itemUpdateChoice dans Contact", itemUpdateChoice); 
+    // console.log("valComponentExist", valComponentExist);
 
     // Style dynamique pour les champs en erreur
     const getInputStyle = (fieldName) => {
@@ -478,7 +513,7 @@ const Contact = ({allChantiers, itemUpdateChoice, setItemUpdateChoice,
            
             setIsDashboard(true);
             
-            if(component.length > 0){
+            if(component && component.length > 0){
 
                 setValComponentExist(component);
             }
@@ -488,7 +523,7 @@ const Contact = ({allChantiers, itemUpdateChoice, setItemUpdateChoice,
             setIsDashboard(false);
         }
 
-    } , [ location.pathname ]);
+    } , [ location.pathname]);
 
     // console.log("isDashboard dans Contact", isDashboard);
     // console.log("valComponentExist dans Contact", valComponentExist);
@@ -521,26 +556,52 @@ const Contact = ({allChantiers, itemUpdateChoice, setItemUpdateChoice,
 
         if( (allChantiers && allChantiers.length > 0) && itemUpdateChoice && itemUpdateChoice.id){
             
-            // console.log("allChantiers dans Contact", allChantiers);
-            // console.log("itemUpdateChoice dans Contact", itemUpdateChoice);
+            console.log("allChantiers dans Contact", allChantiers);
+            console.log("itemUpdateChoice dans Contact", itemUpdateChoice.id);
 
-            //retrait des objets undefined ou null dans allChantiers
-            allChantiers = allChantiers.filter((item) => item !== null && item !== undefined);
-
-            const listeDoublonChantiers = allChantiers.filter((item) => item.Users_id === itemUpdateChoice.Users_id  && (item.status !== "Fait" && item.status !== "Abandonner" ));
+            if( component && component === "GetUsers"){
             
-            console.log("listeDoublonChantiers dans Contact", listeDoublonChantiers);
+                console.log("component dans Contact GetUsers", component);
+                console.log("itemUpdateChoice dans Contact GetUsers", itemUpdateChoice);
 
-            setDoublonsChantiers(listeDoublonChantiers);
+                console.log("allChantiers dans Contact avant", allChantiers);
+
+                //retrait des objets undefined ou null dans allChantiers
+                allChantiers = allChantiers.filter((item) => item !== null && item !== undefined);
+
+                const listeChantiers = allChantiers.filter((item) => {
+
+                        
+                    // console.log("item.Users_id", item.Users_id ,);
+                   
+                   return  item.Users_id === itemUpdateChoice.id 
+                });
+                
+                console.log("listeChantiers dans Contact", listeChantiers);
+
+                setDoublonsChantiers(listeChantiers);
+
+            }else if(component && component === "GetChantiers"){
+
+                //retrait des objets undefined ou null dans allChantiers
+                allChantiers = allChantiers.filter((item) => item !== null && item !== undefined);
+
+                const listeDoublonChantiers = allChantiers.filter((item) => item.Users_id === itemUpdateChoice.Users_id  && (item.status !== "Fait" && item.status !== "Abandonner" ));
+                
+                // console.log("listeDoublonChantiers dans Contact", listeDoublonChantiers);
+
+                setDoublonsChantiers(listeDoublonChantiers);
+
+            }
 
         }
 
-    }, [allChantiers, itemUpdateChoice]);
+    }, [allChantiers, itemUpdateChoice, component]);
     
-    // console.log("doublonsChantiers dans Contact", doublonsChantiers);
+    console.log("doublonsChantiers dans Contact", doublonsChantiers);
 
     // Fonction pour gérer les actions de chaque ligne
-    const actionsLineTable = (item, choice) => {
+    const actionsLineTable = (item, choice, choice2 ) => {
 
         console.log("item choice dans Contact", item);
 
@@ -548,7 +609,29 @@ const Contact = ({allChantiers, itemUpdateChoice, setItemUpdateChoice,
         if (choice === "modifier") {
 
             setItemUpdateChoice(item);
+            
+            //setShowContactSearchFilter(true);
+            if(choice2 === "btnUserModifierChantier"){
 
+                setFlagUsers({
+                    ...flagUsers,
+                    value: !flagUsers.value
+                });
+
+            }
+
+            console.log("test dans Contact");
+
+            // if(component === "GetUsers" || component === "GetChantiers"){
+            //     setShowContactSearchFilter(false);
+
+            //     console.log("test dans Contact");
+            // }
+
+                setCreateUserChantier({
+                    isAddchantier: true,
+                    isAddUser: false,
+                });
 
             //setModalContact(true);
             //closeModalContact();
@@ -578,6 +661,8 @@ const Contact = ({allChantiers, itemUpdateChoice, setItemUpdateChoice,
         }
 
     };
+
+    console.log("flagUsers dans Contact", flagUsers);
 
     //mise à jour du state formData si itemUpdateChoice est modifié
     useEffect(() => {
@@ -614,6 +699,7 @@ const Contact = ({allChantiers, itemUpdateChoice, setItemUpdateChoice,
                         infoComplementaire: itemUpdateChoice.infoComplementaire || '',
                         prestataire: itemUpdateChoice.prestataire,// || ''
                         nombrePlaces: itemUpdateChoice.nombrePlaces,// || ''
+                        commentaire: itemUpdateChoice.commentaire || null
                         // userCreatorId: itemUpdateChoice.userCreatorId,// || ''
                     };
                 }
@@ -632,9 +718,9 @@ const Contact = ({allChantiers, itemUpdateChoice, setItemUpdateChoice,
     const listeEnteteServices = ["Service", "Status", "Prix", "Date", "Heure", "Prestataire"];
 
     //réinitialisation des champs du formulaire en cliquant sur le bouton ajouter chantier
-    const resetForm = (choice) => {
+    const resetForm = (choice, addUser) => {
 
-        console.log("choice dans resetForm", choice);
+        console.log("choice dans resetForm", choice, "addUser", addUser);
         
         if(choice === "chantier"){
 
@@ -643,7 +729,9 @@ const Contact = ({allChantiers, itemUpdateChoice, setItemUpdateChoice,
                 isAddUser: false,
             });
 
-        }else if(choice === "user"){
+        }else if(choice === "user" || flagUsers.value === "GetUsers"){
+
+            console.log("flagUsers dans resetForm", flagUsers);
 
             setCreateUserChantier({
                 isAddchantier: false,
@@ -651,20 +739,52 @@ const Contact = ({allChantiers, itemUpdateChoice, setItemUpdateChoice,
             });
         }
 
-        setFormData(prevFormData => ({
-            ...prevFormData,  // Conservation des valeurs actuelles
-            service: null,    // Réinitialise uniquement les champs spécifiques
-            besoin: null,
-            dateAppel: null,
-            heureAppel: null,
-            status: 'Prospect',  // Réinitialiser certains champs à des valeurs par défaut
-            prix: null,
-            datePrestation: null,
-            heurePrestation: null,
-            infoComplementaire: null,
-            prestataire: null,
-            nombrePlaces: null,
-        }));
+       if(flagUsers && flagUsers.componentflag === "GetUsers" && addUser === undefined  ){
+            
+            setFormData(prevFormData => ({
+                ...prevFormData,  // Conservation des valeurs actuelles
+                service: null,    // Réinitialise uniquement les champs spécifiques
+                besoin: null,
+                dateAppel: null,
+                heureAppel: null,
+                status: 'Prospect',  // Réinitialiser certains champs à des valeurs par défaut
+                prix: null,
+                datePrestation: null,
+                heurePrestation: null,
+                infoComplementaire: null,
+                prestataire: null,
+                nombrePlaces: null,
+                commentaire: null,
+
+                
+            }));
+
+       }
+
+        if(flagUsers && flagUsers.componentflag === "GetUsers" && addUser === "addUser" ){
+
+            setFormData(prevFormData => ({
+                ...prevFormData,  // Conservation des valeurs actuelles
+                nom: null,
+                prenom: null,
+                email: null,
+                tel: null,
+                genre: null,
+                typeClient: 'Particulier',
+                codePostal: null,
+                region: null,
+                ville: null,
+                adresse: null,
+                password: null,
+                age: null,
+                role: 'Client',
+                commentaire: null,
+
+                service: "",    
+                besoin: "",
+            
+            }));
+        }
 
         setErrors({});
 
@@ -681,35 +801,13 @@ const Contact = ({allChantiers, itemUpdateChoice, setItemUpdateChoice,
     return (
      
             
-            <div className="containerContact"
-            
-            // style={{ 
-               
-            //     width: "100%",
-            //     display: "flex",
-            //     flexDirection: "rowReverse",
-            //     flexWrap: "wrap",
-            //     justifyContent: "center",
-            //     marginBottom: "50px",
-            //     marginTop: "100px",
-
-            //     position: inputIsVisible && "relative",
-                
-            //     backgroundColor: inputIsVisible &&  "#fff",
-            // }}
-            >
+            <div className="containerContact" >
+           
                 
                 
                 <form className='Contact' 
                     style={{ 
                         width: isDashboard && "90%",
-                        // padding: isDashboard &&  "50px",
-                        // backgroundColor: isDashboard &&  "#fff",
-                        // boxShadow: isDashboard && "7px 8px 17px -1px rgba(0,0,0,0.41)",
-                        // border : isDashboard && "2px solid #1093EB",
-                        // borderRadius: isDashboard && "10px",
-                        // position: isDashboard && "relative",
-                        // top: isDashboard && "150",
                         zIndex: isDashboard && "100",
                     }}
                     onSubmit={handleSubmit}
@@ -723,7 +821,7 @@ const Contact = ({allChantiers, itemUpdateChoice, setItemUpdateChoice,
                                 () => { 
                                     
                                     setShowItemUser({tableIsOpen: true, paginationIsOpen: true, contactIsOpen: false});
-                                    setShowContactSearchFilter && setShowContactSearchFilter(false);
+                                    setShowContactSearchFilter && setShowContactSearchFilter(true);
                               
                                 }
                               
@@ -736,7 +834,7 @@ const Contact = ({allChantiers, itemUpdateChoice, setItemUpdateChoice,
                     }
 
                     {
-                        isDashboard && itemUpdateChoice && itemUpdateChoice.id && doublonsChantiers && doublonsChantiers.length > 1 &&
+                        isDashboard && itemUpdateChoice && itemUpdateChoice.id && doublonsChantiers && doublonsChantiers.length > 0 &&
 
                         <div className='serviceItem'>
 
@@ -745,7 +843,7 @@ const Contact = ({allChantiers, itemUpdateChoice, setItemUpdateChoice,
                                 <p className='serviceItem__header--titleService'> Liste des services</p>
 
                                 <div className='serviceItem__btnAdd'
-                                    onClick={ () => resetForm(valComponentExist === "GetUsers" ? "user" : "chantier")}
+                                    onClick={ () => resetForm( valComponentExist === "GetUsers" ? "user" : "chantier", valComponentExist === "GetUsers" && "addUser" ) }
                                 >
                                     <p>Ajouter   <i className="fa-solid fa-plus"></i></p>
                                
@@ -754,16 +852,6 @@ const Contact = ({allChantiers, itemUpdateChoice, setItemUpdateChoice,
                             </div>
 
                             <div className='serviceItem__item'>
-
-                                {/* <div className='serviceItem__item--table'>
-                                    {
-                                        listeEnteteServices.map((item, index) => (
-                                            <div key={index} className='serviceItem__item--entete'>
-                                                {item}
-                                            </div>
-                                        ))
-                                    }
-                                </div> */}
 
                                 {
                                     doublonsChantiers.length > 0 && doublonsChantiers.map((item, index) => (
@@ -777,9 +865,9 @@ const Contact = ({allChantiers, itemUpdateChoice, setItemUpdateChoice,
 
                                             
                                             <div className='tdIcons'>
-                                                <i className="fa-solid fa-download" onClick={() => actionsLineTable(item, "telecharger")}></i>
-                                                <i className="fa-solid fa-pencil" onClick={() => actionsLineTable(item, "modifier")}></i>
-                                                <i className="fa-solid fa-trash" onClick={() => actionsLineTable(item, "supprimer")}></i>
+                                                <i className="fa-solid fa-download" onClick={() => actionsLineTable(item, "telecharger", "btnUserTelechargerChantier")}></i>
+                                                <i className="fa-solid fa-pencil" onClick={() => actionsLineTable(item, "modifier", "btnUserModifierChantier")}></i>
+                                                <i className="fa-solid fa-trash" onClick={() => actionsLineTable(item, "supprimer", "btnUserSupprimerChantier")}></i>
                                             </div>
                                         </div>
 
@@ -796,7 +884,7 @@ const Contact = ({allChantiers, itemUpdateChoice, setItemUpdateChoice,
 
                     {
                         
-                        //!isDashboard && (valComponentExist === "GetUsers" || !valComponentExist ) &&
+                        // !isDashboard && (valComponentExist === "GetUsers" || !valComponentExist ) &&  //////////////////////////
                         <div className='form-group'>
                             <div className='itemInputContainer'>
                                 <label>Nom</label>
@@ -814,7 +902,7 @@ const Contact = ({allChantiers, itemUpdateChoice, setItemUpdateChoice,
                     }
 
                     {
-                        // !isDashboard && (valComponentExist === "GetUsers" || !valComponentExist ) &&
+                        // !isDashboard && (valComponentExist === "GetUsers" || !valComponentExist ) &&   ////////////////////////////
                         <div className='form-group'>
                             <div className='itemInputContainer'>
                                 <label>E-mail</label>
@@ -849,7 +937,7 @@ const Contact = ({allChantiers, itemUpdateChoice, setItemUpdateChoice,
 
                         {
 
-                             (!valComponentExist || valComponentExist === "GetChantiers" ) &&
+                            !showHideInputUser && //  (!valComponentExist || valComponentExist === "GetChantiers" || (valComponentExist === "GetUsers" &&  showHideInputUser)  ) && 
                             <div className='itemInputContainer'>
                                 <label>Service</label>
                                 <select name='service' value={formData.service} onChange={handleChange} className='form-control itemInput' style={getInputStyle('service')}>
@@ -866,7 +954,7 @@ const Contact = ({allChantiers, itemUpdateChoice, setItemUpdateChoice,
                     </div>
 
                     {
-                       (!valComponentExist || valComponentExist === "GetChantiers" ) &&
+                       !showHideInputUser &&//(!valComponentExist || valComponentExist === "GetChantiers" || valComponentExist === "GetUsers" ) &&
                         <div className='form-group'>
                             <label>Besoin</label>
                             <textarea name='besoin' placeholder='Dites-nous en plus sur votre besoin*' value={formData.besoin} onChange={handleChange} className='form-control' style={getInputStyle('besoin')} />
@@ -875,7 +963,16 @@ const Contact = ({allChantiers, itemUpdateChoice, setItemUpdateChoice,
                     }
 
                     {
-                        isDashboard && //valComponentExist === "GetUsers" &&
+                        !showHideInputUser && valComponentExist === "GetUsers" &&
+                        <div className='form-group'>
+                            <label>Commentaire</label>
+                            <textarea name='commentaire' placeholder='Plus detail sur le prospect' value={formData.commentaire} onChange={handleChange} className='form-control' style={getInputStyle('commentaire')} />
+                            {/* {errors.besoin && <p className="error">{errors.besoin}</p>} */}
+                        </div>
+                    }
+
+                    {
+                        isDashboard && valComponentExist === "GetUsers" &&
                         <div className='form-group'>
                             <div className='itemInputContainer'>
                                 <label>Code Postal</label>
@@ -893,7 +990,7 @@ const Contact = ({allChantiers, itemUpdateChoice, setItemUpdateChoice,
                     }
 
                     {
-                        isDashboard && valComponentExist === "GetChantiers" &&
+                        isDashboard && (valComponentExist === "GetChantiers" || (flagUsers.componentHome === "GetUsers" && !flagUsers.value )) &&  
                         <>
                            
                             <div className='form-group'>
@@ -964,10 +1061,6 @@ const Contact = ({allChantiers, itemUpdateChoice, setItemUpdateChoice,
                                 </div>
                             </div>
 
-                           
-
-                            
-
                         </>
 
 
@@ -996,12 +1089,15 @@ const Contact = ({allChantiers, itemUpdateChoice, setItemUpdateChoice,
                     {
                          isDashboard && valComponentExist === "GetUsers" &&
                         <div className='form-group'>
+
                             <div className='itemInputContainer'>
+                                <label>Mot de passe</label>
                                 <input type='password' name='password' placeholder='Mot de passe*' value={formData.password} onChange={handleChange} className='form-control itemInput' style={getInputStyle('password')} />
                                 {errors.password && <p className="error">{errors.password}</p>}
                             </div>
 
                             <div className='itemInputContainer'>
+                                <label>Âge</label>
                                 <input type='number' name='age' placeholder='Âge*' value={formData.age} onChange={handleChange} className='form-control itemInput' style={getInputStyle('age')} />
                                 {errors.age && <p className="error">{errors.age}</p>}
                             </div>
@@ -1010,7 +1106,7 @@ const Contact = ({allChantiers, itemUpdateChoice, setItemUpdateChoice,
                     }
 
                     {       
-                         (!valComponentExist || valComponentExist === "GetChantiers" ) &&
+                         (!valComponentExist || valComponentExist === "GetChantiers" || valComponentExist === "GetUsers"  ) &&
                         <div className='form-group'>
                             <div className='itemInputContainer'>
                                 <label>Quand pouvons-nous vous appeler ?</label>
@@ -1028,11 +1124,11 @@ const Contact = ({allChantiers, itemUpdateChoice, setItemUpdateChoice,
                     }
 
                     {
-                         (isDashboard && valComponentExist === "GetUsers") &&
+                         (isDashboard && valComponentExist === "GetUsers" || (flagUsers.componentHome === "GetUsers" && !flagUsers.value ) ) &&
                         <div className='form-group'>
                             <div className='itemInputContainer'>
 
-
+                                <label>Type de client</label>
                                 <select name='typeClient' value={formData.typeClient} onChange={handleChange} className='form-control itemInput' style={getInputStyle('typeClient')}>
                                     <option value="">Type de client*</option>
                                     <option value="Professionnel">Professionnel</option>
@@ -1050,6 +1146,7 @@ const Contact = ({allChantiers, itemUpdateChoice, setItemUpdateChoice,
                          (isDashboard && valComponentExist === "GetUsers") &&
                         
                         <div className='form-group'>
+                            <label>Rôle</label>
                             <select name='role' value={formData.role} onChange={handleChange} className='form-control itemInput' style={getInputStyle('role')}>
                                 <option value="">Sélectionnez un rôle*</option>
                                 <option value="Admin">Admin</option>

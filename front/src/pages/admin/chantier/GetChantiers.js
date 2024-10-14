@@ -7,7 +7,7 @@ import Pagination from '../../../components/Pagination';
 
 const GetChantiers = ({ 
     ComponentShowTable,
-    sousListe, setSousListe, nombreLignes, setNombreLignes, indexPage, setIndexPage, actionsTable, setactionsTable, modalContact, setModalContact,
+    sousListe, setSousListe, nombreLignes, setNombreLignes, indexPage, setIndexPage, actionsTable, setactionsTable,
     chantiers, setchantiers, allChantiers, setExecuteUseEffectFetchDashboard, itemUpdateChoice, setItemUpdateChoice,
     setBtnCreate, btnCreate, btnChoice
 }) => {
@@ -22,12 +22,22 @@ const GetChantiers = ({
        // btnAddProspect: false
     });
 
+    const [flagUsers, setFlagUsers] = useState({  
+        component: "GetChantiers",
+        value: true,
+        //addUser: false,
+
+    });
+
+            // Fonction pour afficher le formulaire de contact
+            const [showContactSearchFilter, setShowContactSearchFilter] = useState(true);
+
     // Validation des props
     useEffect(() => {
         console.log('Validation des props dans GetChantiers');
 
         // Vérifier si tous les props nécessaires sont présents
-        if (chantiers && allChantiers && sousListe && setSousListe && nombreLignes && indexPage && setchantiers && setExecuteUseEffectFetchDashboard && setItemUpdateChoice && setModalContact
+        if (chantiers && allChantiers && sousListe && setSousListe && nombreLignes && indexPage && setchantiers && setExecuteUseEffectFetchDashboard && setItemUpdateChoice 
             && setBtnCreate && btnCreate
         ) {
             
@@ -46,9 +56,10 @@ const GetChantiers = ({
     return (
         <>
             {
-                //!modalContact && 
+              
                 <div className='GetChantiers'>
                     {
+                        showContactSearchFilter &&
                         <InputFormSearchFilter 
                            // ComponentShowTable={ComponentShowTable} 
                             allChantiers={allChantiers} 
@@ -57,6 +68,13 @@ const GetChantiers = ({
                             btnCreate={btnCreate}
                             component={"GetChantiers"}
                             setShowItemUser={setShowItemUser} showItemUser={showItemUser}
+                        
+                            flagUsers={ flagUsers }
+                            setFlagUsers={setFlagUsers}
+
+                            showContactSearchFilter={showContactSearchFilter}
+                            setShowContactSearchFilter={setShowContactSearchFilter}
+                        
                         />
                  
                     }
@@ -80,6 +98,10 @@ const GetChantiers = ({
                         actionsTable={actionsTable} 
                         setactionsTable={setactionsTable}
                         setShowItemUser={setShowItemUser} showItemUser={showItemUser}
+                        
+                        showContactSearchFilter={showContactSearchFilter}
+                        setShowContactSearchFilter={setShowContactSearchFilter}
+                        component={"GetChantiers"}
                         />
                     }
 
@@ -98,16 +120,23 @@ const GetChantiers = ({
                 </div>
             }
 
-            { btnChoice.Chantiers && showItemUser.contactIsOpen &&
+            { btnChoice.Chantiers && showItemUser.contactIsOpen && 
                 <Contact 
                     ComponentShowTable={ComponentShowTable}
                     itemUpdateChoice={itemUpdateChoice} 
                     setItemUpdateChoice={setItemUpdateChoice}
                     allChantiers={allChantiers}
                     component={"GetChantiers"}
-                    modalContact={modalContact}
-
+                    // modalContact={modalContact}
                     setShowItemUser={setShowItemUser} showItemUser={showItemUser}
+                
+                
+                    flagUsers={ flagUsers }
+                    setFlagUsers={setFlagUsers}
+
+                    // showContactSearchFilter={showContactSearchFilter}
+                    setShowContactSearchFilter={setShowContactSearchFilter}
+
                 />
             }
         </>

@@ -5,7 +5,7 @@ import Contact from '../pages/public/Contact';
 const InputFormSearchFilter = ({ 
     setchantiers, allChantiers, component,
     btnCreate, setShowItemUser, showItemUser,
-    
+    flagUsers, setFlagUsers, // showContactSearchFilter, setShowContactSearchFilter
 
 }) => {
 
@@ -21,7 +21,7 @@ const InputFormSearchFilter = ({
     });
 
     // Fonction pour afficher le formulaire de contact
-    const [showContactSearchFilter, setShowContactSearchFilter] = useState(false);
+    const [showContactSearchFilter, setShowContactSearchFilter] = useState(true);
 
     // Fonction pour convertir la date ISO en format YYYY-MM-DD
     const formatDate = (isoDate) => {
@@ -113,7 +113,8 @@ const InputFormSearchFilter = ({
     return (
         <>
             {   
-                btnCreate &&
+                // btnCreate &&
+                showContactSearchFilter &&
                 <div className='InputFormSearchFilter__filterBtn'>
                     <div className='InputFormSearchFilter__filterBtn--search'>
                         <i className="fa-solid fa-magnifying-glass"></i>
@@ -176,7 +177,7 @@ const InputFormSearchFilter = ({
                     >
                         <i className="fa-solid fa-plus"></i>
                         {
-                           component &&  component === "GetChantiers" ? "Créer un chantier" : "Ajouter un Prospect"
+                            component &&  component === "GetChantiers" ? "Créer un chantier" : "Ajouter un Prospect"
                         }
                     </button>
                 </div>
@@ -184,12 +185,14 @@ const InputFormSearchFilter = ({
             }
 
             {
-                showContactSearchFilter &&
+                !showContactSearchFilter &&
                     <Contact 
                     component={component} 
                     setShowItemUser={setShowItemUser} showItemUser={showItemUser}
-
                     showContactSearchFilter={showContactSearchFilter} setShowContactSearchFilter={setShowContactSearchFilter}
+                
+                    flagUsers={ flagUsers }
+                    setFlagUsers={setFlagUsers}
                 />
             }
         </>

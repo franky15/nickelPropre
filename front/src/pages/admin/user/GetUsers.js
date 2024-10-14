@@ -9,7 +9,7 @@ const GetUsers = ({
     sousListe, setSousListe, nombreLignes, setNombreLignes, indexPage, setIndexPage, actionsTable, setactionsTable,
     users, setUsers, allUsers, setAllUsers, setExecuteUseEffectFetchDashboard,
     itemUpdateChoice, setItemUpdateChoice, setModalContact, modalContact,
-    setBtnCreate, btnCreate, btnChoice
+    setBtnCreate, btnCreate, btnChoice, allChantiers, setchantiers
 }) => {
 
     //state pour afficher le formulaire de contact
@@ -25,12 +25,24 @@ const GetUsers = ({
 
     const [propsLoaded, setPropsLoaded] = useState(false);  // Pour suivre la réception des props
 
-    //gestion de reinitialisation du formulaire de contact quand on veut ajouter un prospect
+    const [flagUsers, setFlagUsers] = useState({  
+        componentflag: "GetUsers",
+        value: true,
+        //addUser: false,
+
+    });
+
+    // Fonction pour afficher le formulaire de contact
+    const [showContactSearchFilter, setShowContactSearchFilter] = useState(true);
+
+     //gestion du state de du masquage des champs du formulaire de modifcation de l'utilisateur
+     const [showHideInputUser, setShowHideInputUser] = useState(false);
+
 
     
     // Vérification des props à l'aide d'un useEffect
     useEffect(() => {
-        if (users && allUsers && sousListe && setSousListe && nombreLignes && indexPage && setUsers && setAllUsers && setExecuteUseEffectFetchDashboard && setItemUpdateChoice && setModalContact
+        if (users && allUsers && sousListe && setSousListe && nombreLignes && indexPage && setUsers && setAllUsers && setExecuteUseEffectFetchDashboard && setItemUpdateChoice 
             && setBtnCreate && btnCreate 
         ) {
             // Si tous les props nécessaires sont présents
@@ -46,23 +58,34 @@ const GetUsers = ({
         return <div>Chargement des données...</div>;
     }
 
-   console.log("itemUpdateChoice", itemUpdateChoice);
+//    console.log("itemUpdateChoice", itemUpdateChoice);
 
-   console.log("showItemUser", showItemUser);
+//    console.log("showItemUser", showItemUser);
 
     return (
         <div className='GetUsers'>
-            <InputFormSearchFilter  
+
+            {
+                //showContactSearchFilter &&
+                <InputFormSearchFilter  
                 allUsers={allUsers} 
                 setUsers={setUsers} 
-                setModalContact={setModalContact}
-                modalContact={modalContact}
+                // setModalContact={setModalContact}
+                // modalContact={modalContact}
                 component={"GetUsers"}
                 btnCreate={btnCreate}
                 setItemUpdateChoice={setItemUpdateChoice}
                 setShowItemUser={setShowItemUser} showItemUser={showItemUser}
+                flagUsers={ flagUsers }
+                setFlagUsers={setFlagUsers}
+
+                // showContactSearchFilter={showContactSearchFilter}
+                // setShowContactSearchFilter={setShowContactSearchFilter}
+
                
             />
+            
+            }
             {
                 btnChoice.Prospects && showItemUser.tableIsOpen &&
                 <Table 
@@ -80,6 +103,14 @@ const GetUsers = ({
                     indexPage={indexPage} 
                     setIndexPage={setIndexPage}
                     setShowItemUser={setShowItemUser} showItemUser={showItemUser}
+                    allChantiers = {allChantiers} 
+
+                    showContactSearchFilter={showContactSearchFilter}
+                    setShowContactSearchFilter={setShowContactSearchFilter}
+                    component={"GetUsers"}
+
+                    setShowHideInputUser={setShowHideInputUser}
+                    showHideInputUser={showHideInputUser}
                 />
             }
 
@@ -95,7 +126,7 @@ const GetUsers = ({
             }
 
             { 
-                btnChoice.Prospects && showItemUser.contactIsOpen &&
+                btnChoice.Prospects && showItemUser.contactIsOpen && //showItemUser.contactIsOpen &&
                 <Contact 
                     ComponentShowTable={ComponentShowTable}
                     itemUpdateChoice={itemUpdateChoice} 
@@ -103,8 +134,19 @@ const GetUsers = ({
                     actionsTable={actionsTable}
                     allUsers={allUsers}
                     component={"GetUsers"}
-                    modalContact={modalContact}
+                    allChantiers = {allChantiers} 
+                    //modalContact={modalContact}
                     setShowItemUser={setShowItemUser} showItemUser={showItemUser}
+                
+                    flagUsers={ flagUsers }
+                    setFlagUsers={setFlagUsers}
+
+                    showContactSearchFilter={showContactSearchFilter}
+                    setShowContactSearchFilter={setShowContactSearchFilter}
+
+                    setShowHideInputUser={setShowHideInputUser}
+                    showHideInputUser={showHideInputUser}
+                
                 />
             
             

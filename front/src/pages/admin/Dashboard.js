@@ -22,8 +22,6 @@ const Dashboard = () => {
     // console.log("***chantiersStore dans GetChantiers:", chantiersStore);
 
     ///////////////////////////////
-    //gestion du state de la fermeture et de l'ouverture de la fenêtre modale du formulaire de contact
-    const [modalContact, setModalContact] = useState(false);
 
     //gestion du state des sous listes pour la pagination
     const [sousListe, setSousListe] = useState([]);
@@ -47,11 +45,6 @@ const Dashboard = () => {
     //gestion du state du bouton créer un chantier ou un utilisateur du composant InputFormSearchFilter
     const [btnCreate, setBtnCreate] = useState(true);
 
-    
-
-    
-
-    console.log("btnCreate dans GetChantiers:", btnCreate);
 
     ///////////////////////////////
 
@@ -78,10 +71,6 @@ const Dashboard = () => {
     //gestion du state de l'affichage progressive de la page
     const [isVisibleHome, setIsVisibleHome] = useState(false);
 
-    const [services, setServices] = useState([]);
-
-
-    
 
     //state pour gérer le décclenchemment du useEffect pour la récupération des chantiers et utilisateurs ces derniers sont mis à jour dans le store
     const [executeUseEffectFetchDashboard, setExecuteUseEffectFetchDashboard] = useState(false);
@@ -103,7 +92,7 @@ const Dashboard = () => {
 
                     const chantiersData = response.payload.data.resGetAllChantiers;
                     
-                    //console.log("chantiersData dans GetChantiers:", chantiersData);
+                    // console.log("chantiersData dans Dashboard:", chantiersData);
                     /*const checkedItemsValue = chantiersData.map((item) => item.id);
 
                     //stockage des valeurs en clé/valeur
@@ -123,12 +112,16 @@ const Dashboard = () => {
 
                         //console.log("usersData dans GetChantiers:", usersData);
 
+                        //rajout des noms et prénoms des utilisateurs dans les chantiers
                         const updatedChantiers = chantiersData
+                        .filter(user => user !== undefined) // Filtrer les utilisateurs indéfinis
                         .filter(chantier => chantier !== undefined && chantier.Users_id) // Filtrer les chantiers indéfinis
                         .map(chantier => {
                             
                             // Clonage de chaque chantier avant modification car chantier provient de redux et est en lecture seule on ne peut pas le modifier directement
                             const chantierClone = { ...chantier };
+                            
+                            
                             
                             const userMatch = usersData.find(user => parseInt(chantierClone.Users_id) === parseInt(user.id));
                             
@@ -140,18 +133,47 @@ const Dashboard = () => {
                                 chantierClone.prenom = userMatch.prenom;
                                 chantierClone.userCreatorId = userMatch.email;
                                 chantierClone.tel = userMatch.tel;
+
+                                //rajout de services et besoin dans usersData
+
                                
                             }
                             return chantierClone;
                         });
 
-                        console.log("updatedChantiers dans GetChantiers:", updatedChantiers);
-                        console.log("usersData dans GetChantiers:", usersData);
+                        //rajout de services et besoin dans les utilisateurs
+                        const updatedUsers = usersData
+                        .filter(user => user !== undefined) // Filtrer les utilisateurs indéfinis
+                        .map(user => {
+                            const userClone = { ...user }; // Clonage de l'utilisateur
+
+                            // Vérifie que le chantier correspondant est trouvé
+                            const serviceMatch = chantiersData.find(chantier => parseInt(userClone.id) === parseInt(chantier.Users_id));
+
+                            // console.log("serviceMatch dans usersData:", serviceMatch);
+
+                            if (serviceMatch) {
+                            // Assigner uniquement si les champs existent
+                            userClone.service = serviceMatch.service || 'Service non défini';
+                            userClone.besoin = serviceMatch.besoin || 'Besoin non défini';
+                            }
+
+                            // console.log("userClone dans usersData:", userClone); // Vérification du contenu de userClone
+
+                            return userClone; // Retourner le clone modifié
+                        });
+
+
+                        // console.log("updatedChantiers dans Dashboard:", updatedChantiers);
+
+                        // console.log("usersData dans Dashboard:", usersData);
+                        // console.log("updatedUsers dans Dashboard:", updatedUsers);
+                        
 
                         setchantiers(updatedChantiers);
                         setAllChantiers(updatedChantiers);
 
-                        setUsers(usersData);
+                        setUsers(updatedUsers);
                         setAllUsers(usersData);
                     }
                 }
@@ -202,7 +224,7 @@ const Dashboard = () => {
     }, [chantiersStore]);*/
 
     // console.log("chantiers dans Dashboars:", chantiers);
-    console.log("users dan Dashboars:", users);
+    // console.log("users dan Dashboars:", users);
 
     
 
@@ -312,7 +334,7 @@ const Dashboard = () => {
        
     }
 
-    console.log('***btnChoice', btnChoice);
+    // console.log('***btnChoice', btnChoice);
 
     return (
         <>
@@ -345,7 +367,7 @@ const Dashboard = () => {
                                 ComponentShowTable="chantiers" 
                                 chantiers={chantiers} setchantiers={setchantiers}  allChantiers = {allChantiers} setExecuteUseEffectFetchDashboard={setExecuteUseEffectFetchDashboard}
                                 sousListe={sousListe} setSousListe={setSousListe} nombreLignes={nombreLignes} setNombreLignes={setNombreLignes} indexPage={indexPage} setIndexPage={setIndexPage}
-                                actionsTable={actionsTable} setactionsTable={setactionsTable} modalContact={modalContact} setModalContact={setModalContact}
+                                actionsTable={actionsTable} setactionsTable={setactionsTable} 
                                 itemUpdateChoice={itemUpdateChoice} setItemUpdateChoice={setItemUpdateChoice}
                                 setBtnCreate={setBtnCreate} btnCreate={btnCreate}
                                 btnChoice={btnChoice}
@@ -356,9 +378,9 @@ const Dashboard = () => {
                             <GetUsers
                              ComponentShowTable="users" users={users} setUsers ={setUsers} allUsers={allUsers} setAllUsers ={setAllUsers} setExecuteUseEffectFetchDashboard={setExecuteUseEffectFetchDashboard}
                              sousListe={sousListe} setSousListe={setSousListe} nombreLignes={nombreLignes} setNombreLignes={setNombreLignes} indexPage={indexPage} setIndexPage={setIndexPage} actionsTable={actionsTable} setactionsTable={setactionsTable}
-                             modalContact={modalContact} setModalContact={setModalContact} itemUpdateChoice={itemUpdateChoice} setItemUpdateChoice={setItemUpdateChoice}
+                             itemUpdateChoice={itemUpdateChoice} setItemUpdateChoice={setItemUpdateChoice}
                              setBtnCreate={setBtnCreate} btnCreate={btnCreate}
-                             btnChoice={btnChoice} 
+                             btnChoice={btnChoice}  allChantiers = {allChantiers} 
                              />
                         }
                         

@@ -62,8 +62,67 @@
         text-align: center;
         font-size: $fontZiseTable;
 
-        
+        .statusInput{
+            //width: 100%;
+            border: solid 2px $primary;
+            border-radius: $borderRadiusInput - 5px;
+            padding: 5px;
+            text-align: center;
+            font-size: $fontZiseTable;
+            font-weight: bold;
+            color: $primary;
+            background-color: $backgroungColorSection;
+        }
+        .containerAction{
+            width: 80%;
+            margin: auto;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            //padding: 5px;
+            border: solid 2px $primary;
+            border-radius: $borderRadiusInput - 5px;
+            background-color: $primary;
+            margin-bottom: 5px;
+            
 
+            span{
+
+                width: 70%;
+                font-weight: bold;
+                color: $backgroungColorSection;
+
+            }
+            .containerAction__btn{
+
+                width: 30%;
+                //border: solid red;
+
+                input{
+                    width: 100%;
+                    border: solid 2px $primary;
+                    border-radius: $borderRadiusInput - 5px;
+                    padding: 5px;
+                    text-align: center;
+                    font-size: $fontZiseTable;
+                    font-weight: bold;
+                    color: $primary;
+                    background-color: $backgroungColorSection;
+                }
+            }
+        }
+        .nombreRelancesInput{
+
+            width: 50%;
+            border: solid 2px $primary;
+            border-radius: $borderRadiusInput - 5px;
+            padding: 5px;
+            text-align: center;
+            font-size: $fontZiseTable;
+            font-weight: bold;
+            color: $primary;
+            background-color: $backgroungColorSection;
+        }
        
         .tdIcons{
 
@@ -76,6 +135,12 @@
                 cursor: pointer;
                 //margin-inline: 10px;
             }
+        }
+
+
+        .seeMoreTable{
+            color: $primary;
+            cursor: pointer;
         }
         
     }

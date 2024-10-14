@@ -19,6 +19,13 @@ const Home = () => {
 
     const [services, setServices] = useState([]);
 
+    const [flagUsers, setFlagUsers] = useState({  
+        componentflag: "Home",
+        value: true,
+        //addUser: false,
+
+    });
+
 
 
     useEffect(() => {
@@ -262,7 +269,8 @@ const Home = () => {
 
             <div className='blockContact'>
                
-                <Contact />
+                <Contact   flagUsers={ flagUsers }
+                    setFlagUsers={setFlagUsers}/>
 
             </div>
 
