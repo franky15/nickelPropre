@@ -20,6 +20,13 @@ const Header = () => {
 
     const location = useLocation(); // Utilisé pour suivre la route active
 
+    // // Exemple de définition de flagUsers dans Header.js
+    // const [flagUsers, setFlagUsers] = useState({
+    //     componentflag: "Home", // Assurez-vous que c'est initialisé
+    //     value: true,
+    // });
+
+
     // État pour chaque survol individuel (hover)
     const [hoveredItem, setHoveredItem] = useState(null); 
 
@@ -241,13 +248,13 @@ const Header = () => {
                             }
 
                             {/* Lien Contact */}
-                            <li className="nav-item contact">
+                            {/* <li className="nav-item contact">
                                 <Link className="nav-link linkContact" to="/contact"
                                     style={isActive.contact ? { borderTop: `${barHeight} solid ${Colors.primary}` } : { border: "none" }}
                                 >
                                     Nous contacter
                                 </Link>
-                            </li>
+                            </li> */}
                         </ul>
                     </div>
                 </div>

@@ -572,28 +572,31 @@ html, body {
 }
 .Home .blockReviews {
   width: 100%;
-  background-color: #1093EB;
-  margin-top: 100px;
-  border-radius: 15px;
-  box-shadow: 7px 8px 17px -1px rgba(0, 0, 0, 0.41);
 }
 .Home .blockReviews__avis {
-  width: 80%;
+  width: 100%;
   margin: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   font-size: 30px;
-  color: white;
   margin-top: 100px;
 }
-.Home .blockReviews__avis .avis {
-  width: 100%;
+.Home .blockReviews__avis .blockReviews__avis--img {
+  width: 80%;
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
-  margin-top: 100px;
-  background-color: white;
+  row-gap: 20px;
+  border-radius: 15px;
+}
+.Home .blockReviews__avis .blockReviews__avis--img .itempic {
+  height: 400px;
+  width: 49%;
+  border-radius: 15px;
+  box-shadow: 7px 8px 17px -1px rgba(0, 0, 0, 0.41);
+  background-color: black;
 }
 .Home .blockReviews__avis .describTitle {
   font-weight: bold;

@@ -5,7 +5,7 @@
 * {
     font-family: "Open Sans", sans-serif;
    
-
+    
    
   }
   
@@ -19,6 +19,7 @@
 
 .Home{
 
+   
     width: 90%;
     margin: auto;
     display: flex;
@@ -291,6 +292,7 @@
 
         width: 80%;
         margin-top: $margintopSection;
+        // background-color: $backgroungColorSection;
 
         // border: solid 1px red;
 
@@ -334,34 +336,51 @@
     .blockReviews{
 
         width: 100%;
-        background-color: $primary;
-        margin-top: $margintopSection;
-        border-radius: $borderRadiusBlock;
-        box-shadow: $boxShadow;
+        
+        // background-color: $primary;
+        // margin-top: $margintopSection;
+        // border-radius: $borderRadiusBlock;
+        // box-shadow: $boxShadow;
 
         &__avis{
-            width: 80%;
+            width: 100%;
             margin: auto;
             display: flex;
             flex-direction: column;
             align-items: center;
             font-size: $subTitle;
-            color: white;
+            // color: white;
             margin-top: $margintopSection;
            
 
-            //border: solid 1px red;
+            // border: solid 1px red;
 
-            .avis{
-                width: 100%;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                margin-top: $margintopSection;
-                background-color: white;
-                
-                //border: solid 1px red;
+            .blockReviews__avis--img{
+
+               width: 80%;
+               //height: 500px;
+               display: flex;
+               flex-wrap: wrap;
+               justify-content: space-between;
+               align-items: center;
+               row-gap: 20px;
+               border-radius: $borderRadiusBlock;
+                // box-shadow: $boxShadow;
+                // overflow: hidden;
+
+          
+            //    border: solid 1px yellow;
+                .itempic{
+
+                    height: 400px; // Ajuster la hauteur
+                    width: 49%; // Largeur à 100%
+                    border-radius: $borderRadiusBlock;
+                    box-shadow: $boxShadow; // Ombre portée
+                    background-color: black;
+                    // border: solid 1px red;
+                }
             }
+            
             .describTitle{
                 font-weight: bold;
                 font-size: $subTitle;

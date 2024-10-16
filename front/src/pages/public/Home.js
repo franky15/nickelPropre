@@ -6,6 +6,14 @@ import { GetServices } from '../admin/service';
 import canape from '../../images/canapeInfo.png';
 import terrasse from '../../images/terrasse.jpg';
 
+//importation des images des services
+import avant1 from '../../images/avant1.png';
+import avant2 from '../../images/avant2.png';
+import bmw from '../../images/bmw.png';
+import toilettes from '../../images/toilettes.png';
+
+
+
 
 
 import servicesData from '../../datas';
@@ -26,7 +34,9 @@ const Home = () => {
 
     });
 
+    const avantapresImg = [ bmw, avant1, avant2, toilettes]
 
+    // console.log(avantapresImg);
 
     useEffect(() => {
 
@@ -41,6 +51,16 @@ const Home = () => {
 
        
     } ,[]);
+
+
+    // Fonction pour faire défiler vers le formulaire de contact
+    const scrollToContact = () => {
+
+        const contactForm = document.getElementById('ancreContact');
+        if (contactForm) {
+            contactForm.scrollIntoView({ behavior: 'smooth' });
+        }
+    };
    
 
     return (
@@ -53,7 +73,9 @@ const Home = () => {
                 <p className='blockH1__describ'>Redonnez vie et fraicheur à vos Canapés et intérieur de véhicule  à Domicile</p>
             </div>
 
-            <button className='btn__contact'>Nous contacter</button>
+            <button className='btn__contact'
+                onClick={scrollToContact}
+            >Nous contacter</button>
 
             <h2 className='H2__title'>Particulier et Professionnels</h2>
 
@@ -118,7 +140,9 @@ const Home = () => {
                    
                 </div>
 
-                <button className='btn__contact'>Nous contacter</button>
+                <button className='btn__contact'
+                    onClick={scrollToContact}
+                >Nous contacter</button>
                 <p className='blockEntreprise__products'>
                     Nous utilisons des produits écologique et sans risques, qui désinfectent et éliminent des bacteries ou acariens. 
                     Que vous ayez un canapé et ou s!ège auto en tissu ou en cuir nous les traitons.
@@ -132,7 +156,12 @@ const Home = () => {
 
                     style={{
                         backgroundImage: `url(${canape})`,
-                        
+                        backgroundSize: "contain",  // Changez "cover" en "contain"
+                        backgroundRepeat: "no-repeat", // Évite la répétition de l'image
+                        backgroundPosition: "center",   // Centre l'image dans le conteneur
+                        // height: '100%', // Définir la hauteur selon vos besoins
+                        // width: '100%',  // Définir la largeur selon vos besoins
+                        backgroundColor: "white",
                     }}
                 >
                    
@@ -145,7 +174,9 @@ const Home = () => {
                     <p className='blockCanap__prix'>
                         Le prix inclut les frais de déplacement ainsi que les produits de nettoyage utilisés. Le paiement est fait une fois le travail achevé.
                     </p>
-                    <button className='btn__contact'>Nous contacter</button>
+                    <button className='btn__contact'
+                        onClick={scrollToContact}
+                    >Nous contacter</button>
                 </div>
 
             </div>
@@ -157,8 +188,34 @@ const Home = () => {
                     <h3>
                         Nettoyage PROFESSIONNEL à DOMICILE : NOS RÉALISATIONS
                     </h3>
-                    <div className='avis'>
-                       //////////////////////////////
+                   
+                    <div className='blockReviews__avis--img'>
+                        {
+                            avantapresImg.map((service, index) => {
+                                return (
+
+                                    
+                                    <div 
+                                        className='itempic'
+                                        key={`home-${service}-${index}`}
+                                       
+                                        style={{
+                                            backgroundImage: `url(${service})`, // Utilisation correcte de backgroundImage via style
+                                            backgroundSize: 'contain', 
+                                            backgroundRepeat: 'no-repeat', // Ajuster la taille de l'image
+                                            backgroundPosition: 'center', // Centrer l'image
+                                            overflow: 'hidden', 
+
+                                        
+
+                                        }}
+                                    >
+                                    
+                                    </div>
+                                
+                                )
+                            })
+                        }
                     </div>
                     <p className='describTitle'>
                         ⚠ Saviez-vous qu’un canapé contient 12 fois plus de bactéries qu’un siège de toilette ? 
@@ -238,7 +295,9 @@ const Home = () => {
                         <p className='blockTerasse__text--describ'>
                             Afin de pouvoir pleinement profiter de votre terrasse, il est nécessaire de la nettoyer régulièrement. Lorsqu’on nettoie une terrasse, il faut bien faire attention aux produits et aux outils utilisés pour éviter de l’endommager.
                         </p>
-                        <button className='btn__contact'>Nous contacter</button>
+                        <button className='btn__contact'
+                            onClick={scrollToContact}
+                        >Nous contacter</button>
                     
                     </div>
             </div>
@@ -262,12 +321,14 @@ const Home = () => {
                         <p className='blockTerasseReverse__text--describ'>
                             Afin de pouvoir pleinement profiter de votre terrasse, il est nécessaire de la nettoyer régulièrement. Lorsqu’on nettoie une terrasse, il faut bien faire attention aux produits et aux outils utilisés pour éviter de l’endommager.
                         </p>
-                        <button className='btn__contact'>Nous contacter</button>
+                        <button className='btn__contact'
+                            onClick={scrollToContact}
+                        >Nous contacter</button>
                     
                     </div>
             </div>
 
-            <div className='blockContact'>
+            <div className='blockContact' id="ancreContact">
                
                 <Contact   flagUsers={ flagUsers }
                     setFlagUsers={setFlagUsers}/>

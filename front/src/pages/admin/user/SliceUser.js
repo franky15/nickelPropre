@@ -185,13 +185,15 @@ export const userSlice = createSlice({
             })////////////////////////
             .addCase(updateUser.fulfilled, (state, action) => {
 
-                //récupération de l'index de l'utilisateur à modifier
-                const index = state.users.findIndex((user) => user.id === action.payload.id);
+                // console.log("action", action);
+                // console.log("action.payload", action.payload);
+                // //récupération de l'index de l'utilisateur à modifier
+                // const index = state.users.findIndex((user) => user.id === action.payload.id);
                 
-                //modification de l'utilisateur
-                state.users[index] = action.payload;
+                // //modification de l'utilisateur
+                // state.users[index] = action.payload;
                 
-                state.status = "success";
+                // state.status = "success";
 
             })
             .addCase(deleteUser.fulfilled, (state, action) => {

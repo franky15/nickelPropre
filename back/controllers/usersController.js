@@ -68,7 +68,7 @@ exports.signum = async (req, res, next) => {
    
     console.log("$$req.body", req.body);
   
-    const { reduction, nom, prenom, email, password, tel, adresse, ville, region, codePostal, genre, age, role, typeClient, service, besoin, dateAppel, heureAppel } = req.body;
+    const { reduction, nom, prenom, email, password, tel, adresse, ville, region, codePostal, genre, age, role, typeClient, service, besoin, dateAppel, heureAppel, status, nombreRelances, nombreAppel, nombreMail, nombreSms, commentaire } = req.body;
 
     // let roleUser = role || "Client";  
 
@@ -186,6 +186,30 @@ exports.signum = async (req, res, next) => {
                 if (reduction) {
                     columns.push('reduction');
                     values.push(parseInt(reduction));
+                }
+                if (status) {
+                    columns.push('status');
+                    values.push(status);
+                }
+                if (nombreRelances) {
+                    columns.push('nombreRelances');
+                    values.push(nombreRelances);
+                }
+                if (nombreAppel) {
+                    columns.push('nombreAppel');
+                    values.push(nombreAppel);
+                }
+                if (nombreMail) {
+                    columns.push('nombreMail');
+                    values.push(nombreMail);
+                }
+                if (nombreSms) {
+                    columns.push('nombreSms');
+                    values.push(nombreSms);
+                }
+                if (commentaire) {
+                    columns.push('commentaire');
+                    values.push(commentaire);
                 }
 
                 
@@ -399,7 +423,7 @@ exports.updateUser = async (req, res, next) => {
 
     console.log("*** bienvenue dans updateUser ***");
 
-    const { nom, prenom, email, password, tel, adresse, ville, region, codePostal, pays, genre, age, typeClient } = req.body;
+    const { nom, prenom, email, password, tel, adresse, ville, region, codePostal, pays, genre, age, typeClient, status, nombreRelances, nombreAppel, nombreMail, nombreSms, commentaire  } = req.body;
     
     console.log("****req.body", req.body);
 
@@ -443,6 +467,13 @@ exports.updateUser = async (req, res, next) => {
             if (codePostal) columns.push('codePostal'), values.push(codePostal);
             if (region) columns.push('region'), values.push(region);
             if (typeClient) columns.push('typeClient'), values.push(typeClient);
+            if (status) columns.push('status'), values.push(status);
+            if (nombreRelances) columns.push('nombreRelances'), values.push(nombreRelances);
+            if (nombreAppel) columns.push('nombreAppel'), values.push(nombreAppel);
+            if (nombreMail) columns.push('nombreMail'), values.push(nombreMail);
+            if (nombreSms) columns.push('nombreSms'), values.push(nombreSms);
+            if (commentaire) columns.push('commentaire'), values.push(commentaire);
+             
         };
 
         addColumn();

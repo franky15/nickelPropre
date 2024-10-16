@@ -167,7 +167,7 @@ const Dashboard = () => {
                         // console.log("updatedChantiers dans Dashboard:", updatedChantiers);
 
                         // console.log("usersData dans Dashboard:", usersData);
-                        // console.log("updatedUsers dans Dashboard:", updatedUsers);
+                        console.log("updatedUsers dans Dashboard:", updatedUsers);
                         
 
                         setchantiers(updatedChantiers);
@@ -188,6 +188,7 @@ const Dashboard = () => {
        
     } ,[ executeUseEffectFetchDashboard]); 
 
+    // console.log("users dans Dashboard:", users);
 
     //mise à jour des chantiers quand le store est mis à jour
     /*useEffect(() => {

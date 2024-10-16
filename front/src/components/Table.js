@@ -4,7 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import HistoriqueActionEffectuees from './HistoriqueActionEffectuees';
 
-
+//importation des éléments de redux
+import { updateUser } from '../pages/admin/user/SliceUser';
 
 
 const Table = ({
@@ -18,6 +19,7 @@ const Table = ({
     setShowHideInputUser, showHideInputUser,
 }) => {
 
+    const dispatch = useDispatch();
 
     //gestion du state de l'ouverture de la modal historique des actions effectuées
     const [modalHistorique, setModalHistorique] = useState(true);
@@ -69,7 +71,7 @@ const Table = ({
         id: users && users.id ? users.id : null,
         
         
-        status: users && users.status ? users.status : 0,
+        status: users && users.status ? users.status : "",
         nombreRelances: users && users.nombreRelances ? users.nombreRelances : 0,
         nombreAppel:  users && users.nombreAppel ? users.nombreAppel : 0,
         nombreMail: users && users.nombreMail ? users.nombreMail : 0,
@@ -266,7 +268,7 @@ const Table = ({
     // const listeStatutUser = ["Nouveau", "Contacté", "Converti", "Non converti", "Qualifié", "Chantiers"];
 
     
-   
+    console.log("usersForm dans Table", usersForm);
 
     //soumission du formulaire global
     const handleSubmit = (e, item, choice) => {
@@ -277,14 +279,17 @@ const Table = ({
         
         // console.log("item", item);
         // console.log("[item.id]", [item.id]);
-        // console.log("name", name, "value", value);
+        console.log("name", name, "value", value);
 
-       
-
+        console.log("choice", choice);
+       console.log("item de Table avant", item);
 
         if(choice === "status"){
 
-            
+           item.status = value;
+
+           console.log("item status", item);
+
             //pour mettre à jour le statut de l'utilisateur dans la base de données
             setUsersForm((prev) => ({
                 ...prev,
@@ -297,7 +302,19 @@ const Table = ({
                 [item.id]: true
             }));
 
+            if(item.status !== "" && item.status){
+
+                console.log("item status", item);
+
+                dispatch(updateUser(item))
+            }
+
         }else if(choice === "nomberRelances"){
+
+            
+             item.nombreRelances = parseInt(value);
+
+          
 
             //pour mettre à jour le nombre de relances de l'utilisateur dans la base de données
             setUsersForm((prev) => ( {
@@ -310,15 +327,25 @@ const Table = ({
                 ...prev,
                 [item.id]: parseInt(value)
             }));
+
+            if(item.nombreRelances !== "" && item.nombreRelances){
+
+                console.log("item nomberRelances", item);
+
+                dispatch(updateUser(item))
+            }
+
            
         }else if(choice === "actionsEffectuees"){
                 
             //retrait du chiffre de la clé pour avoir le nom de l'action
-            const action = name.replace(/[0-9]/g, '');
-            console.log("action", action);
             
+           
+
             const nameKey = name.split(item.id)[0];
             console.log("nameKey", nameKey);
+
+            item[nameKey] = parseInt(value); 
 
             setUsersForm((prev) => ({
                 ...prev,
@@ -330,14 +357,22 @@ const Table = ({
                 ...prev,
                 [name]: parseInt(value)
             }));
+
+            if(item[nameKey] !== "" && item[nameKey]){
+
+                console.log("item actionsEffectuees", item);
+
+                dispatch(updateUser(item))
+            }
+
         }
  
     };
 
-    console.log("usersForm", usersForm);
-    console.log("statusKeyUser", statusKeyUser, "statusValue", statusValue);
-    console.log("nbRelanceKeyUser", nbRelanceKeyUser, "nbRelanceValue", nbRelanceValue);
-    console.log("keysActionsEffectueesRelances", keysactionsEffectueesRelances, "quantiteActionsEffectuees", quantiteActionsEffectuees);
+    // console.log("usersForm", usersForm);
+    // console.log("statusKeyUser", statusKeyUser, "statusValue", statusValue);
+    // console.log("nbRelanceKeyUser", nbRelanceKeyUser, "nbRelanceValue", nbRelanceValue);
+    // console.log("keysActionsEffectueesRelances", keysactionsEffectueesRelances, "quantiteActionsEffectuees", quantiteActionsEffectuees);
 
    
 
@@ -430,7 +465,7 @@ const Table = ({
                                     <td>{item && item.tel ? item.tel : ''}</td>
 
                                     <td>{
-                                        <select  className="statusInput" name={[item.id]} value={statusValue[item.id] || item.statu} 
+                                        <select  className="statusInput" name={[item.id]} value={statusValue[item.id] || item.status} 
                                         onChange={ (e) => handleSubmit(e, item, "status") }  >
                                            
                                             {listeStatutUser.map((statut, index) => (
@@ -448,7 +483,7 @@ const Table = ({
                                             min={0}
                                             
                                             name={[item.id]}
-                                            value={nbRelanceKeyUser[item.id] || 0 }
+                                            value={item.nombreRelances ||  0 }
                                             onChange={ (e) => handleSubmit(e, item, "nomberRelances" ) }
                                     
                                         />
@@ -469,7 +504,7 @@ const Table = ({
                                                             type='number'
                                                             name={action + item.id}
                                                             min={0}
-                                                            value={ keysactionsEffectueesRelances[action + item.id] || 0 }
+                                                            value={ keysactionsEffectueesRelances[action + item.id] || item[action] }
                                                             onChange={ (e) => handleSubmit(e, item, "actionsEffectuees") }
                                                        
                                                         />

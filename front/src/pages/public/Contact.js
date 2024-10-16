@@ -82,8 +82,8 @@ const Contact = ({allChantiers, itemUpdateChoice, setItemUpdateChoice,
         password: itemUpdateChoice && itemUpdateChoice.password ? itemUpdateChoice.password : null,
         age: itemUpdateChoice && itemUpdateChoice.age ? itemUpdateChoice.age : null,
         role: itemUpdateChoice && itemUpdateChoice.role ? itemUpdateChoice.role : 'Client',
-        id: itemUpdateChoice && itemUpdateChoice.Users_id ? parseInt(itemUpdateChoice.Users_id) : null,
-        status: itemUpdateChoice && itemUpdateChoice.status ? itemUpdateChoice.status : null,
+        id: itemUpdateChoice && itemUpdateChoice.Users_id ? parseInt(itemUpdateChoice.Users_id) : ( itemUpdateChoice && parseInt(itemUpdateChoice.id) ? parseInt(itemUpdateChoice.id) : null),
+        status: itemUpdateChoice && itemUpdateChoice.status ? itemUpdateChoice.status : "Prospect",
         prix: itemUpdateChoice && itemUpdateChoice.prix ? itemUpdateChoice.prix : null,
         datePrestation : itemUpdateChoice && itemUpdateChoice.datePrestation ? itemUpdateChoice.datePrestation : null,
         heurePrestation : itemUpdateChoice && itemUpdateChoice.heurePrestation ? itemUpdateChoice.heurePrestation : null,
@@ -120,6 +120,7 @@ const Contact = ({allChantiers, itemUpdateChoice, setItemUpdateChoice,
                 password: null,
                 age: null,
                 role: null,
+                
 
                 status: null,
                 prix: null,
@@ -164,7 +165,8 @@ const Contact = ({allChantiers, itemUpdateChoice, setItemUpdateChoice,
     });
 
     
-        
+    //state permettant de savoir si on veut modifier un chantier d'un utilisateur
+    let [btnUserModifierChantier, setBtnUserModifierChantier] = useState(false);
 
     // Fonction de gestion des changements dans les champs du formulaire
     const handleChange = (e) => {
@@ -425,28 +427,6 @@ const Contact = ({allChantiers, itemUpdateChoice, setItemUpdateChoice,
                     isAddUser: false,
                 });
 
-            }else if( valComponentExist === "GetUsers"  ){  //mise à jour d'un utilisateur
-
-                // console.log("****modification de l'utilisateur dans Contact");
-
-                
-
-                // console.log("***formData dans Contact", formData);
-
-                if(formData.id){
-
-                    dispatch(updateUser(formData));
-                    
-                }else{
-
-                    console.log("Erreur dans la récupération de l'id de l'utilisateur");
-                }
-
-                setCreateUserChantier({
-                    isAddchantier: false,
-                    isAddUser: false,
-                });
-
             }else if(valComponentExist === "GetChantiers" && (isDashboard && createUserChantier.isAddchantier === false )){  //mise à jour d'un chantier
 
                 // console.log("****Modification du chantier dans Contact");
@@ -454,6 +434,7 @@ const Contact = ({allChantiers, itemUpdateChoice, setItemUpdateChoice,
                 // console.log("***formData dans Contact", formData);
 
                 if(formData.id){
+
 
                     dispatch(updateChantier(formData));
 
@@ -479,6 +460,57 @@ const Contact = ({allChantiers, itemUpdateChoice, setItemUpdateChoice,
                 });
 
             }
+            //////////////////////////
+
+            else if( valComponentExist === "GetUsers"  ){  //mise à jour d'un utilisateur
+
+                // console.log("****modification  ou création de l'utilisateur dans Contact");
+
+                // console.log("showContactSearchFilter", showContactSearchFilter);
+                // console.log("createUserChantier.isAddUser", createUserChantier.isAddUser);
+
+                console.log("btnUserModifierChantier", btnUserModifierChantier);
+
+                if(formData.id){
+
+                    console.log("****modification de l'utilisateur dans Contact", formData);
+
+                    if(btnUserModifierChantier === false){
+
+
+                        dispatch(updateUser(formData));
+
+                        console.log("je met à jour mon user dans Contact");
+
+                    }else if(btnUserModifierChantier === true){
+
+                        dispatch(updateChantier(formData));
+
+                        console.log("je met à jour mon chantier dans Contact");
+                    }
+                    
+                }else if( !formData.id){  // createUserChantier.isAddUser ||création d'un utilisateur quand on est dans le dashboard
+
+                    console.log("****creation de l'utilisateur dans Contact");
+    
+                    dispatch(createUser(formData));
+    
+                    // setCreateUserChantier({
+                    //     isAddchantier: false,
+                    //     isAddUser: false,
+                    // });
+    
+                }
+
+                // setCreateUserChantier({
+                //     isAddchantier: false,
+                //     isAddUser: false,
+                // });
+
+            }
+            
+
+            ///////////////////////////
 
          
 
@@ -618,6 +650,8 @@ const Contact = ({allChantiers, itemUpdateChoice, setItemUpdateChoice,
                     value: !flagUsers.value
                 });
 
+                setBtnUserModifierChantier( (prev) => !prev);
+
             }
 
             console.log("test dans Contact");
@@ -689,7 +723,7 @@ const Contact = ({allChantiers, itemUpdateChoice, setItemUpdateChoice,
                         region: itemUpdateChoice.region || '',
                         ville: itemUpdateChoice.ville ,// || ''
                         adresse: itemUpdateChoice.adresse ,// || ''
-                        password: itemUpdateChoice.password ,// || ''
+                        password: null, //itemUpdateChoice.password ,// || ''
                         age: itemUpdateChoice.age,// || ''
                         role: itemUpdateChoice.role,// || ''
                         status: itemUpdateChoice.status,// || ''
