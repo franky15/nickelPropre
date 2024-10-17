@@ -2684,26 +2684,72 @@ table td .seeMoreTable {
   font-family: "Open Sans", sans-serif;
   margin-inline: 0;
   box-sizing: border-box;
-}
-
-html, body {
-  background-color: #1093EB;
   overflow-x: hidden;
 }
 
-.succesComponentCharge {
-  margin-top: 250px;
-  text-align: center;
-  font-size: 30px;
-  color: white;
-}
-
-.succesComponent {
+.cancelComponent {
+  height: 1800px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 250px;
-  margin-inline: 20px;
+  padding-top: 250px;
+  background-color: #1093EB;
+}
+.cancelComponent h1 {
+  margin-top: 50px;
+  margin-bottom: 50px;
+  font-size: 30px;
+  text-align: center;
+  color: white;
+}
+.cancelComponent p {
+  font-size: 23px;
+  font-weight: bold;
+  font-size: 23px;
+  color: white;
+  font-weight: bold;
+}
+@media (max-width: 728px) {
+  .cancelComponent {
+    padding-top: 250px;
+  }
+  .cancelComponent p {
+    text-align: center;
+    padding-inline: 10px;
+  }
+  .cancelComponent h1 {
+    font-size: 35px;
+    margin-bottom: 10px;
+  }
+  .cancelComponent h1 i {
+    color: #dc3545;
+  }
+}
+
+* {
+  font-family: "Open Sans", sans-serif;
+  margin-inline: 0;
+  box-sizing: border-box;
+}
+
+.succesComponentCharge {
+  text-align: center;
+  font-size: 30px;
+  color: white;
+  height: 1800px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 250px;
+  background-color: #1093EB;
+}
+
+.succesComponent {
+  height: 1800px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 250px;
   background-color: #1093EB;
 }
 .succesComponent h1 {
@@ -2712,22 +2758,26 @@ html, body {
   font-size: 30px;
   text-align: center;
   color: white;
+  padding-inline: 10px;
 }
 .succesComponent p {
-  font-size: 23px;
+  font-size: 18px;
   font-weight: bold;
 }
 .succesComponent span {
-  font-size: 23px;
   color: white;
   font-weight: bold;
 }
 @media (max-width: 728px) {
   .succesComponent {
-    margin-top: 200px;
+    padding-top: 230px;
+  }
+  .succesComponent p {
+    font-size: 18px;
   }
   .succesComponent h1 {
-    font-size: 35px;
+    font-size: 18px;
+    margin-bottom: 20px;
   }
 }
 
