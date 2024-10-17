@@ -960,7 +960,7 @@ const Contact = ({allChantiers, itemUpdateChoice, setItemUpdateChoice,
                             <div className='itemInputContainer'>
                                 <label>Genre</label>
                                 <select name='genre' value={formData.genre} onChange={handleChange} className='form-control itemInput' style={getInputStyle('genre')}>
-                                    <option value="">Sélectionnez votre genre*</option>
+                                    <option value="">Sélectionnez votre genre</option>
                                     <option value="Masculin">Masculin</option>
                                     <option value="Féminin">Féminin</option>
                                 </select>
@@ -991,7 +991,7 @@ const Contact = ({allChantiers, itemUpdateChoice, setItemUpdateChoice,
                        !showHideInputUser &&//(!valComponentExist || valComponentExist === "GetChantiers" || valComponentExist === "GetUsers" ) &&
                         <div className='form-group'>
                             <label>Besoin</label>
-                            <textarea name='besoin' placeholder='Dites-nous en plus sur votre besoin*' value={formData.besoin} onChange={handleChange} className='form-control' style={getInputStyle('besoin')} />
+                            <textarea name='besoin' placeholder='Dites-nous en plus sur votre besoin' value={formData.besoin} onChange={handleChange} className='form-control' style={getInputStyle('besoin')} />
                             {errors.besoin && <p className="error">{errors.besoin}</p>}
                         </div>
                     }
@@ -1010,13 +1010,13 @@ const Contact = ({allChantiers, itemUpdateChoice, setItemUpdateChoice,
                         <div className='form-group'>
                             <div className='itemInputContainer'>
                                 <label>Code Postal</label>
-                                <input type='text' name='codePostal' placeholder='Code Postal*' value={formData.codePostal} onChange={handleChange} className='form-control itemInput' style={getInputStyle('codePostal')} />
+                                <input type='text' name='codePostal' placeholder='Code Postal' value={formData.codePostal} onChange={handleChange} className='form-control itemInput' style={getInputStyle('codePostal')} />
                                 {errors.codePostal && <p className="error">{errors.codePostal}</p>}
                             </div>
 
                             <div className='itemInputContainer'>
                                 <label>Région</label>
-                                <input type='text' name='region' placeholder='Région*' value={formData.region} onChange={handleChange} className='form-control itemInput' style={getInputStyle('region')} />
+                                <input type='text' name='region' placeholder='Région' value={formData.region} onChange={handleChange} className='form-control itemInput' style={getInputStyle('region')} />
                                 {errors.region && <p className="error">{errors.region}</p>}
                             </div>
                         </div>
@@ -1048,7 +1048,7 @@ const Contact = ({allChantiers, itemUpdateChoice, setItemUpdateChoice,
                             <div className='form-group'>
                                 <div className='itemInputContainer'>
                                     <label>Prix</label>
-                                    <input type='number' name='prix' placeholder='Prix*' value={formData.prix} onChange={handleChange} className='form-control itemInput' style={getInputStyle('prix')} />
+                                    <input type='number' name='prix' placeholder='Prix' value={formData.prix} onChange={handleChange} className='form-control itemInput' style={getInputStyle('prix')} />
                                     {errors.prix && <p className="error">{errors.prix}</p>}
                                 </div>
 
@@ -1076,7 +1076,7 @@ const Contact = ({allChantiers, itemUpdateChoice, setItemUpdateChoice,
                             <div className='form-group'>
                                 <div className='itemInputContainer'>
                                     <label>Prestataire</label>
-                                    <input type='text' name='prestataire' placeholder='Prestataire*' value={formData.prestataire} onChange={handleChange} className='form-control itemInput' style={getInputStyle('prestataire')} />
+                                    <input type='text' name='prestataire' placeholder='Prestataire' value={formData.prestataire} onChange={handleChange} className='form-control itemInput' style={getInputStyle('prestataire')} />
                                     {errors.prestataire && <p className="error">{errors.prestataire}</p>}
                                 </div>
 
@@ -1090,7 +1090,7 @@ const Contact = ({allChantiers, itemUpdateChoice, setItemUpdateChoice,
                             <div className='form-group'>
                                 <div className='itemInputContainer'>
                                     <label>Nombre de places</label>
-                                    <input type='number' name='nombrePlaces' placeholder='Nombre de places*' value={formData.nombrePlaces} onChange={handleChange} className='form-control itemInput' style={getInputStyle('nombrePlaces')} />
+                                    <input type='number' name='nombrePlaces' placeholder='Nombre de places' value={formData.nombrePlaces} onChange={handleChange} className='form-control itemInput' style={getInputStyle('nombrePlaces')} />
                                     {errors.nombrePlaces && <p className="error">{errors.nombrePlaces}</p>}
                                 </div>
                             </div>
@@ -1112,7 +1112,7 @@ const Contact = ({allChantiers, itemUpdateChoice, setItemUpdateChoice,
                        
                        <div className='itemInputContainer'>
                             <label>Adresse</label>
-                            <input type='text' name='adresse' placeholder='Adresse*' value={formData.adresse} onChange={handleChange} className='form-control itemInput' style={getInputStyle('adresse')} />
+                            <input type='text' name='adresse' placeholder='Adresse' value={formData.adresse} onChange={handleChange} className='form-control itemInput' style={getInputStyle('adresse')} />
                             {errors.adresse && <p className="error">{errors.adresse}</p>}
                         </div>
                         
@@ -1126,13 +1126,13 @@ const Contact = ({allChantiers, itemUpdateChoice, setItemUpdateChoice,
 
                             <div className='itemInputContainer'>
                                 <label>Mot de passe</label>
-                                <input type='password' name='password' placeholder='Mot de passe*' value={formData.password} onChange={handleChange} className='form-control itemInput' style={getInputStyle('password')} />
+                                <input type='password' name='password' placeholder='Mot de passe' value={formData.password} onChange={handleChange} className='form-control itemInput' style={getInputStyle('password')} />
                                 {errors.password && <p className="error">{errors.password}</p>}
                             </div>
 
                             <div className='itemInputContainer'>
                                 <label>Âge</label>
-                                <input type='number' name='age' placeholder='Âge*' value={formData.age} onChange={handleChange} className='form-control itemInput' style={getInputStyle('age')} />
+                                <input type='number' name='age' placeholder='Âge' value={formData.age} onChange={handleChange} className='form-control itemInput' style={getInputStyle('age')} />
                                 {errors.age && <p className="error">{errors.age}</p>}
                             </div>
                         </div>
@@ -1164,7 +1164,7 @@ const Contact = ({allChantiers, itemUpdateChoice, setItemUpdateChoice,
 
                                 <label>Type de client</label>
                                 <select name='typeClient' value={formData.typeClient} onChange={handleChange} className='form-control itemInput' style={getInputStyle('typeClient')}>
-                                    <option value="">Type de client*</option>
+                                    <option value="">Type de client</option>
                                     <option value="Professionnel">Professionnel</option>
                                     <option value="Particulier">Particulier</option>
                                 </select>
@@ -1182,7 +1182,7 @@ const Contact = ({allChantiers, itemUpdateChoice, setItemUpdateChoice,
                         <div className='form-group'>
                             <label>Rôle</label>
                             <select name='role' value={formData.role} onChange={handleChange} className='form-control itemInput' style={getInputStyle('role')}>
-                                <option value="">Sélectionnez un rôle*</option>
+                                <option value="">Sélectionnez un rôle</option>
                                 <option value="Admin">Admin</option>
                                 <option value="User">User</option>
                                 <option value="Client">Client</option>

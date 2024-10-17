@@ -208,7 +208,7 @@
             flex-wrap: wrap;
             justify-content: space-between;
             
-            //border: solid 1px yellow;
+            // border: solid 1px yellow;
 
             &--cart{
                 width: 48%;
@@ -224,7 +224,9 @@
                 border: none;  //$borderBlueSolid
                 box-shadow: $boxShadow;
                 background-color: $backgroungColorSection;
-    
+                
+                // border: solid 1px yellow;
+
                 p{
                     width: 90%;
                     flex-grow: 1;
@@ -238,6 +240,73 @@
 
                     @include animationBtn();
                     
+                }
+
+                //partie petits pc et tablettes
+                @media screen and (min-width: 729px) and (max-width: 1524px) {
+
+                    width: 100%;
+                    //height: 400px;
+                    margin-bottom: 35px;
+                    padding-bottom: 30px;
+                    padding: 10px 20px;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    font-size: $subTitleMobile;
+                    border-radius: $borderRadiusBlock;
+                    border: none;  //$borderBlueSolid
+                    box-shadow: $boxShadow;
+                    background-color: $backgroungColorSection;
+        
+                    p{
+                        width: 90%;
+                        flex-grow: 1;
+                        margin-top: -10px;
+                        //border: solid 1px red;
+                    }
+                    .btn__subService{
+                        @include btnContact($width: 70%, $font-size: 12px);
+                        //margin-top: $margintopSection;
+                        margin-bottom: 20px;
+    
+                        @include animationBtn();
+                        
+                    }
+                }
+
+                @media (max-width: 728px) {
+
+                    width: 100%;
+                    //height: 400px;
+                    margin-bottom: 35px;
+                    padding-bottom: 30px;
+                    padding: 10px 20px;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    font-size: $subTitleMobile;
+                    border-radius: $borderRadiusBlock;
+                    border: none;  //$borderBlueSolid
+                    box-shadow: $boxShadow;
+                    background-color: $backgroungColorSection;
+        
+                    p{
+                        width: 90%;
+                        flex-grow: 1;
+                        margin-top: -10px;
+                        //border: solid 1px red;
+                    }
+                    .btn__subService{
+                        @include btnContact($width: 70%, $font-size: 12px);
+                        //margin-top: $margintopSection;
+                        margin-bottom: 20px;
+    
+                        @include animationBtn();
+                        
+                    }
+        
+                   
                 }
     
                

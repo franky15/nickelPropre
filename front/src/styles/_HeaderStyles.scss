@@ -310,7 +310,7 @@ header {
             position: relative;
             top: -20px;
 
-            //border: solid 1px orange;
+            // border: solid 1px orange;
 
             
 
@@ -321,6 +321,20 @@ header {
                 left: -20px;
                
             }
+
+            @media screen and (min-width: 810px) and (max-width: 1524px) {
+                img{
+                    width: 221px;
+                    height: 300px;
+                }
+            }
+            @media screen and (min-width: 730px) and (max-width: 809px) {
+                img{
+                    width: 207px;
+                    height: 250px;
+                }
+            }
+
 
         }
 
