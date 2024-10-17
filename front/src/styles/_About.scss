@@ -1,3 +1,23 @@
+@import "./Colors.scss";
+@import "./Variables.scss";
+
+
+//recet du css de la page 
+* {
+    font-family: "Open Sans", sans-serif;
+    margin-inline: 0;
+    box-sizing: border-box;
+    // overflow-x: hidden;
+   
+  }
+  
+  html, body {
+    background-color: $backgroungColorPage;
+    overflow-x: hidden;
+  }
+
+
+
 .About{
 
     

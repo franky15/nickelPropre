@@ -36,7 +36,7 @@ const Success = () => {
     }, [sessionId]);
 
     if (loading) {
-        return <div>Chargement...</div>;
+        return <p className='succesComponentCharge'>Chargement...</p>;
     }
 
     if (error) {
@@ -44,17 +44,33 @@ const Success = () => {
     }
 
     return (
-        <div>
-            <h1>Paiement réussi !</h1>
+        <div className='succesComponent'>
+            <h1>Nous vous remercie pour votre confiance. N'hésitez pas à revenir vers nous sous 48h si vous n'êtes pas satisfait de la prestation</h1>
             {sessionDetails && (
-                <div>
-                    <p>Nom du client : {sessionDetails.customer_name}</p>
-                    <p>Service : {sessionDetails.service_type}</p>
-                    <p>Montant payé : {(sessionDetails.amount_total / 100).toFixed(2)} €</p>
+                <div className='succesComponent__subcontainer'>
+                    <p> <span>Nom :</span> {sessionDetails.customer_name}</p>
+                    <p> <span>Service :</span> {sessionDetails.service_type}</p>
+                    <p> <span>Montant payé :</span> {(sessionDetails.amount_total / 100).toFixed(2)} €</p>
                 </div>
             )}
+
+            
         </div>
     );
 };
 
 export default Success;
+
+
+/**
+ * 
+ * {sessionDetails && (
+                <div className='succesComponent__subcontainer'>
+                    <p>Nom du client : {sessionDetails.customer_name}</p>
+                    <p>Service : {sessionDetails.service_type}</p>
+                    <p>Montant payé : {(sessionDetails.amount_total / 100).toFixed(2)} €</p>
+                </div>
+            )}
+
+
+*/
