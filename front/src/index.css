@@ -2702,6 +2702,9 @@ table td .seeMoreTable {
   text-align: center;
   color: white;
 }
+.cancelComponent h1 i {
+  color: #dc3545;
+}
 .cancelComponent p {
   font-size: 23px;
   font-weight: bold;

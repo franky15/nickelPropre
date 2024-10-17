@@ -35,9 +35,9 @@ const Success = () => {
         }
     }, [sessionId]);
 
-    // if (loading) {
-    //     return <div className='succesComponentCharge'>Chargement...</div>;
-    // }
+    if (loading) {
+        return <div className='succesComponentCharge'>Chargement...</div>;
+    }
 
     if (error) {
         return <div>{error}</div>;
@@ -54,13 +54,6 @@ const Success = () => {
                 </div>
             )}
 
-            {
-                 <div className='succesComponent__subcontainer'>
-                 <p> <span>Nom :</span>  Enyegue Franky</p>
-                 <p>  <span>Service :</span> Client</p>
-                 <p> <span>Montant payé :</span> 100 €</p>
-             </div>
-            }
         </div>
     );
 };

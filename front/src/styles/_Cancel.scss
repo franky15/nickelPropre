@@ -35,6 +35,9 @@
         font-size: $subTitle;
         text-align: center;
         color: white;
+        i{
+            color: $danger;
+        }
     }
 
     p{
