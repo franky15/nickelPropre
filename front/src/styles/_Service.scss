@@ -28,8 +28,18 @@
     transform: translateY(-100px); /* Contenu déplacé vers le haut */
     transition: opacity 300ms ease-in-out, transform 400ms ease-in-out; /* Transition sur l'opacité et la position */
 
-
     // border: solid red;
+
+    @media (max-width: 728px) {
+            
+        margin-top: 250px;
+        flex-direction: column;
+
+        
+    }
+   
+
+    
 
     &__describ{
 
@@ -45,6 +55,8 @@
             font-size: $title;
             // margin-bottom: 50px;
             color: $primary;
+
+
         }
         .ServiceContainer__describ--item{
 
@@ -83,6 +95,59 @@
             margin-top: 50px;
             margin-bottom: 50px;
             @include btnContact;
+        }
+
+        @media (max-width: 728px) {
+
+            width: 100%;
+            // margin-top: 50px;
+            // margin-bottom: 50px;
+            // border: solid red;
+
+            h1{
+                font-size: $titleMobile;
+                margin-bottom: 20px;
+                color: $primary;
+            }
+            .ServiceContainer__describ--item{
+
+                margin-bottom: 0px;
+                font-weight: bold;
+                // border: solid blue;
+            }
+            &--details{
+
+                display: flex;
+                flex-direction: column;
+                margin-bottom: 0px;
+
+                //border: solid 1px #333;
+
+                .describ--detailsItemp{
+
+                    
+                    height: 50px;
+                   
+                //    border: solid 1px red;
+
+                    p{
+                        width: 1;
+                      
+                        i{
+                            font-size: $title;
+                            color: $primary;
+                            font-size: 23px;
+                            margin-right: 10px;
+                        }
+                    }
+                   
+                }
+            }
+            .btn__contact{
+                margin-top: 50px;
+                margin-bottom: 50px;
+                @include btnContact;
+            }
         }
     }
 

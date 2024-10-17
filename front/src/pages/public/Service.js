@@ -38,6 +38,24 @@ const Service = () => {
 
     //console.log('service', service);
 
+    //récupération de la taille de page
+    const [widthPage, setWidthPage] = useState(window.innerWidth);
+    const breakpointMobile = 738;
+
+    useEffect(() => {
+        const handleResize = () => {
+            setWidthPage(window.innerWidth);
+        };
+
+        //NB: le resize est un événement qui se déclenche à chaque fois que la taille de la fenêtre change
+        window.addEventListener('resize', handleResize);
+        
+        // Clean up the event listener on component unmount
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
+
     return (
         <div className={`ServiceContainer ${isVisibleHome ? 'visibleHome' : ''}`}>
 
@@ -46,7 +64,7 @@ const Service = () => {
                 <>
                 
                 <div 
-                    className='service'
+                    className='service serviceImg'
                     style={{
                         backgroundImage: `url(${service.picture})`, // Utilisation correcte de backgroundImage via style
                         backgroundSize: 'cover', // Ajuster la taille de l'image
@@ -58,7 +76,10 @@ const Service = () => {
                     
                         position: 'relative', // Permet d'utiliser position: absolute à l'intérieur
                         overflow: 'hidden', // Masquer tout contenu dépassant
+                        width: '100%',
 
+                        height: widthPage && widthPage < breakpointMobile ? '250px' : '500px',
+                        // height: '250px',
                        // boxShadow: '0 0 10px rgba(0, 0, 0, 0.5)', // Ombre portée
 
                     }}

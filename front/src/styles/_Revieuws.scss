@@ -10,7 +10,7 @@
     // border: solid red;
 
     h2{
-        margin-bottom: 20;
+        // margin-bottom: 20;
         i{
             color: $primary;
         }
@@ -30,5 +30,35 @@
         text-align: center;
         font-weight: bold;
         // border: solid blue;
+    }
+
+    @media (max-width: 728px) {
+
+        width: 100%;
+        height: auto;
+        // border: solid red;
+
+        h2{
+            // margin-bottom: 20;
+            i{
+                color: $primary;
+            }
+    
+            // border: solid blue;
+        }
+        .star{
+            
+            text-align: center;
+            color: $primary;
+            font-size: 23px;
+            margin: 0;
+            // border: solid blue;
+        }
+        .note{
+            margin: 0;
+            text-align: center;
+            font-weight: bold;
+            // border: solid blue;
+        }
     }
 }

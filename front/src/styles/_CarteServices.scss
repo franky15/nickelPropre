@@ -71,4 +71,25 @@
         }
     }
 
+    @media (max-width: 728px) {
+
+        width: 100%;
+        margin-top: 30px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        justify-content: space-between;
+
+        //border: solid red;
+
+        .service-link{
+
+            height: 100px;
+            width:  48%;
+            margin-bottom: 15px;
+    
+            //border: solid 1px red;
+        }
+    }
+
 }
