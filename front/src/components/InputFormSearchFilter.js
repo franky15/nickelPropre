@@ -146,7 +146,7 @@ const InputFormSearchFilter = ({
 
                     <div className='InputFormSearchFilter__filterBtn--date'>
                         <div className='containerDate'>
-                            <label>Date minimale</label>
+                            <label>Date début</label>
                             <input
                                 type='date'
                                 name='startDate'
@@ -155,7 +155,7 @@ const InputFormSearchFilter = ({
                             />
                         </div>
                         <div className='containerDate'>
-                            <label>Date maximale</label>
+                            <label>Date fin</label>
                             <input
                                 type='date'
                                 name='endDate'
