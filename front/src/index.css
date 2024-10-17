@@ -7,7 +7,6 @@
 
 html, body {
   background-color: #F1F6F6;
-  overflow-x: hidden;
 }
 
 header {
@@ -320,13 +319,11 @@ html, body {
 .CarteServices .service {
   height: 100%;
   width: 100%;
-  box-shadow: 7px 8px 17px -1px rgba(0, 0, 0, 0.41);
   border-radius: 28px;
   transition: transform 200ms ease-in-out, opacity 200ms ease-in-out;
 }
 .CarteServices .service:hover {
-  transform: translateY(-15px);
-  opacity: 0.8;
+  transform: scale(0.9);
 }
 .CarteServices .service h2 {
   width: 100%;
@@ -398,9 +395,6 @@ html, body {
   flex-direction: column;
   margin-bottom: 50px;
 }
-.ServiceContainer__describ--details .describ--detailsItemp {
-  height: 50px;
-}
 .ServiceContainer__describ--details .describ--detailsItemp p {
   width: 1;
 }
@@ -444,9 +438,6 @@ html, body {
     display: flex;
     flex-direction: column;
     margin-bottom: 0px;
-  }
-  .ServiceContainer__describ--details .describ--detailsItemp {
-    height: 50px;
   }
   .ServiceContainer__describ--details .describ--detailsItemp p {
     width: 1;
@@ -566,7 +557,6 @@ html, body {
     padding-top: 0px;
     background-color: #fff;
     border-radius: 10px;
-    box-shadow: 7px 8px 17px -1px rgba(0, 0, 0, 0.41);
   }
   .Home .blockH1__title {
     font-size: 35px;
@@ -617,7 +607,6 @@ html, body {
 }
 .Home .H2__title {
   width: 100%;
-  height: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -628,7 +617,6 @@ html, body {
 @media (max-width: 728px) {
   .Home .H2__title {
     width: 100%;
-    height: 50px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -654,7 +642,6 @@ html, body {
 }
 .Home .H3__title {
   width: 100%;
-  height: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -744,7 +731,6 @@ html, body {
     font-size: 18px;
     border-radius: 15px;
     border: none;
-    box-shadow: 7px 8px 17px -1px rgba(0, 0, 0, 0.41);
     background-color: #fff;
   }
   .Home .blockServices__subService--cart p {
@@ -798,7 +784,7 @@ html, body {
     font-size: 18px;
     border-radius: 15px;
     border: none;
-    box-shadow: 7px 8px 17px -1px rgba(0, 0, 0, 0.41);
+    box-shadow: none;
     background-color: #fff;
   }
   .Home .blockServices__subService--cart p {
@@ -869,7 +855,6 @@ html, body {
     font-size: 18px;
     border-radius: 15px;
     border: none;
-    box-shadow: 7px 8px 17px -1px rgba(0, 0, 0, 0.41);
     background-color: #fff;
   }
   .Home .blockServices__subService--cart p {
@@ -959,6 +944,7 @@ html, body {
 .Home .blockEntreprise__garantie__item i {
   font-size: 50px;
   color: #1093EB;
+  overflow: hidden;
 }
 .Home .blockEntreprise__garantie__item p {
   width: 90%;
@@ -1093,6 +1079,7 @@ html, body {
     background-size: cover; /* L'image couvre tout le conteneur */
     background-position: center; /* Centre l'image horizontalement et verticalement */
     border-radius: 10px;
+    box-shadow: none;
   }
   .Home .blockCanap .blockCanap__text {
     width: 100%;
@@ -1178,7 +1165,6 @@ html, body {
     height: 300px;
     width: 100%;
     border-radius: 15px;
-    box-shadow: 7px 8px 17px -1px rgba(0, 0, 0, 0.41);
     background-color: black;
   }
   .Home .blockReviews__avis .describTitle {
@@ -1284,6 +1270,7 @@ html, body {
 .Home .blockTerasse__text p {
   margin-top: -10px;
   text-align: justify;
+  overflow: hidden;
 }
 @media (max-width: 728px) {
   .Home .blockTerasse {
@@ -1313,6 +1300,7 @@ html, body {
   }
   .Home .blockTerasse__text h3 {
     color: #1093EB;
+    overflow: hidden;
   }
   .Home .blockTerasse__text p {
     margin-top: -10px;
@@ -1345,6 +1333,7 @@ html, body {
 }
 .Home .blockTerasseReverse__text h3 {
   color: #1093EB;
+  overflow: hidden;
 }
 .Home .blockTerasseReverse__text p {
   margin-top: -10px;
@@ -1381,6 +1370,7 @@ html, body {
   .Home .blockTerasseReverse__text p {
     margin-top: -10px;
     text-align: justify;
+    overflow: hidden;
   }
 }
 .Home .blockContact {
@@ -1850,7 +1840,6 @@ html, body {
 
 html, body {
   background-color: #F1F6F6;
-  overflow-x: hidden;
 }
 
 .About {
@@ -1977,6 +1966,7 @@ html, body {
   padding: 20px 20px;
   background-color: #fff;
   border-radius: 15px;
+  overflow: hidden;
 }
 @media (max-width: 728px) {
   .About__reviews {
@@ -2064,6 +2054,7 @@ html, body {
   display: flex;
   justify-content: center;
   border: solid 2px #1093EB;
+  overflow: hidden;
 }
 .About__reviews .containerRang .certicate__container p {
   display: flex;
@@ -2170,8 +2161,13 @@ html, body {
   transform: translateY(0);
 }
 
+* {
+  font-family: "Open Sans", sans-serif;
+  margin-inline: 0;
+  box-sizing: border-box;
+}
+
 .rang {
-  height: 150px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -2600,9 +2596,12 @@ table .btnChantier {
   font-weight: bold;
   cursor: pointer;
   transition: transform 200ms ease-in-out;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 table .btnChantier:hover {
-  transform: scale(1.1);
+  transform: scale(0.9);
 }
 table th {
   border: solid 2px #1093EB;
@@ -2668,9 +2667,11 @@ table td .nombreRelancesInput {
   background-color: #fff;
 }
 table td .tdIcons {
+  height: 20px;
   display: flex;
   justify-content: space-around;
   align-items: center;
+  overflow: hidden;
 }
 table td .tdIcons i {
   font-size: 15px;

@@ -1,102 +1,23 @@
-import React,{useState, useEffect} from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-
+import React, { useState, useEffect } from 'react';
+import { useDispatch} from 'react-redux';
 
 import HistoriqueActionEffectuees from './HistoriqueActionEffectuees';
-
-//importation des éléments de redux
 import { updateUser } from '../pages/admin/user/SliceUser';
 
-
 const Table = ({
-    ComponentShowTable, users, setUsers, allUsers,
-    chantiers, setchantiers, allChantiers, setItemUpdateChoice, itemUpdateChoice,
+    ComponentShowTable, users,allUsers,
+    chantiers, allChantiers, setItemUpdateChoice, itemUpdateChoice,
     indexPage, nombreLignes, setNombreLignes,
     sousListe, setSousListe, actionsTable, setactionsTable,
-    setExecuteUseEffectFetchDashboard, component,
+    component,
 
-    setShowItemUser, showItemUser, showContactSearchFilter, setShowContactSearchFilter,
-    setShowHideInputUser, showHideInputUser,
+    setShowItemUser,setShowContactSearchFilter,
+    setShowHideInputUser,
 }) => {
-
     const dispatch = useDispatch();
 
-    //gestion du state de l'ouverture de la modal historique des actions effectuées
-    const [modalHistorique, setModalHistorique] = useState(true);
-
-    const [selectAll, setSelectAll] = useState(false);
-    const [checkedItems, setCheckedItems] = useState({});
-    const [checkedValues, setCheckedValues] = useState([]);
-
-    //gestion du state des quantités d'actions éffectuées
-    const [quantiteActionsEffectuees, setQuantiteActionsEffectuees] = useState({
-        appel: 0,
-        mail: 0,
-        sms: 0,
-       
-    });
-    const [keysQuantiteActionsEffectuees, setKeysQuantiteActionsEffectuees] = useState({});
-
-    //state pour les statuts
-    const [statusValue, setStatusValue] = useState("");
-    const [statusKeyUser, setStatusKeyUser] = useState("");
-
-     //gestion du state pour les relances
-    // const [actionHistoriques, setActionHistoriques] = useState({});
-    const [nbRelanceValue, setNbRelanceValue] = useState("");
-    const [nbRelanceKeyUser, setNbRelanceKeyUser] = useState("");
-
-     //gestion du state des actions effectuées et du nombre de relances
-    const [ keysactionsEffectueesRelances, setKeysActionsEffectueesRelances] = useState({});
 
    
-   
-       
-    //gestion du state correspondant à l'objet users
-    const [usersForm, setUsersForm] = useState({
-
-        nom: users && users.nom ? users.nom : "",
-        prenom: users && users.prenom ? users.prenom : "",
-        dateUseCreate: users && users.dateUseCreate ? users.dateUseCreate : "",
-        ville: users && users.ville ? users.ville : null,
-        adresse: users && users.adresse ? users.adresse : null,
-        tel: users && users.tel ? users.tel : null,
-        codePostal: users && users.codePostal ? users.codePostal : null,
-        password: users && users.password ? users.password : "",
-        email : users && users.email ? users.email : "",
-        reduction: users && users.reduction ? users.reduction : null,
-        region: users && users.region ? users.region : "",
-        role: users && users.role ? users.role : "",
-        typeClient: users && users.typeClient ? users.typeClient : "",
-        id: users && users.id ? users.id : null,
-        
-        
-        status: users && users.status ? users.status : "",
-        nombreRelances: users && users.nombreRelances ? users.nombreRelances : 0,
-        nombreAppel:  users && users.nombreAppel ? users.nombreAppel : 0,
-        nombreMail: users && users.nombreMail ? users.nombreMail : 0,
-        nombreSms: users && users.nombreSms ? users.nombreSms : 0,
-        
-       
-        
-    });
-    
-
-    const listeActionsEffectuees = ["nombreAppel", "nombreMail", "nombreSms"];
-    const listeStatutUser = ["Nouveau", "Contacté", "Converti", "Non converti", "Qualifié", "Chantiers"];
-    const headerTableChantiers = ["Services", "Statut", "Nbr de places/TV", "Date Prestation", "Prestataire", "Heure", "Nom du client", "Tel", "Adresse", "Actions"];
-    const hearderTableUsers = ["Nom Prospect", "Service", "Date arrivée", "Ville", "Adresse", "Tel", "Statu", "Nbr de relances", "Historique d'actions", "Besoin", "Actions"];
-    
-    // Vérifier que les props sont  bien définis
-    const propsValidated = (ComponentShowTable === "chantiers") 
-        ? (chantiers && allChantiers)
-        : (users && allUsers );
-        
-    // Affichage pendant la validation des props
-    if (!propsValidated) {
-        return <div>Chargement des données...</div>;
-    }
-
     // Initialiser les checkedItems en fonction des chantiers ou users
     useEffect(() => {
 
@@ -165,9 +86,87 @@ const Table = ({
         
         
 
-    }, [chantiers, users, ComponentShowTable]);
+    }, [chantiers, users, ComponentShowTable, component]);
 
+    // Constitution des sous-listes en fonction du nombre d'éléments par page
+    useEffect(() => {
+        const listeItems = ComponentShowTable === "chantiers" ? chantiers : users;
+
+        if (listeItems && listeItems.length > 0) {
+            const filteredListeItems = listeItems.filter(item => item && item.id);
+
+            const listElementsPerPage = filteredListeItems.reduce((accumulateur, _, indexAcc, array) => {
+                if (indexAcc % nombreLignes === 0) {
+                    accumulateur.push(array.slice(indexAcc, indexAcc + nombreLignes));
+                }
+                return accumulateur;
+            }, []);
+
+            setSousListe(listElementsPerPage);
+
+            console.log("users", users);
+        }
+
+    }, [chantiers, users, nombreLignes, ComponentShowTable, component]);
+
+
+
+
+    // State for modal management and selection
+    const [modalHistorique, setModalHistorique] = useState(true);
+    const [selectAll, setSelectAll] = useState(false);
+    const [checkedItems, setCheckedItems] = useState({});
+    const [checkedValues, setCheckedValues] = useState([]);
+    const [quantiteActionsEffectuees, setQuantiteActionsEffectuees] = useState({
+        appel: 0,
+        mail: 0,
+        sms: 0,
+    });
+    const [keysQuantiteActionsEffectuees, setKeysQuantiteActionsEffectuees] = useState({});
+    const [statusValue, setStatusValue] = useState("");
+    const [statusKeyUser, setStatusKeyUser] = useState("");
+    const [nbRelanceValue, setNbRelanceValue] = useState("");
+    const [nbRelanceKeyUser, setNbRelanceKeyUser] = useState("");
+    const [keysactionsEffectueesRelances, setKeysActionsEffectueesRelances] = useState({});
     
+    // State for user forms
+    const [usersForm, setUsersForm] = useState({
+        nom: users?.nom || "",
+        prenom: users?.prenom || "",
+        dateUseCreate: users?.dateUseCreate || "",
+        ville: users?.ville || null,
+        adresse: users?.adresse || null,
+        tel: users?.tel || null,
+        codePostal: users?.codePostal || null,
+        password: users?.password || "",
+        email: users?.email || "",
+        reduction: users?.reduction || null,
+        region: users?.region || "",
+        role: users?.role || "",
+        typeClient: users?.typeClient || "",
+        id: users?.id || null,
+        status: users?.status || "",
+        nombreRelances: users?.nombreRelances || 0,
+        nombreAppel: users?.nombreAppel || 0,
+        nombreMail: users?.nombreMail || 0,
+        nombreSms: users?.nombreSms || 0,
+    });
+
+    const listeActionsEffectuees = ["nombreAppel", "nombreMail", "nombreSms"];
+    const listeStatutUser = ["Nouveau", "Contacté", "Converti", "Non converti", "Qualifié", "Chantiers"];
+    const headerTableChantiers = ["Services", "Statut", "Nbr de places/TV", "Date Prestation", "Prestataire", "Heure", "Nom du client", "Tel", "Adresse", "Actions"];
+    const hearderTableUsers = ["Nom Prospect", "Service", "Date arrivée", "Ville", "Adresse", "Tel", "Statu", "Nbr de relances", "Historique d'actions", "Besoin", "Actions"];
+    
+    // Validate props
+    const propsValidated = (ComponentShowTable === "chantiers") 
+        ? (chantiers && allChantiers)
+        : (users && allUsers);
+    
+    // Display loading state
+    if (!propsValidated) {
+        return <div>Chargement des données...</div>;
+    }
+
     // Fonction pour gérer les actions de chaque ligne
     const actionsLineTable = (item, choice) => {
 
@@ -242,36 +241,8 @@ const Table = ({
         setNombreLignes(value);
     };
 
-    // Constitution des sous-listes en fonction du nombre d'éléments par page
-    useEffect(() => {
-        const listeItems = ComponentShowTable === "chantiers" ? chantiers : users;
-
-        if (listeItems && listeItems.length > 0) {
-            const filteredListeItems = listeItems.filter(item => item && item.id);
-
-            const listElementsPerPage = filteredListeItems.reduce((accumulateur, _, indexAcc, array) => {
-                if (indexAcc % nombreLignes === 0) {
-                    accumulateur.push(array.slice(indexAcc, indexAcc + nombreLignes));
-                }
-                return accumulateur;
-            }, []);
-
-            setSousListe(listElementsPerPage);
-
-            console.log("users", users);
-        }
-
-    }, [chantiers, users, nombreLignes, ComponentShowTable]);
-
-
-    // const listeActionsEffectuees = ["Appel", "Mail", "SMS"];
-    // const listeStatutUser = ["Nouveau", "Contacté", "Converti", "Non converti", "Qualifié", "Chantiers"];
-
-    
-    console.log("usersForm dans Table", usersForm);
-
-    //soumission du formulaire global
-    const handleSubmit = (e, item, choice) => {
+     //soumission du formulaire global
+     const handleSubmit = (e, item, choice) => {
 
         e.preventDefault();
 
@@ -369,185 +340,145 @@ const Table = ({
  
     };
 
-    // console.log("usersForm", usersForm);
-    // console.log("statusKeyUser", statusKeyUser, "statusValue", statusValue);
-    // console.log("nbRelanceKeyUser", nbRelanceKeyUser, "nbRelanceValue", nbRelanceValue);
-    // console.log("keysActionsEffectueesRelances", keysactionsEffectueesRelances, "quantiteActionsEffectuees", quantiteActionsEffectuees);
-
-   
-
 
     return (
-
-    <>
-        {   modalHistorique ?
-           
-            <table className='table'>
-                <thead>
-                    <tr>
-                        <th>
-                            <input
-                                type="checkbox"
-                                checked={selectAll}
-                                onChange={handleSelectAll}
-                            />
-                        </th>
-                        {
-                            ComponentShowTable === "chantiers" ? headerTableChantiers.map((header, index) => (
-                                <th key={index}>{header}</th>
-                            )) : hearderTableUsers.map((header, index) => (
-                                <th key={index}>{header}</th>
-                            ))
-
-                        }
-                    </tr>
-                </thead>
-                <tbody>
-                    {(ComponentShowTable && ComponentShowTable === "chantiers" ? 
-                        (sousListe && sousListe.length > 0 ? sousListe[indexPage - 1] : chantiers) :
-                        (sousListe && sousListe.length > 0 ? sousListe[indexPage - 1] : users))
-                    .map((item, index) => (
-                        <tr key={index}>
-                            <td>
-                                {item && item.id ? (
-                                    <input
-                                        type="checkbox"
-                                        name={`${item.id}`}
-                                        checked={checkedItems[item.id]}
-                                        onChange={(e) => {
-                                            handleCheckboxChange(e);
-                                            setCheckedValues([...checkedValues, item.id]);
-                                        }}
-                                    />
-                                ) : null}
-                            </td>
+        <>
+            {modalHistorique ?
+                <table className='table'>
+                    <thead>
+                        <tr>
+                            <th>
+                                <input
+                                    type="checkbox"
+                                    checked={selectAll}
+                                    onChange={handleSelectAll}
+                                />
+                            </th>
                             {
-                                ComponentShowTable === "chantiers" ?
-
-                                <>
-                                    <td> 
-                                        <div className='btnChantier' onClick={() => item && item.id && actionsLineTable(item, "modifier")}>
-                                            {item && item.service ? item.service : ''} 
-                                            {item && item.id && <i className="fa-solid fa-star"></i>}
-                                        </div>
-                                    </td>
-                                    <td>{item && item.status ? item.status : ''}</td>
-                                    <td>{item && item.nombrePlaces ? item.nombrePlaces : ''}</td>
-                                    <td>{item && item.datePrestation ? item.datePrestation : ''}</td>
-                                    <td>{item && `${item.nom} ${item.prenom}`}</td>
-                                    <td>{item && item.heurePrestation ? item.heurePrestation : ''}</td>
-                                    <td>{item && item.nom ? item.nom : ''}</td>
-                                    <td>{item && item.tel ? item.tel : ''}</td>
-                                    <td>{item && item.adresse ? item.adresse : ''}</td>
-                                    <td>
-                                        <div className='tdIcons'>
-                                            <i className="fa-solid fa-download" onClick={() => actionsLineTable(item, "telecharger")}></i>
-                                            <i className="fa-solid fa-pencil" onClick={() => actionsLineTable(item, "modifier")}></i>
-                                            <i className="fa-solid fa-trash" onClick={() => actionsLineTable(item, "supprimer")}></i>
-                                        </div>
-                                    </td>
-                                </>
-                                :
-                                <>
-                                    <td>{item && item.nom ? item.nom + " " + item.prenom : ''}</td>
-                                    <td>{
-                                    
-                                    <div className='btnChantier' onClick={() => item && item.id && actionsLineTable(item, "modifier")}>
-                                        {item && item.service ? item.service : 'Votre servirce'} 
-                                        {item && item.id && <i className="fa-solid fa-star"></i>}
-                                    </div>
-                                        //item && item.service ? item.service : ''
-                                    
-                                    }</td>
-                                    <td>{item && item.dateUseCreate ? item.dateUseCreate.slice(0, 10) : ''}</td>
-                                    <td>{item && item.ville ? item.ville : ''}</td>
-                                    <td>{item && item.adresse ? item.adresse : ''}</td>
-                                    <td>{item && item.tel ? item.tel : ''}</td>
-
-                                    <td>{
-                                        <select  className="statusInput" name={[item.id]} value={statusValue[item.id] || item.status} 
-                                        onChange={ (e) => handleSubmit(e, item, "status") }  >
-                                           
-                                            {listeStatutUser.map((statut, index) => (
-                                                <option key={index} value={statusValue[item.id]}>
-                                                    {statut.charAt(0).toUpperCase() + statut.slice(1).toLowerCase()}
-                                                </option>
-                                            ))}
-                                        </select>
-                                        // item && item.statu ? item.statu : ''
-                                    }</td>
-                                    <td>{
-                                            <input
-                                            className='nombreRelancesInput'
-                                            type='number'
-                                            min={0}
-                                            
-                                            name={[item.id]}
-                                            value={item.nombreRelances ||  0 }
-                                            onChange={ (e) => handleSubmit(e, item, "nomberRelances" ) }
-                                    
+                                ComponentShowTable === "chantiers" ? headerTableChantiers.map((header, index) => (
+                                    <th key={index}>{header}</th>
+                                )) : hearderTableUsers.map((header, index) => (
+                                    <th key={index}>{header}</th>
+                                ))
+                            }
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {(ComponentShowTable === "chantiers" ? 
+                            (sousListe && sousListe.length > 0 ? sousListe[indexPage - 1] : chantiers) :
+                            (sousListe && sousListe.length > 0 ? sousListe[indexPage - 1] : users))
+                        .map((item, index) => (
+                            <tr key={index}>
+                                <td>
+                                    {item && item.id ? (
+                                        <input
+                                            type="checkbox"
+                                            name={`${item.id}`}
+                                            checked={checkedItems[item.id]}
+                                            onChange={(e) => {
+                                                handleCheckboxChange(e);
+                                                setCheckedValues([...checkedValues, item.id]);
+                                            }}
                                         />
-                                            //item && item.nombreRelances ? item.nombreRelances : ''
-                                        }</td>
-                                    <td>
-                                        {
-                                            /* {item && item.historiqueActions ? item.historiqueActions : ''} */
-                                            listeActionsEffectuees.map((action, index) => (
+                                    ) : null}
+                                </td>
+                                {
+                                    ComponentShowTable === "chantiers" ?
+                                    <>
+                                        <td> 
+                                            <div className='btnChantier' onClick={() => item && item.id && actionsLineTable(item, "modifier")}>
+                                                {item && item.service ? item.service : ''} 
+                                                {item && item.id && <i className="fa-solid fa-star"></i>}
+                                            </div>
+                                        </td>
+                                        <td>{item && item.status ? item.status : ''}</td>
+                                        <td>{item && item.nombrePlaces ? item.nombrePlaces : ''}</td>
+                                        <td>{item && item.datePrestation ? item.datePrestation : ''}</td>
+                                        <td>{item && `${item.nom} ${item.prenom}`}</td>
+                                        <td>{item && item.heurePrestation ? item.heurePrestation : ''}</td>
+                                        <td>{item && item.nom ? item.nom : ''}</td>
+                                        <td>{item && item.tel ? item.tel : ''}</td>
+                                        <td>{item && item.adresse ? item.adresse : ''}</td>
+                                        <td>
+                                            <div className='tdIcons'>
+                                                <i className="fa-solid fa-download" onClick={() => actionsLineTable(item, "telecharger")}></i>
+                                                <i className="fa-solid fa-pencil" onClick={() => actionsLineTable(item, "modifier")}></i>
+                                                <i className="fa-solid fa-trash" onClick={() => actionsLineTable(item, "supprimer")}></i>
+                                            </div>
+                                        </td>
+                                    </>
+                                    :
+                                    <>
+                                        <td>{item && item.nom ? item.nom + " " + item.prenom : ''}</td>
+                                        <td>
+                                            <div className='btnChantier' onClick={() => item && item.id && actionsLineTable(item, "modifier")}>
+                                                {item && item.service ? item.service : 'Votre service'} 
+                                                {item && item.id && <i className="fa-solid fa-star"></i>}
+                                            </div>
+                                        </td>
+                                        <td>{item && item.dateUseCreate ? item.dateUseCreate.slice(0, 10) : ''}</td>
+                                        <td>{item && item.ville ? item.ville : ''}</td>
+                                        <td>{item && item.adresse ? item.adresse : ''}</td>
+                                        <td>{item && item.tel ? item.tel : ''}</td>
+                                        <td>
+                                            <select className="statusInput" name={[item.id]} value={statusValue[item.id] || item.status} 
+                                                onChange={(e) => handleSubmit(e, item, "status")}>
+                                                <option value="">Sélectionnez un statut</option>
+                                                {listeStatutUser.map((statut, index) => (
+                                                    <option key={index} value={statut}>
+                                                        {statut.charAt(0).toUpperCase() + statut.slice(1).toLowerCase()}
+                                                    </option>
+                                                ))}
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <input
+                                                className='nombreRelancesInput'
+                                                type='number'
+                                                min={0}
+                                                name={[item.id]}
+                                                value={item.nombreRelances || 0}
+                                                onChange={(e) => handleSubmit(e, item, "nomberRelances")}
+                                            />
+                                        </td>
+                                        <td>
+                                            {listeActionsEffectuees.map((action, index) => (
                                                 <div key={index} className='containerAction'>
-                                                    
-                                                    <span className='containerAction__title'>{
-                                                        action.slice(6)
-                                                    }</span>
+                                                    <span className='containerAction__title'>{action.slice(6)}</span>
                                                     <div className='containerAction__btn'>
-                                                        
                                                         <input
                                                             type='number'
                                                             name={action + item.id}
                                                             min={0}
-                                                            value={ keysactionsEffectueesRelances[action + item.id] || item[action] }
-                                                            onChange={ (e) => handleSubmit(e, item, "actionsEffectuees") }
-                                                       
+                                                            value={keysactionsEffectueesRelances[action + item.id] || item[action]}
+                                                            onChange={(e) => handleSubmit(e, item, "actionsEffectuees")}
                                                         />
-                                                       
                                                     </div>
-                           
                                                 </div>
-                                            ))
-                                            
-                                        }
-
-                                        <p className='seeMoreTable'
-
-                                            onClick={() => actionsLineTable(item, "voirPlus")}
-                                        >
+                                            ))}
+                                            <p className='seeMoreTable' onClick={() => actionsLineTable(item, "voirPlus")}>
                                                 Voir Plus...
-                                        </p>
-                                        
-                                    </td>
-                                    <td>{item && item.besoin ? item.besoin : ''}</td>
-                                    <td>
-                                        <div className='tdIcons'>
-                                            <i className="fa-solid fa-download" onClick={() => actionsLineTable(item, "telecharger")}></i>
-                                            <i className="fa-solid fa-pencil" onClick={() => actionsLineTable(item, "modifier")}></i>
-                                            <i className="fa-solid fa-trash" onClick={() => actionsLineTable(item, "supprimer")}></i>
-                                        </div>
-                                    </td>
-                                </>
-                                
-                            }
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-
-            :
-
-            <HistoriqueActionEffectuees itemUpdateChoice={itemUpdateChoice} setModalHistorique={setModalHistorique}/>
-        
-        }
-    </>
-
+                                            </p>
+                                        </td>
+                                        <td>{item && item.besoin ? item.besoin : ''}</td>
+                                        <td>
+                                            <div className='tdIcons'>
+                                                <i className="fa-solid fa-download" onClick={() => actionsLineTable(item, "telecharger")}></i>
+                                                <i className="fa-solid fa-pencil" onClick={() => actionsLineTable(item, "modifier")}></i>
+                                                <i className="fa-solid fa-trash" onClick={() => actionsLineTable(item, "supprimer")}></i>
+                                            </div>
+                                        </td>
+                                    </>
+                                }
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+                :
+                <HistoriqueActionEffectuees itemUpdateChoice={itemUpdateChoice} setModalHistorique={setModalHistorique}/>
+            }
+        </>
     );
 };
 
-export default Table
+export default Table;

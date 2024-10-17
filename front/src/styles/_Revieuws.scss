@@ -1,7 +1,17 @@
+
+//recet du css de la page 
+* {
+    font-family: "Open Sans", sans-serif;
+    margin-inline: 0;
+    box-sizing: border-box;
+
+   
+  }
+
 .rang{
 
     
-    height: 150px;
+    // height: 150px;
     display: flex;
     flex-direction: column;
     justify-content: center;

@@ -42,11 +42,15 @@
        
         //transition: box-shadow 200ms ease-in-out;
         transition: transform 200ms ease-in-out;
+        overflow: hidden;
+        white-space: nowrap;        // Empêche le texte de se répartir sur plusieurs lignes
+        text-overflow: ellipsis;    // Ajoute les "..." si le texte dépasse la largeur de l'élément
+       
        
         &:hover{
             
             //box-shadow: $boxShadow;
-            transform: scale(1.1);
+            transform: scale(0.9);
         }
         
     }
@@ -126,10 +130,11 @@
        
         .tdIcons{
 
+            height: 20px;
             display: flex;
             justify-content: space-around;
             align-items: center;
-
+            overflow: hidden;
             i{
                 font-size: 15px;
                 cursor: pointer;

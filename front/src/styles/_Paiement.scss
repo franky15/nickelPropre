@@ -1,0 +1,18 @@
+@import "./Variables.scss";
+
+
+//recet du css de la page 
+* {
+    font-family: "Open Sans", sans-serif;
+   
+
+   
+  }
+  
+  html, body {
+    background-color: $backgroungColorPage;
+    margin: 0;
+    padding: 0;
+   
+    // font-family: sans-serif; /* Définir une police par défaut (optionnel) */
+  }

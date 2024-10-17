@@ -87,7 +87,7 @@
             padding-top: 0px;
             background-color: $backgroungColorSection;
             border-radius: 10px;
-            box-shadow: $boxShadow;
+            // box-shadow: $boxShadow;
             //border: solid 1px red;
 
             &__title{
@@ -128,7 +128,7 @@
 
     .H2__title{
         width: 100%;
-        height: 50px;
+        // height: 80px;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -136,12 +136,12 @@
         font-size: $title;
         //background-color: $primary;
         margin-top: $margintopSection;
-        //border: solid 1px red;
+        // border: solid 1px red;
 
         @media (max-width: 728px) {
 
             width: 100%;
-            height: 50px;
+            // height: 50px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -149,7 +149,7 @@
             font-size: $titleMobile;
             //background-color: $primary;
             margin-top: $margintopSectionMobile;
-            //border: solid 1px red;
+            // border: solid 1px red;
            
         }
     }
@@ -174,7 +174,7 @@
     }
     .H3__title{
         width: 100%;
-        height: 50px;
+        //height: 50px;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -256,7 +256,7 @@
                     font-size: $subTitleMobile;
                     border-radius: $borderRadiusBlock;
                     border: none;  //$borderBlueSolid
-                    box-shadow: $boxShadow;
+                    // box-shadow: $boxShadow;
                     background-color: $backgroungColorSection;
         
                     p{
@@ -288,7 +288,7 @@
                     font-size: $subTitleMobile;
                     border-radius: $borderRadiusBlock;
                     border: none;  //$borderBlueSolid
-                    box-shadow: $boxShadow;
+                    box-shadow: none;
                     background-color: $backgroungColorSection;
         
                     p{
@@ -352,7 +352,7 @@
                     font-size: $subTitleMobile;
                     border-radius: $borderRadiusBlock;
                     border: none;  //$borderBlueSolid
-                    box-shadow: $boxShadow;
+                    // box-shadow: $boxShadow;
                     background-color: $backgroungColorSection;
         
                     p{
@@ -440,6 +440,7 @@
             margin-top: $margintopSection;
 
             //border: solid 1px red;
+            
         }
         &__garantie__item{
             width: 31%;
@@ -449,6 +450,8 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+
+            
             // border-radius: $borderRadiusBlock;
             // box-shadow: $boxShadow;
            
@@ -458,6 +461,7 @@
             i{
                 font-size: 50px;
                 color: $primary;
+                overflow: hidden;
             }
             p{
                 width: 90%;
@@ -661,7 +665,7 @@
                 background-size: cover;  /* L'image couvre tout le conteneur */
                 background-position: center;  /* Centre l'image horizontalement et verticalement */
                 border-radius: 10px;
-                //box-shadow: $boxShadow; // Ombre portée
+                box-shadow: none; // Ombre portée
             }
             .blockCanap__text--item{
                 //margin-top: $margintopSupSection;
@@ -674,7 +678,7 @@
                 font-size: $subTitleMobile;
                 margin-top: $margintopSupSection - 20px;
         
-                //border: solid 1px red;
+                // border: solid 1px red;
             }
             &__prix{
                 width: 100%;
@@ -796,7 +800,7 @@
                         height: 300px; // Ajuster la hauteur
                         width: 100%; // Largeur à 100%
                         border-radius: $borderRadiusBlock;
-                        box-shadow: $boxShadow; // Ombre portée
+                        // box-shadow: $boxShadow; // Ombre portée
                         background-color: black;
                         // border: solid 1px red;
                     }
@@ -965,6 +969,7 @@
             p{
                 margin-top: -10px;
                 text-align: justify;
+                overflow: hidden;
             }
         }
 
@@ -1004,10 +1009,12 @@
     
                 h3{
                     color: $primary;
+                    overflow: hidden;
                 }
                 p{
                     margin-top: -10px;
                     text-align: justify;
+                    
                 }
             }
         }
@@ -1050,10 +1057,12 @@
 
             h3{
                 color: $primary;
+                overflow: hidden;
             }
             p{
                 margin-top: -10px;
                 text-align: justify;
+                
             }
         }
 
@@ -1097,6 +1106,7 @@
                 p{
                     margin-top: -10px;
                     text-align: justify;
+                    overflow: hidden;
                 }
             }
 
@@ -1128,7 +1138,7 @@
             //background-color: $primary;
             margin-top: $margintopSection;
             
-            //border: solid 1px red;
+            // border: solid 1px red;
         }
 
         @media (max-width: 728px) {

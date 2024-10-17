@@ -39,7 +39,7 @@ const CarteServices = () => {
                                     alignItems: 'flex-start', // Aligner le texte en bas
                                 
                                     position: 'relative', // Permet d'utiliser position: absolute à l'intérieur
-                                    overflow: 'hidden', // Masquer tout contenu dépassant
+                                    // overflow: 'hidden', // Masquer tout contenu dépassant
 
                                     // boxShadow: '0 0 10px rgba(0, 0, 0, 0.5)', // Ombre portée
 

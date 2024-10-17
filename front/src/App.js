@@ -15,9 +15,7 @@ import Dashboard from './pages/admin/Dashboard';
 
 import AuthGuard from './_helpers/AuthGuard';
 
-//importation des routes pour stripe
-import Success from './pages/stripe/Success';
-import Cancel from './pages/stripe/Cancel';
+
 
 function App() {
   return (

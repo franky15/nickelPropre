@@ -8,12 +8,12 @@
     margin-inline: 0;
     box-sizing: border-box;
     // overflow-x: hidden;
-   
+    
   }
   
   html, body {
     background-color: $backgroungColorPage;
-    overflow-x: hidden;
+    // overflow-x: hidden;
   }
 
 
@@ -250,6 +250,8 @@
                 }
             }
         }
+        overflow: hidden;
+
         .containerRang{
 
             width: 61%;
@@ -272,7 +274,7 @@
             .revieuws{
                 width: 35%;
                 //border: solid 1px blue;
-
+                
                 @media (max-width: 728px) {
                     
                     width: 100%;
@@ -287,7 +289,7 @@
                 width: 75%;
                 display: flex;
                 justify-content: space-between;
-
+                
                 @media (max-width: 728px) {
                     
                     width: 100%;
@@ -307,7 +309,7 @@
                     display: flex;
                     justify-content: center;
                     border: solid 2px $primary;
-
+                    overflow: hidden;
                     p{
                         display: flex;
                         justify-content: center;

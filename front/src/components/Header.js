@@ -11,7 +11,7 @@ import { logout } from "../pages/auth/AuthSlice";
 import servicesData from "../datas";
 
 //importation des styles
-import { Colors } from "../styles/GlobalStyles";
+
 
 const Header = () => {
 
@@ -358,14 +358,7 @@ const Header = () => {
                                     </li>
                                 }
 
-                                {/* Lien Contact */}
-                                {/* <li className="nav-item contact">
-                                    <Link className="nav-link linkContact" to="/contact"
-                                        style={isActive.contact ? { borderTop: `${barHeight} solid ${Colors.primary}` } : { border: "none" }}
-                                    >
-                                        Nous contacter
-                                    </Link>
-                                </li> */}
+                                
                             </ul>
                         </div>
                     

@@ -1,8 +1,12 @@
+import React from 'react';
+import { Route, Routes } from "react-router-dom";
+
+
 import { AddUser, DeleteUser, UpdateUser, GetUser, GetUsers } from "./index";
 import UserLayout from "./UserLayout";
 import AuthGuard from "../../../_helpers/AuthGuard"; 
 import Error from "../../../_utils/Error";
-import { Route, Routes } from "react-router-dom";
+
 
 const UserRouter = () => {
   return (

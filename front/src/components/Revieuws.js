@@ -1,19 +1,12 @@
-import React,{useState, useEffect} from 'react';
+import React from 'react';
 
-import servicesData from '../datas';
+
 import note from '../datasNote';
 
 
 const Revieuws = () => {
 
      let number = note; // Nombre d'étoiles à afficher 
-
-      // Divise la liste en deux parties
-    const half = Math.ceil(servicesData.length / 2);  // Division de la liste en deux si elle est impaire (Math.ceil() arrondi supérieur) la première moitié contiendra un élément de plus
-    const firstHalf = servicesData.slice(0, half);    // slice permet de découper la liste avec deux paramètres, le premier est l'index de départ et le deuxième est l'index de fin sans modification de la liste d'origine
-    const secondHalf = servicesData.slice(half);      // débute à l'index half et finit à la fin de la liste sans modification de la liste d'origine
-
-    //console.log('number', number); 
 
     //fonction pour afficher les étoiles
     const displayStars = () => {

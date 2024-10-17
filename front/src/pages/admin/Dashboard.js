@@ -51,8 +51,8 @@ const Dashboard = () => {
     //gestion de l'affichage des différentes fenêtres modales ou des boutons
     const [btnChoice, setBtnChoice] = useState({
 
-        Chantiers: false,
-        Prospects: true,
+        Chantiers: true,
+        Prospects: false,
         Clients: false,
         Villes: false,
         Services: false,
@@ -186,7 +186,7 @@ const Dashboard = () => {
 
         
        
-    } ,[ executeUseEffectFetchDashboard]); 
+    } ,[ executeUseEffectFetchDashboard, dispatch]); 
 
     // console.log("users dans Dashboard:", users);
 

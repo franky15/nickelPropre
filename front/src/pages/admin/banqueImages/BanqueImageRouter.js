@@ -1,9 +1,12 @@
+import React from 'react';
+import { Route, Routes } from "react-router-dom";
+
 import { AddImage, DeleteImage, UpdateImage, GetImage, GetImages } from "./index";
 import BanqueImagesLayout from "./BanqueImagesLayout";
 
 import AuthGuard from "../../../_helpers/AuthGuard"; 
 import Error from "../../../_utils/Error";
-import { Route, Routes } from "react-router-dom";
+
 
 const BanqueImagesRouter = () => {
   return (

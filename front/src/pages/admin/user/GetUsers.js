@@ -8,12 +8,11 @@ const GetUsers = ({
     ComponentShowTable,
     sousListe, setSousListe, nombreLignes, setNombreLignes, indexPage, setIndexPage, actionsTable, setactionsTable,
     users, setUsers, allUsers, setAllUsers, setExecuteUseEffectFetchDashboard,
-    itemUpdateChoice, setItemUpdateChoice, setModalContact, modalContact,
-    setBtnCreate, btnCreate, btnChoice, allChantiers, setchantiers
+    itemUpdateChoice, setItemUpdateChoice,
+    setBtnCreate, btnCreate, btnChoice, allChantiers,
 }) => {
 
-    //state pour afficher le formulaire de contact
-    const [showContact, setShowContact] = useState(false);
+  
 
      //affichage du composant contact
     const [showItemUser, setShowItemUser] = useState({

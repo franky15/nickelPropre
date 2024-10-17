@@ -1,100 +1,183 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import {  useNavigate, useLocation } from "react-router-dom";
-
-
-import { createUser } from '../admin/user/SliceUser';
-import { GetUsers } from '../admin/user';
-import { addChantier } from '../admin/chantier/SliceChantier';
+import { useDispatch } from 'react-redux';
+import {  useLocation } from "react-router-dom";
+import { createUser, updateUser } from '../admin/user/SliceUser';
+import { addChantier, updateChantier } from '../admin/chantier/SliceChantier';
 import contactimg from '../../images/contactimg.png';
-import { getChantiers } from '../admin/chantier/SliceChantier';
-import { updateUser } from '../admin/user/SliceUser';
-import { updateChantier } from '../admin/chantier/SliceChantier';
 
-
-
-
-const Contact = ({allChantiers, itemUpdateChoice, setItemUpdateChoice, 
-      setShowItemUser, setShowContactSearchFilter, showContactSearchFilter, flagUsers, setFlagUsers, 
-      component, //,componentHome ,  //showContactSearchFilter, setShowContactSearchFilter
-      setShowHideInputUser, showHideInputUser,
+const Contact = ({ 
+    allChantiers, 
+    itemUpdateChoice, 
+    setItemUpdateChoice, 
+    setShowItemUser, 
+    setShowContactSearchFilter, 
+    flagUsers, 
+    setFlagUsers, 
+    component, 
+    setShowHideInputUser, 
+    showHideInputUser 
 }) => {  
-
-   
-
     const location = useLocation();
-
-    const navigate = useNavigate();
-
-    // console.log("***itemUpdateChoice dans Contact", itemUpdateChoice);
-
     const dispatch = useDispatch();
-    // const userStore = useSelector((state) => state.auth);
 
-    // console.log("userStore dans Contact", userStore);
-
-
-    const [propsValidated, setPropsValidated] = useState(false); // Pour vérifier si les props sont valides
-    
-    // Validation des props si elles sont présentes
-    // useEffect(() => {
-    //     if (
-    //         allChantiers && 
-    //         itemUpdateChoice && 
-    //         setItemUpdateChoice && 
-    //         setShowItemUser && 
-    //         flagUsers && 
-    //         setFlagUsers && 
-    //         component
-    //     ) {
-
-    //         console.log('Validation des props dans Contact');
-
-    //         setPropsValidated(true);
-    //     } else {
-    //         console.warn('Erreur dans la validation des props dans Contact');
-    //         setPropsValidated(false);
-    //     }
-    // }, [allChantiers, itemUpdateChoice, setItemUpdateChoice, setShowItemUser, flagUsers, component]);
-
-    // // Assurez-vous de ne pas exécuter le reste du code si component est undefined ou null
-    // if (!component) {
-    //     console.warn("La prop 'component' est undefined");
-    //     return null;  // Vous pouvez choisir d'afficher un fallback ici
-    // }
-    
     // State pour stocker les valeurs du formulaire
     const [formData, setFormData] = useState({
-        nom: itemUpdateChoice && itemUpdateChoice.nom ? itemUpdateChoice.nom : null,
-        prenom: itemUpdateChoice && itemUpdateChoice.prenom ? itemUpdateChoice.prenom : null,
-        email: itemUpdateChoice && itemUpdateChoice.email ? itemUpdateChoice.email : null,
-        tel: itemUpdateChoice && itemUpdateChoice.tel ? itemUpdateChoice.tel : null,
-        service: itemUpdateChoice && itemUpdateChoice.service ? itemUpdateChoice.service : null,
-        besoin: itemUpdateChoice && itemUpdateChoice.besoin ? itemUpdateChoice.besoin : null,
-        dateAppel: itemUpdateChoice && itemUpdateChoice.dateAppel ? itemUpdateChoice.dateAppel : null,
-        heureAppel: itemUpdateChoice && itemUpdateChoice.heureAppel ? itemUpdateChoice.heureAppel : null,
-        genre: itemUpdateChoice && itemUpdateChoice.genre ? itemUpdateChoice.genre : null,
-        typeClient: itemUpdateChoice && itemUpdateChoice.typeClient ? itemUpdateChoice.typeClient : 'Particulier',
-        codePostal: itemUpdateChoice && itemUpdateChoice.codePostal ? itemUpdateChoice.codePostal : null,
-        region: itemUpdateChoice && itemUpdateChoice.region ? itemUpdateChoice.region : null,
-        ville: itemUpdateChoice && itemUpdateChoice.ville ? itemUpdateChoice.ville : null,
-        adresse: itemUpdateChoice && itemUpdateChoice.adresse ? itemUpdateChoice.adresse : null,
-        password: itemUpdateChoice && itemUpdateChoice.password ? itemUpdateChoice.password : null,
-        age: itemUpdateChoice && itemUpdateChoice.age ? itemUpdateChoice.age : null,
-        role: itemUpdateChoice && itemUpdateChoice.role ? itemUpdateChoice.role : 'Client',
-        id: itemUpdateChoice && itemUpdateChoice.Users_id ? parseInt(itemUpdateChoice.Users_id) : ( itemUpdateChoice && parseInt(itemUpdateChoice.id) ? parseInt(itemUpdateChoice.id) : null),
-        status: itemUpdateChoice && itemUpdateChoice.status ? itemUpdateChoice.status : "Prospect",
-        prix: itemUpdateChoice && itemUpdateChoice.prix ? itemUpdateChoice.prix : null,
-        datePrestation : itemUpdateChoice && itemUpdateChoice.datePrestation ? itemUpdateChoice.datePrestation : null,
-        heurePrestation : itemUpdateChoice && itemUpdateChoice.heurePrestation ? itemUpdateChoice.heurePrestation : null,
-        infoComplementaire : itemUpdateChoice && itemUpdateChoice.infoComplementaire ? itemUpdateChoice.infoComplementaire : null,
-        prestataire : itemUpdateChoice && itemUpdateChoice.prestataire ? itemUpdateChoice.prestataire : null,
-        // userCreatorId : itemUpdateChoice && itemUpdateChoice.userCreatorId ? itemUpdateChoice.userCreatorId : null,
-        nombrePlaces : itemUpdateChoice && itemUpdateChoice.nombrePlaces ? itemUpdateChoice.nombrePlaces : null,
-        
-        Users_id : itemUpdateChoice && itemUpdateChoice.Users_id ? parseInt(itemUpdateChoice.Users_id) : null,
-
+        nom: itemUpdateChoice?.nom || null,
+        prenom: itemUpdateChoice?.prenom || null,
+        email: itemUpdateChoice?.email || null,
+        tel: itemUpdateChoice?.tel || null,
+        service: itemUpdateChoice?.service || null,
+        besoin: itemUpdateChoice?.besoin || null,
+        dateAppel: itemUpdateChoice?.dateAppel || null,
+        heureAppel: itemUpdateChoice?.heureAppel || null,
+        genre: itemUpdateChoice?.genre || null,
+        typeClient: itemUpdateChoice?.typeClient || 'Particulier',
+        codePostal: itemUpdateChoice?.codePostal || null,
+        region: itemUpdateChoice?.region || null,
+        ville: itemUpdateChoice?.ville || null,
+        adresse: itemUpdateChoice?.adresse || null,
+        password: itemUpdateChoice?.password || null,
+        age: itemUpdateChoice?.age || null,
+        role: itemUpdateChoice?.role || 'Client',
+        id: itemUpdateChoice?.Users_id ? parseInt(itemUpdateChoice.Users_id) : null,
+        status: itemUpdateChoice?.status || "Prospect",
+        prix: itemUpdateChoice?.prix || null,
+        datePrestation: itemUpdateChoice?.datePrestation || null,
+        heurePrestation: itemUpdateChoice?.heurePrestation || null,
+        infoComplementaire: itemUpdateChoice?.infoComplementaire || null,
+        prestataire: itemUpdateChoice?.prestataire || null,
+        nombrePlaces: itemUpdateChoice?.nombrePlaces || null,
+        Users_id: itemUpdateChoice?.Users_id ? parseInt(itemUpdateChoice.Users_id) : null,
     });
+
+    const [errors, setErrors] = useState({});
+    const [touchedFields, setTouchedFields] = useState({});
+    const [isDashboard, setIsDashboard] = useState(false);
+    const [valComponentExist, setValComponentExist] = useState("");
+    const [doublonsChantiers, setDoublonsChantiers] = useState([]);
+    const [createUserChantier, setCreateUserChantier] = useState({
+        isAddchantier: false,
+        isAddUser: false,
+    });
+    const [btnUserModifierChantier, setBtnUserModifierChantier] = useState(false);
+
+     //fonction de gestion de l'affichage des bons éléments et champs
+     useEffect(() => {
+
+        if(location.pathname.includes("/admin/dashboard") ){
+           
+            setIsDashboard(true);
+            
+            if(component && component.length > 0){
+
+                setValComponentExist(component);
+            }
+
+
+        }else{
+            setIsDashboard(false);
+        }
+
+    } , [ location.pathname]);
+
+
+    //récupération de tous les doublons de allChantiers qui ont le même id que le itemUpdateChoice
+    useEffect(() => {
+
+        if( (allChantiers && allChantiers.length > 0) && itemUpdateChoice && itemUpdateChoice.id){
+            
+            console.log("allChantiers dans Contact", allChantiers);
+            console.log("itemUpdateChoice dans Contact", itemUpdateChoice.id);
+
+            if( component && component === "GetUsers"){
+            
+                console.log("component dans Contact GetUsers", component);
+                console.log("itemUpdateChoice dans Contact GetUsers", itemUpdateChoice);
+
+                console.log("allChantiers dans Contact avant", allChantiers);
+
+                //retrait des objets undefined ou null dans allChantiers
+                allChantiers = allChantiers.filter((item) => item !== null && item !== undefined);
+
+                const listeChantiers = allChantiers.filter((item) => {
+
+                        
+                    // console.log("item.Users_id", item.Users_id ,);
+                   
+                   return  item.Users_id === itemUpdateChoice.id 
+                });
+                
+                console.log("listeChantiers dans Contact", listeChantiers);
+
+                setDoublonsChantiers(listeChantiers);
+
+            }else if(component && component === "GetChantiers"){
+
+                //retrait des objets undefined ou null dans allChantiers
+                allChantiers = allChantiers.filter((item) => item !== null && item !== undefined);
+
+                const listeDoublonChantiers = allChantiers.filter((item) => item.Users_id === itemUpdateChoice.Users_id  && (item.status !== "Fait" && item.status !== "Abandonner" ));
+                
+                // console.log("listeDoublonChantiers dans Contact", listeDoublonChantiers);
+
+                setDoublonsChantiers(listeDoublonChantiers);
+
+            }
+
+        }
+
+    }, [allChantiers, itemUpdateChoice, component]);
+    
+    console.log("doublonsChantiers dans Contact", doublonsChantiers);
+
+
+    //mise à jour du state formData si itemUpdateChoice est modifié
+    useEffect(() => {
+
+        if (itemUpdateChoice && itemUpdateChoice.id) {
+
+            //utilisation du callback pour éviter une boucle infinie ainsi on compare les anciennes valeurs avec les nouvelles valeurs si c'est différent on met à jour le state si non on retourne les anciennes valeurs
+            setFormData((prevFormData) => {
+
+                if (JSON.stringify(prevFormData) !== JSON.stringify(itemUpdateChoice)) {
+                    return {
+                        ...formData,
+                        nom: itemUpdateChoice.nom, // || '',
+                        prenom: itemUpdateChoice.prenom, // || '',
+                        email: itemUpdateChoice.email, // || '',
+                        tel: itemUpdateChoice.tel, // || '',
+                        service: itemUpdateChoice.service, // || '',
+                        besoin: itemUpdateChoice.besoin, // || '',
+                        dateAppel: itemUpdateChoice.dateAppel,// || ''
+                        heureAppel: itemUpdateChoice.heureAppel ,// || ''
+                        genre: itemUpdateChoice.genre, // || '',
+                        typeClient: itemUpdateChoice.typeClient || 'Particulier',
+                        codePostal: itemUpdateChoice.codePostal,// || ''
+                        region: itemUpdateChoice.region || '',
+                        ville: itemUpdateChoice.ville ,// || ''
+                        adresse: itemUpdateChoice.adresse ,// || ''
+                        password: null, //itemUpdateChoice.password ,// || ''
+                        age: itemUpdateChoice.age,// || ''
+                        role: itemUpdateChoice.role,// || ''
+                        status: itemUpdateChoice.status,// || ''
+                        prix: itemUpdateChoice.prix,// || ''
+                        datePrestation: itemUpdateChoice.datePrestation,// || '',
+                        heurePrestation: itemUpdateChoice.heurePrestation ,//|| '',
+                        infoComplementaire: itemUpdateChoice.infoComplementaire || '',
+                        prestataire: itemUpdateChoice.prestataire,// || ''
+                        nombrePlaces: itemUpdateChoice.nombrePlaces,// || ''
+                        commentaire: itemUpdateChoice.commentaire || null
+                        // userCreatorId: itemUpdateChoice.userCreatorId,// || ''
+                    };
+                }
+                return prevFormData;
+
+            });
+
+
+        }
+
+    }, [itemUpdateChoice]);
 
 
     //fonction de reinitialisation des champs du formulaire
@@ -143,30 +226,8 @@ const Contact = ({allChantiers, itemUpdateChoice, setItemUpdateChoice,
         };
 
 
-    // State pour stocker les erreurs de validation
-    const [errors, setErrors] = useState({});
-
-    // State pour suivre les champs touchés
-    const [touchedFields, setTouchedFields] = useState({});
-
-    //gestion du state de l'affichage des bons éléments
-    let [isDashboard, setIsDashboard] = useState(false);
-
-    //gestion de l'affichage des champs pour les chantiers et utilisateurs
-    let [valComponentExist, setValComponentExist] = useState("");
-
-    //gestion du state de la liste des doublons de chantiers
-    let [doublonsChantiers, setDoublonsChantiers] = useState([]);
-
-    //gestion du state d'ajout de service ou de chantier ou d'utilisateur quand on est dans le dashboard
-    let [ createUserChantier, setCreateUserChantier ] = useState({
-        isAddchantier: false,
-        isAddUser: false,
-    });
-
-    
-    //state permettant de savoir si on veut modifier un chantier d'un utilisateur
-    let [btnUserModifierChantier, setBtnUserModifierChantier] = useState(false);
+    // //state permettant de savoir si on veut modifier un chantier d'un utilisateur
+    // let [btnUserModifierChantier, setBtnUserModifierChantier] = useState(false);
 
     // Fonction de gestion des changements dans les champs du formulaire
     const handleChange = (e) => {
@@ -404,6 +465,7 @@ const Contact = ({allChantiers, itemUpdateChoice, setItemUpdateChoice,
         return isValid;
     };
 
+
     // Gestion de la soumission du formulaire
     const handleSubmit = (e) => {
 
@@ -528,8 +590,7 @@ const Contact = ({allChantiers, itemUpdateChoice, setItemUpdateChoice,
         // }
     };
 
-    // console.log("**itemUpdateChoice dans Contact", itemUpdateChoice); 
-    // console.log("valComponentExist", valComponentExist);
+
 
     // Style dynamique pour les champs en erreur
     const getInputStyle = (fieldName) => {
@@ -538,34 +599,9 @@ const Contact = ({allChantiers, itemUpdateChoice, setItemUpdateChoice,
             : {};
     };
 
-    //fonction de gestion de l'affichage des bons éléments et champs
-    useEffect(() => {
-
-        if(location.pathname.includes("/admin/dashboard") ){
-           
-            setIsDashboard(true);
-            
-            if(component && component.length > 0){
-
-                setValComponentExist(component);
-            }
 
 
-        }else{
-            setIsDashboard(false);
-        }
 
-    } , [ location.pathname]);
-
-    // console.log("isDashboard dans Contact", isDashboard);
-    // console.log("valComponentExist dans Contact", valComponentExist);
-
-    //fonction de fermeture de la fenêtre modale
-    // const closeModal = () => {
-    //     setModalIsOpen(false);
-       
-    // };
-   
     const statusChantier = ["Fait", "Abandonner", "Relancer", "Prospect", "Appeler", "Qualifier", "NonConverti", "En cours"];
     
     // Fonction pour afficher les statuts
@@ -582,55 +618,8 @@ const Contact = ({allChantiers, itemUpdateChoice, setItemUpdateChoice,
             default: return "Inconnu";
         }
     };
-    
-    //récupération de tous les doublons de allChantiers qui ont le même id que le itemUpdateChoice
-    useEffect(() => {
 
-        if( (allChantiers && allChantiers.length > 0) && itemUpdateChoice && itemUpdateChoice.id){
-            
-            console.log("allChantiers dans Contact", allChantiers);
-            console.log("itemUpdateChoice dans Contact", itemUpdateChoice.id);
 
-            if( component && component === "GetUsers"){
-            
-                console.log("component dans Contact GetUsers", component);
-                console.log("itemUpdateChoice dans Contact GetUsers", itemUpdateChoice);
-
-                console.log("allChantiers dans Contact avant", allChantiers);
-
-                //retrait des objets undefined ou null dans allChantiers
-                allChantiers = allChantiers.filter((item) => item !== null && item !== undefined);
-
-                const listeChantiers = allChantiers.filter((item) => {
-
-                        
-                    // console.log("item.Users_id", item.Users_id ,);
-                   
-                   return  item.Users_id === itemUpdateChoice.id 
-                });
-                
-                console.log("listeChantiers dans Contact", listeChantiers);
-
-                setDoublonsChantiers(listeChantiers);
-
-            }else if(component && component === "GetChantiers"){
-
-                //retrait des objets undefined ou null dans allChantiers
-                allChantiers = allChantiers.filter((item) => item !== null && item !== undefined);
-
-                const listeDoublonChantiers = allChantiers.filter((item) => item.Users_id === itemUpdateChoice.Users_id  && (item.status !== "Fait" && item.status !== "Abandonner" ));
-                
-                // console.log("listeDoublonChantiers dans Contact", listeDoublonChantiers);
-
-                setDoublonsChantiers(listeDoublonChantiers);
-
-            }
-
-        }
-
-    }, [allChantiers, itemUpdateChoice, component]);
-    
-    console.log("doublonsChantiers dans Contact", doublonsChantiers);
 
     // Fonction pour gérer les actions de chaque ligne
     const actionsLineTable = (item, choice, choice2 ) => {
@@ -656,96 +645,27 @@ const Contact = ({allChantiers, itemUpdateChoice, setItemUpdateChoice,
 
             console.log("test dans Contact");
 
-            // if(component === "GetUsers" || component === "GetChantiers"){
-            //     setShowContactSearchFilter(false);
-
-            //     console.log("test dans Contact");
-            // }
-
                 setCreateUserChantier({
                     isAddchantier: true,
                     isAddUser: false,
                 });
 
-            //setModalContact(true);
-            //closeModalContact();
-            
-
-            // setFormData({itemUpdateChoice});
-
 
         } else if (choice === "telecharger") {
            
-            // setactionsTable({
-            //     telecharger: !actionsTable.telecharger,
-            //     modifier: false,
-            //     supprimer: false,
-            // });
-
-            //setFormData({item});
-
         } else if (choice === "supprimer") {
             
-            // setactionsTable({
-            //     telecharger: false,
-            //     modifier: false,
-            //     supprimer: !actionsTable.supprimer,
-            // });
-
         }
 
     };
 
     console.log("flagUsers dans Contact", flagUsers);
 
-    //mise à jour du state formData si itemUpdateChoice est modifié
-    useEffect(() => {
-
-        if (itemUpdateChoice && itemUpdateChoice.id) {
-
-            //utilisation du callback pour éviter une boucle infinie ainsi on compare les anciennes valeurs avec les nouvelles valeurs si c'est différent on met à jour le state si non on retourne les anciennes valeurs
-            setFormData((prevFormData) => {
-
-                if (JSON.stringify(prevFormData) !== JSON.stringify(itemUpdateChoice)) {
-                    return {
-                        ...formData,
-                        nom: itemUpdateChoice.nom, // || '',
-                        prenom: itemUpdateChoice.prenom, // || '',
-                        email: itemUpdateChoice.email, // || '',
-                        tel: itemUpdateChoice.tel, // || '',
-                        service: itemUpdateChoice.service, // || '',
-                        besoin: itemUpdateChoice.besoin, // || '',
-                        dateAppel: itemUpdateChoice.dateAppel,// || ''
-                        heureAppel: itemUpdateChoice.heureAppel ,// || ''
-                        genre: itemUpdateChoice.genre, // || '',
-                        typeClient: itemUpdateChoice.typeClient || 'Particulier',
-                        codePostal: itemUpdateChoice.codePostal,// || ''
-                        region: itemUpdateChoice.region || '',
-                        ville: itemUpdateChoice.ville ,// || ''
-                        adresse: itemUpdateChoice.adresse ,// || ''
-                        password: null, //itemUpdateChoice.password ,// || ''
-                        age: itemUpdateChoice.age,// || ''
-                        role: itemUpdateChoice.role,// || ''
-                        status: itemUpdateChoice.status,// || ''
-                        prix: itemUpdateChoice.prix,// || ''
-                        datePrestation: itemUpdateChoice.datePrestation,// || '',
-                        heurePrestation: itemUpdateChoice.heurePrestation ,//|| '',
-                        infoComplementaire: itemUpdateChoice.infoComplementaire || '',
-                        prestataire: itemUpdateChoice.prestataire,// || ''
-                        nombrePlaces: itemUpdateChoice.nombrePlaces,// || ''
-                        commentaire: itemUpdateChoice.commentaire || null
-                        // userCreatorId: itemUpdateChoice.userCreatorId,// || ''
-                    };
-                }
-                return prevFormData;
-
-            });
 
 
-        }
 
-    }, [itemUpdateChoice]);
-    
+
+
 
     // console.log("formData dans Contact", formData);
 
