@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch} from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import HistoriqueActionEffectuees from './HistoriqueActionEffectuees';
 import { updateUser } from '../pages/admin/user/SliceUser';
+
 
 const Table = ({
     ComponentShowTable, users,allUsers,
@@ -16,7 +18,10 @@ const Table = ({
 }) => {
     const dispatch = useDispatch();
 
+    const Navigate = useNavigate();
 
+
+    
    
     // Initialiser les checkedItems en fonction des chantiers ou users
     useEffect(() => {
@@ -190,6 +195,20 @@ const Table = ({
             if(component === "GetUsers"){
                 setShowHideInputUser((prev) => !prev);
             }
+
+        }else if (choice === "paiement") {
+
+            setactionsTable({
+                telecharger: false,
+                modifier: false,
+                supprimer: false,
+                paiement: !actionsTable.paiement,
+            });
+
+            //redirection vers la page de paiement en inserant l'id  et le prix du chantier dans l'url
+            
+            Navigate(`/stripe/paiement/${item.id}/${item.prix}`);
+
 
         } else if (choice === "telecharger") {
             setactionsTable({
@@ -404,6 +423,10 @@ const Table = ({
                                                 <i className="fa-solid fa-download" onClick={() => actionsLineTable(item, "telecharger")}></i>
                                                 <i className="fa-solid fa-pencil" onClick={() => actionsLineTable(item, "modifier")}></i>
                                                 <i className="fa-solid fa-trash" onClick={() => actionsLineTable(item, "supprimer")}></i>
+                                                {
+                                                    component === "GetChantiers" &&
+                                                    <i class="fa-solid fa-money-check-dollar" onClick={() => actionsLineTable(item, "paiement")}></i>
+                                                }
                                             </div>
                                         </td>
                                     </>

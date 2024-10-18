@@ -15,17 +15,20 @@ const Success = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    console.log('****sessionId:', sessionId);
     
 
     useEffect(() => {
         if (sessionId) {
             const fetchSessionDetails = async () => {
                 try {
+
+                    
                     // Appel à votre backend pour obtenir les détails de la session
                     const response = await axios.get(`http://localhost:3000/stripe/session/${sessionId}`);
                     setSessionDetails(response.data);
                     setLoading(false);
+
+                    console.log(response.data);
                 } catch (err) {
                     setError('Erreur lors de la récupération des détails de la session');
                     setLoading(false);
@@ -46,13 +49,13 @@ const Success = () => {
     return (
         <div className='succesComponent'>
             <h1>Nous vous remercie pour votre confiance. N'hésitez pas à revenir vers nous sous 48h si vous n'êtes pas satisfait de la prestation</h1>
-            {sessionDetails && (
+            {/* {sessionDetails && (
                 <div className='succesComponent__subcontainer'>
                     <p> <span>Nom :</span> {sessionDetails.customer_name}</p>
                     <p> <span>Service :</span> {sessionDetails.service_type}</p>
                     <p> <span>Montant payé :</span> {(sessionDetails.amount_total / 100).toFixed(2)} €</p>
                 </div>
-            )}
+            )} */}
 
         </div>
     );

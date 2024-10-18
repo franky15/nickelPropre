@@ -43,7 +43,15 @@ exports.createCheckoutSession = async (req, res) => {
     console.log('****req.body:', req.body);
 
     //données provenant du formulaire de paiement
-    let { email, nom, prenom, tel, service, prix, adresse,ville, codePostal } = req.body;
+    let {  nom, prenom, email, tel, prix, idChantier} = req.body;
+    // let { email, nom, prenom, tel, service, prix, adresse,ville, codePostal } = req.body;
+
+    prix = parseFloat(prix).toFixed(2); // Convertir en decimal avec 2 décimales
+
+    tel = parseInt(tel);
+    idChantier = parseInt(idChantier);
+
+    console.log('****idChantier:', idChantier);
 
 
     try {
@@ -51,12 +59,17 @@ exports.createCheckoutSession = async (req, res) => {
         let chantierId;
  
         //récupération du chantier en cours pour un utilisateur
-        const sqlSelectChantierUser = `
-            SELECT * FROM Users LEFT JOIN Chantiers 
-            ON Users.id = Chantiers.Users_id 
-            WHERE Users.tel = ? AND Users.nom = ? AND Chantiers.adresse = ? AND Chantiers.status = 'Encours'`;
+        let sqlSelectChantierUser = `
+            SELECT * FROM Users LEFT JOIN Chantiers
+            ON Users.id = Chantiers.Users_id
+            WHERE  Chantiers.id = ?`;
 
-        let resSelectChantierUser = await DB.query(sqlSelectChantierUser, [ tel, nom, adresse]); 
+            // let sqlSelectChantierUser = `
+            // SELECT * FROM Users LEFT JOIN Chantiers
+            // ON Users.id = Chantiers.Users_id
+            // WHERE Users.email = ? OR Users.tel = ? AND Chantiers.id = ?`;
+
+        let resSelectChantierUser = await DB.query(sqlSelectChantierUser, [ idChantier]); 
 
         console.log('****resSelectChantierUser:', resSelectChantierUser[0]);
 
@@ -74,6 +87,7 @@ exports.createCheckoutSession = async (req, res) => {
         } 
 
         console.log('****chantierId:', chantierId);
+        console.log("resSelectChantierUser[0][0.service", resSelectChantierUser[0][0].service);
 
         // Création de la session Stripe Checkout
         const session = await stripe.checkout.sessions.create({ 
@@ -83,7 +97,7 @@ exports.createCheckoutSession = async (req, res) => {
                     price_data: {
                         currency: 'eur',
                         product_data: {
-                            name: service, // Nom du service
+                            name: resSelectChantierUser[0][0].service, // Nom du service
                         },
                         unit_amount: prix * 100, // Montant en centimes
                     },
@@ -101,8 +115,9 @@ exports.createCheckoutSession = async (req, res) => {
             metadata: {
                 customer_name: `${nom} ${prenom}`,  // Nom et prénom du client
                 customer_tel: tel,  // Numéro de téléphone du client
-                service_type: service,  // Type de service
+                service_type: resSelectChantierUser[0][0].service,  // Type de service
                 chantier_id: chantierId,  // ID du chantier récupéré 
+                customer_Price: parseInt(resSelectChantierUser[0][0].prix), // Prix du service
             }
         });
 
@@ -158,13 +173,15 @@ exports.stripeWebhook = async (req, res) => {
 
         // Récupération des métadonnées de la session
         const customerName = session.metadata.customer_name;
+        const customerPrice = session.metadata.customer_Price;
         const customerTel = session.metadata.customer_tel;
         const serviceType = session.metadata.service_type;
         const chantierId = session.metadata.chantier_id;
+       
 
 
         // Enregistrement des données de la session dans la base de données
-        console.log('****Données de la session:', customerName, customerTel, serviceType, chantierId );
+        console.log('****Données de la session:', customerName, customerPrice, chantierId , customerTel);
 
         //vérification si le chantier existe
         let sqlCheckChantier = `SELECT * FROM Chantiers WHERE id = ?`;
@@ -187,10 +204,11 @@ exports.stripeWebhook = async (req, res) => {
         }
 
         // Mise à jour du statut du chantier dans la base de données
-        let sqlUpdateChantier = `UPDATE Chantiers SET status = 'Fait' WHERE id = ?`;
-
+        let sqlUpdateChantier = `UPDATE Chantiers SET status = ? prix = ? WHERE id = ?`;
+        const column = ['Fait', customerPrice, parseInt(chantierId)];
+       
         try {
-            let resUpdateChantier = await DB.query(sqlUpdateChantier, [parseInt(chantierId)]); // Remplacer 1 par l'ID du chantier concerné
+            let resUpdateChantier = await DB.query(sqlUpdateChantier, [column]); // Remplacer 1 par l'ID du chantier concerné
 
             console.log('****Chantier mis à jour avec succès:', resUpdateChantier[0]);
 
@@ -220,7 +238,7 @@ exports.getSessionDetails = async (req, res) => {
             customer_name: session.metadata.customer_name,
             customer_tel: session.metadata.customer_tel,
             service_type: session.metadata.service_type,
-            amount_total: session.amount_total,
+            amount_total: session.customer_Price,
         });
     } catch (error) {
         console.error('Erreur lors de la récupération des détails de la session:', error.message);

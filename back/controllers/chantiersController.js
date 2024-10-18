@@ -18,6 +18,7 @@ exports.createChantier = async (req, res) => {
     const { userCreatorId, service, besoin, prix, status, dateAppel, heureAppel, datePrestation, prestataire, heurePrestation, infoComplementaire, adresse,ville, codePostal, nombrePlaces } = req.body;
     let idAuth = parseInt(req.auth.userId);
     const role = req.auth.role;
+    prix = parseFloat(prix).toFixed(2); // Convertir en decimal avec 2 décimales
 
     console.log('****req.body', req.body); 
     console.log('****idAuth', idAuth);
@@ -164,8 +165,10 @@ exports.getOneChantier = async (req, res) => {
 exports.updateChantier = async (req, res) => {
     let idChantier = parseInt(req.params.id);
     let { service, besoin, prix, status, dateAppel, heureAppel, datePrestation, prestataire, heurePrestation,infoComplementaire, adresse,ville, codePostal, nombrePlaces } = req.body;
+    
     let idAuth = req.auth.userId;
     const role = req.auth.role;
+    prix = parseFloat(prix).toFixed(2); // Convertir en decimal avec 2 décimales
 
     console.log('****req.body', req.body);
     console.log('****idAuth', idAuth);

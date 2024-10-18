@@ -16,3 +16,96 @@
    
     // font-family: sans-serif; /* Définir une police par défaut (optionnel) */
   }
+
+  form{
+
+    height: 1500px;
+    display: flex;
+    flex-direction: column;
+    // justify-content: center;
+    align-items: center;
+    padding-top: 250px;
+    background-color: $primary;
+
+    h2{
+
+        color: white;
+        font-size: $titleMobile;
+        margin-bottom: 50px;
+
+        @media (max-width: 768px){
+            font-size: $subTitleMobile;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+    }
+
+    div{
+      // height: 100px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      // margin-bottom: 20px;
+    }
+    label{
+      // height: 50px;
+        color: white;
+        font-size: $fontZiseBtnContact;
+        // margin-bottom: 20px;
+        // margin-right: 10px;
+
+        @media (max-width: 768px){
+            font-size: 13px;
+        }
+    }
+
+    .montant{
+      // height: 50px;
+        color: white;
+        font-size: $titleMobile;
+        margin-bottom: 20px;
+        // margin-right: 10px;
+
+        @media (max-width: 768px){
+            font-size: $subTitleMobile;
+        }
+    }
+    
+    input{
+        width: 300px;
+        height: 60px;
+        border-radius: 10px;
+        border: solid 2px $borderColorInput;
+        margin-bottom: 20px;
+        padding-left: 10px;
+
+        @media (max-width: 768px){
+
+          width: 250px;
+          height: 40px;
+          margin-bottom: 10px;
+        }
+    }
+
+    button{
+        @include btnContact($width: 200px, $height: 60px, $background-color: none, $color: black, $border: solid 2px $borderColorInput);  /* Assurez-vous que cette mixin est bien définie */
+        
+        background-color: $primary;
+        border: solid  3px white;
+        color: white;
+
+        transition: transform 200ms ease-in-out;
+        &:hover{
+
+            
+            transform: scale(1.1);
+        }
+
+        @media (max-width: 768px){
+            
+          margin-top: 10px;
+        }
+    }
+    
+  }
