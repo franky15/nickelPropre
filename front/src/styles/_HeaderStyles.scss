@@ -36,11 +36,14 @@ header {
         text-decoration: none;
         color: #333;
 
-        
+        transition: transform 200ms ease-in-out;
+        &:hover{
+            color: $primary;
+            transform: scale(0.9);
+       
+        }
     }
-    a:hover{
-        color: $primary;
-    }
+    
     ul {
         list-style-type: none;
         padding-left: 0;
@@ -385,8 +388,11 @@ header {
                     font-size: 13px;
                     font-weight: bold;
 
+                    transition: transform 200ms ease-in-out;
                     &:hover{
                         color: $primary;
+                        transform: scale(0.9);
+                   
                     }
                     //color: red;
                 }
