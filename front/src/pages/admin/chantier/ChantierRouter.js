@@ -1,8 +1,11 @@
+import React from 'react';
+import { Route, Routes } from "react-router-dom";
+
 import { AddChantier, DeleteChantier, UpdateChantier, GetChantier, GetChantiers } from "./index";
 import ChantierLayout from "./ChantierLayout";
 
 import Error from "../../../_utils/Error";
-import { Route, Routes } from "react-router-dom";
+
 
 const ChantierRouter = () => {
   return (
@@ -21,5 +24,4 @@ const ChantierRouter = () => {
 };
 
 export default ChantierRouter;
-
 

@@ -5,9 +5,15 @@ const Cancel = () => {
     console.log('**** bienvenue dans  Cancel');
     
     return (
-        <div>
-            <h1>Paiement annulé</h1>
-            <p>Votre paiement a été annulé. Si vous souhaitez réessayer, veuillez recommencer la procédure.</p>
+        <div className='cancelComponent'>
+            <h1>Paiement annulé <i class="fa-solid fa-ban"></i></h1>
+            <p 
+                
+            >Votre paiement a été annulé. Si vous souhaitez réessayer, veuillez recommencer la procédure.</p>
+
+            <p>
+                <a href='http://localhost:3001/stripe/paiement/15/9'>Recommencer</a>
+            </p>
         </div>
     );
 };

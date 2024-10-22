@@ -1,3 +1,7 @@
+/* eslint-disable */
+
+
+
 import React,{useState, useEffect} from 'react';
 import servicesData from '../../datas';
 import note from '../../datasNote';

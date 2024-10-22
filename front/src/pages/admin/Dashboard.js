@@ -1,3 +1,7 @@
+/* eslint-disable */
+
+
+
 import React,{useState, useEffect} from 'react';
 
 //importation des éléments de redux
@@ -40,6 +44,7 @@ const Dashboard = () => {
         telecharger: false,
         modifier: false,
         supprimer: false,
+        paiement: false,
     });
 
     //gestion du state du bouton créer un chantier ou un utilisateur du composant InputFormSearchFilter

@@ -1,3 +1,6 @@
+/* eslint-disable */
+
+
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {  useNavigate, useLocation } from "react-router-dom";
@@ -36,6 +39,32 @@ const Contact = ({allChantiers, itemUpdateChoice, setItemUpdateChoice,
 
     const [propsValidated, setPropsValidated] = useState(false); // Pour vérifier si les props sont valides
     
+     // State pour stocker les erreurs de validation
+     const [errors, setErrors] = useState({});
+
+     // State pour suivre les champs touchés
+     const [touchedFields, setTouchedFields] = useState({});
+ 
+     //gestion du state de l'affichage des bons éléments
+     let [isDashboard, setIsDashboard] = useState(false);
+ 
+     //gestion de l'affichage des champs pour les chantiers et utilisateurs
+     let [valComponentExist, setValComponentExist] = useState("");
+ 
+     //gestion du state de la liste des doublons de chantiers
+     let [doublonsChantiers, setDoublonsChantiers] = useState([]);
+ 
+     //gestion du state d'ajout de service ou de chantier ou d'utilisateur quand on est dans le dashboard
+     let [ createUserChantier, setCreateUserChantier ] = useState({
+         isAddchantier: false,
+         isAddUser: false,
+     });
+ 
+     
+     //state permettant de savoir si on veut modifier un chantier d'un utilisateur
+     let [btnUserModifierChantier, setBtnUserModifierChantier] = useState(false);
+
+
     // Validation des props si elles sont présentes
     // useEffect(() => {
     //     if (
@@ -62,6 +91,126 @@ const Contact = ({allChantiers, itemUpdateChoice, setItemUpdateChoice,
     //     console.warn("La prop 'component' est undefined");
     //     return null;  // Vous pouvez choisir d'afficher un fallback ici
     // }
+    
+
+    //fonction de gestion de l'affichage des bons éléments et champs
+    useEffect(() => {
+
+        if(location.pathname.includes("/admin/dashboard") ){
+           
+            setIsDashboard(true);
+            
+            if(component && component.length > 0){
+
+                setValComponentExist(component);
+            }
+
+
+        }else{
+            setIsDashboard(false);
+        }
+
+    } , [ location.pathname]);
+
+    
+    //récupération de tous les doublons de allChantiers qui ont le même id que le itemUpdateChoice
+    useEffect(() => {
+
+        if( (allChantiers && allChantiers.length > 0) && itemUpdateChoice && itemUpdateChoice.id){
+            
+            console.log("allChantiers dans Contact", allChantiers);
+            console.log("itemUpdateChoice dans Contact", itemUpdateChoice.id);
+
+            if( component && component === "GetUsers"){
+            
+                console.log("component dans Contact GetUsers", component);
+                console.log("itemUpdateChoice dans Contact GetUsers", itemUpdateChoice);
+
+                console.log("allChantiers dans Contact avant", allChantiers);
+
+                //retrait des objets undefined ou null dans allChantiers
+                allChantiers = allChantiers.filter((item) => item !== null && item !== undefined);
+
+                const listeChantiers = allChantiers.filter((item) => {
+
+                        
+                    // console.log("item.Users_id", item.Users_id ,);
+                   
+                   return  item.Users_id === itemUpdateChoice.id 
+                });
+                
+                console.log("listeChantiers dans Contact", listeChantiers);
+
+                setDoublonsChantiers(listeChantiers);
+
+            }else if(component && component === "GetChantiers"){
+
+                //retrait des objets undefined ou null dans allChantiers
+                allChantiers = allChantiers.filter((item) => item !== null && item !== undefined);
+
+                const listeDoublonChantiers = allChantiers.filter((item) => item.Users_id === itemUpdateChoice.Users_id  && (item.status !== "Fait" && item.status !== "Abandonner" ));
+                
+                // console.log("listeDoublonChantiers dans Contact", listeDoublonChantiers);
+
+                setDoublonsChantiers(listeDoublonChantiers);
+
+            }
+
+        }
+
+    }, [allChantiers, itemUpdateChoice, component]);
+
+
+
+    //mise à jour du state formData si itemUpdateChoice est modifié
+    useEffect(() => {
+
+        if (itemUpdateChoice && itemUpdateChoice.id) {
+
+            //utilisation du callback pour éviter une boucle infinie ainsi on compare les anciennes valeurs avec les nouvelles valeurs si c'est différent on met à jour le state si non on retourne les anciennes valeurs
+            setFormData((prevFormData) => {
+
+                if (JSON.stringify(prevFormData) !== JSON.stringify(itemUpdateChoice)) {
+                    return {
+                        ...formData,
+                        nom: itemUpdateChoice.nom, // || '',
+                        prenom: itemUpdateChoice.prenom, // || '',
+                        email: itemUpdateChoice.email, // || '',
+                        tel: itemUpdateChoice.tel, // || '',
+                        service: itemUpdateChoice.service, // || '',
+                        besoin: itemUpdateChoice.besoin, // || '',
+                        dateAppel: itemUpdateChoice.dateAppel,// || ''
+                        heureAppel: itemUpdateChoice.heureAppel ,// || ''
+                        genre: itemUpdateChoice.genre, // || '',
+                        typeClient: itemUpdateChoice.typeClient || 'Particulier',
+                        codePostal: itemUpdateChoice.codePostal,// || ''
+                        region: itemUpdateChoice.region || '',
+                        ville: itemUpdateChoice.ville ,// || ''
+                        adresse: itemUpdateChoice.adresse ,// || ''
+                        password: null, //itemUpdateChoice.password ,// || ''
+                        age: itemUpdateChoice.age,// || ''
+                        role: itemUpdateChoice.role,// || ''
+                        status: itemUpdateChoice.status,// || ''
+                        prix: itemUpdateChoice.prix,// || ''
+                        datePrestation: itemUpdateChoice.datePrestation,// || '',
+                        heurePrestation: itemUpdateChoice.heurePrestation ,//|| '',
+                        infoComplementaire: itemUpdateChoice.infoComplementaire || '',
+                        prestataire: itemUpdateChoice.prestataire,// || ''
+                        nombrePlaces: itemUpdateChoice.nombrePlaces,// || ''
+                        commentaire: itemUpdateChoice.commentaire || null
+                        // userCreatorId: itemUpdateChoice.userCreatorId,// || ''
+                    };
+                }
+                return prevFormData;
+
+            });
+
+
+        }
+
+    }, [itemUpdateChoice]);
+    
+    console.log("itemUpdateChoice dans Contact", itemUpdateChoice);
     
     // State pour stocker les valeurs du formulaire
     const [formData, setFormData] = useState({
@@ -95,6 +244,8 @@ const Contact = ({allChantiers, itemUpdateChoice, setItemUpdateChoice,
         Users_id : itemUpdateChoice && itemUpdateChoice.Users_id ? parseInt(itemUpdateChoice.Users_id) : null,
 
     });
+
+
 
 
     //fonction de reinitialisation des champs du formulaire
@@ -143,30 +294,7 @@ const Contact = ({allChantiers, itemUpdateChoice, setItemUpdateChoice,
         };
 
 
-    // State pour stocker les erreurs de validation
-    const [errors, setErrors] = useState({});
-
-    // State pour suivre les champs touchés
-    const [touchedFields, setTouchedFields] = useState({});
-
-    //gestion du state de l'affichage des bons éléments
-    let [isDashboard, setIsDashboard] = useState(false);
-
-    //gestion de l'affichage des champs pour les chantiers et utilisateurs
-    let [valComponentExist, setValComponentExist] = useState("");
-
-    //gestion du state de la liste des doublons de chantiers
-    let [doublonsChantiers, setDoublonsChantiers] = useState([]);
-
-    //gestion du state d'ajout de service ou de chantier ou d'utilisateur quand on est dans le dashboard
-    let [ createUserChantier, setCreateUserChantier ] = useState({
-        isAddchantier: false,
-        isAddUser: false,
-    });
-
-    
-    //state permettant de savoir si on veut modifier un chantier d'un utilisateur
-    let [btnUserModifierChantier, setBtnUserModifierChantier] = useState(false);
+   
 
     // Fonction de gestion des changements dans les champs du formulaire
     const handleChange = (e) => {
@@ -193,227 +321,73 @@ const Contact = ({allChantiers, itemUpdateChoice, setItemUpdateChoice,
         });
     };
 
+   
     // Validation des champs
     const validateForm = () => {
-
         let formErrors = {};
         let isValid = true;
 
-        if (!formData.nom) {
+        // Validation pour les champs obligatoires
+        if (!formData.nom) { // accept both null and ""
             isValid = false;
             formErrors.nom = "Le nom est requis.";
-
-            console.log("****formErrors.nom", formErrors.nom);
         }
 
         if (!formData.prenom) {
             isValid = false;
             formErrors.prenom = "Le prénom est requis.";
-
-            console.log("****formErrors.prenom", formErrors.prenom);
         }
 
-        
-        if(isDashboard && valComponentExist === "GetUsers"){
-
+        if (!formData.email) {
+            isValid = false;
+            formErrors.email = "L'email est requis.";
+        } else {
             const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-            if (!formData.email || !emailPattern.test(formData.email)) {
+            if (!emailPattern.test(formData.email)) {
                 isValid = false;
                 formErrors.email = "Un email valide est requis.";
-
-                console.log("****emailPattern", emailPattern);
             }
-
-            if (!formData.password) {
-                isValid = false;
-                formErrors.password = "Le mot de passe est requis.";
-
-                console.log("****form Errors password", formErrors.password);
-            }
-
-
-            if (!formData.role) {
-                isValid = false;
-                formErrors.role = "Veuillez sélectionner un rôle.";
-
-                console.log("****form Errors role", formErrors.role);
-            }
-
-            if (!formData.typeClient) {
-                isValid = false;
-                formErrors.typeClient = "Veuillez sélectionner le type de client.";
-            
-                console.log("****form Errors typeClient", formErrors.typeClient);
-            
-            }
-
-            if (!formData.genre) {
-                isValid = false;
-                formErrors.genre = "Veuillez sélectionner votre genre.";
-
-                console.log("****form Errors genre", formErrors.genre);
-            }
-
-            if (!formData.codePostal) {
-                isValid = false;
-                formErrors.codePostal = "Le code postal est requis.";
-
-                console.log("****form Errors codePostal", formErrors.codePostal);
-            }
-    
-            if (!formData.region) {
-                isValid = false;
-                formErrors.region = "La région est requise.";
-
-                console.log("****form Errors region", formErrors.region);
-            }
-
-            if (!formData.age || isNaN(formData.age)) {
-                isValid = false;
-                formErrors.age = "Veuillez entrer un âge valide.";
-
-                console.log("****form Errors age", formErrors.age);
-            }
-
-            //////////////////
-
         }
 
-        //validation des champs qui sont présent dans les chantiers et les utilisateurs
-        if(!valComponentExist || (valComponentExist === "GetChantiers" || valComponentExist === "GetUsers") ){
-            
-            const telPattern = /^\d{10,15}$/;
-            if (!formData.tel || !telPattern.test(formData.tel)) {
+        if (!formData.tel) {
+            isValid = false;
+            formErrors.tel = "Le numéro de téléphone est requis.";
+        } else {
+            const telPattern = /^\d{10,15}$/; // Exemple de validation pour un numéro de téléphone
+            if (!telPattern.test(formData.tel)) {
                 isValid = false;
-                formErrors.tel = "Un numéro de téléphone valide est requis (10 chiffres).";
-
-                console.log("****formErrors.tel", formErrors.tel);
+                formErrors.tel = "Un numéro de téléphone valide est requis (10 à 15 chiffres).";
             }
-
-            if (!formData.ville) {
-                isValid = false;
-                formErrors.ville = "La ville est requise.";
-
-                console.log("****formErrors.ville", formErrors.ville);
-            }
-
-            if (!formData.adresse) {
-                isValid = false;
-                formErrors.adresse = "L'adresse est requise.";
-
-                console.log("****formErrors.adresse", formErrors.adresse);
-            }
-
         }
 
-
-        //validation des champs pour les chantiers qui sont présent uniquement dans le chantier
-        if(!valComponentExist || valComponentExist === "GetChantiers" ){
-        
-
-            if (!formData.service) {
-                isValid = false;
-                formErrors.service = "Veuillez sélectionner un service.";
-
-                console.log("****formErrors.service", formErrors.service);
-            }
-
-            if (!formData.besoin) {
-                isValid = false;
-                formErrors.besoin = "Veuillez fournir plus de détails sur votre besoin.";
-
-                console.log("****formErrors.besoin", formErrors.besoin);
-            }
-
-            // if (!formData.commentaire) {
-            //     isValid = false;
-            //     formErrors.besoin = "Veuillez fournir plus de détails sur votre commentaire.";
-
-            //     console.log("****formErrors.besoin", formErrors.besoin);
-            // }
-
-            if (!formData.dateAppel) {
-                isValid = false;
-                formErrors.dateAppel = "Veuillez choisir une date.";
-
-                console.log("****formErrors.dateAppel", formErrors.dateAppel);
-            }
-
-            if (!formData.heureAppel) {
-                isValid = false;
-                formErrors.heureAppel = "Veuillez indiquer une heure pour vous appeler.";
-
-                console.log("****formErrors.heureAppel", formErrors.heureAppel);
-            }
-
-            if (!formData.status) {
-                isValid = false;
-                formErrors.status = "Veuillez sélectionner un statut.";
-
-                console.log("****formErrors.status", formErrors.status);
-            }
-
-            if (!formData.prix || isNaN(formData.prix)) {
-                isValid = false;
-                formErrors.prix = "Veuillez entrer un prix valide.";
-
-                console.log("****formErrors.prix", formErrors.prix);
-            }
-
-            if (!formData.datePrestation) {
-                isValid = false;
-                formErrors.datePrestation = "Veuillez choisir une date de prestation.";
-
-                console.log("****formErrors.datePrestation", formErrors.datePrestation);
-            }
-
-            if (!formData.heurePrestation) {
-                isValid = false;
-                formErrors.heurePrestation = "Veuillez indiquer une heure de prestation.";
-
-                console.log("****formErrors.heurePrestation", formErrors.heurePrestation);
-            }
-
-            if (!formData.infoComplementaire) {
-                isValid = false;
-                formErrors.infoComplementaire = "Veuillez fournir des informations complémentaires.";
-
-                console.log("****formErrors.infoComplementaire", formErrors.infoComplementaire);
-            }
-
-            if (!formData.prestataire) {
-                isValid = false;
-                formErrors.prestataire = "Le prestataire est requis.";
-
-                console.log("****formErrors.prestataire", formErrors.prestataire);
-            }
-
-            if (!formData.nombrePlaces || isNaN(formData.nombrePlaces)) {
-                isValid = false;
-                formErrors.nombrePlaces = "Veuillez entrer un nombre de places valide.";
-
-                console.log("****formErrors.nombrePlaces", formErrors.nombrePlaces);
-
-            }
-
+        if (!formData.service) {
+            isValid = false;
+            formErrors.service = "Veuillez sélectionner un service.";
         }
 
-       
+        if (!formData.besoin) {
+            isValid = false;
+            formErrors.besoin = "Veuillez fournir plus de détails sur votre besoin.";
+        }
+
+        // Ajoutez d'autres validations si nécessaire...
+
         setErrors(formErrors);
         return isValid;
     };
+
+
 
     // Gestion de la soumission du formulaire
     const handleSubmit = (e) => {
 
         e.preventDefault();
 
-        
+        console.log("****formData avant validation", formData);
          
-        // if (validateForm() ) {   
+        if (validateForm() ) {   
 
-            // console.log("Formulaire envoyé avec succès", formData);
+            console.log("Formulaire envoyé avec succès", formData);
 
             //création d'un utilisateur si on est pas dans le dashboard
             if( isDashboard === false || (isDashboard && createUserChantier.isAddUser ) ){
@@ -520,12 +494,12 @@ const Contact = ({allChantiers, itemUpdateChoice, setItemUpdateChoice,
             //resetFormDatas();
             
 
-        // } else {
+        } else {
 
-        //     console.log("****Formulaire non valide");
+            console.log("****Formulaire non valide");
 
 
-        // }
+        }
     };
 
     // console.log("**itemUpdateChoice dans Contact", itemUpdateChoice); 
@@ -538,25 +512,7 @@ const Contact = ({allChantiers, itemUpdateChoice, setItemUpdateChoice,
             : {};
     };
 
-    //fonction de gestion de l'affichage des bons éléments et champs
-    useEffect(() => {
-
-        if(location.pathname.includes("/admin/dashboard") ){
-           
-            setIsDashboard(true);
-            
-            if(component && component.length > 0){
-
-                setValComponentExist(component);
-            }
-
-
-        }else{
-            setIsDashboard(false);
-        }
-
-    } , [ location.pathname]);
-
+    
     // console.log("isDashboard dans Contact", isDashboard);
     // console.log("valComponentExist dans Contact", valComponentExist);
 
@@ -583,52 +539,7 @@ const Contact = ({allChantiers, itemUpdateChoice, setItemUpdateChoice,
         }
     };
     
-    //récupération de tous les doublons de allChantiers qui ont le même id que le itemUpdateChoice
-    useEffect(() => {
 
-        if( (allChantiers && allChantiers.length > 0) && itemUpdateChoice && itemUpdateChoice.id){
-            
-            console.log("allChantiers dans Contact", allChantiers);
-            console.log("itemUpdateChoice dans Contact", itemUpdateChoice.id);
-
-            if( component && component === "GetUsers"){
-            
-                console.log("component dans Contact GetUsers", component);
-                console.log("itemUpdateChoice dans Contact GetUsers", itemUpdateChoice);
-
-                console.log("allChantiers dans Contact avant", allChantiers);
-
-                //retrait des objets undefined ou null dans allChantiers
-                allChantiers = allChantiers.filter((item) => item !== null && item !== undefined);
-
-                const listeChantiers = allChantiers.filter((item) => {
-
-                        
-                    // console.log("item.Users_id", item.Users_id ,);
-                   
-                   return  item.Users_id === itemUpdateChoice.id 
-                });
-                
-                console.log("listeChantiers dans Contact", listeChantiers);
-
-                setDoublonsChantiers(listeChantiers);
-
-            }else if(component && component === "GetChantiers"){
-
-                //retrait des objets undefined ou null dans allChantiers
-                allChantiers = allChantiers.filter((item) => item !== null && item !== undefined);
-
-                const listeDoublonChantiers = allChantiers.filter((item) => item.Users_id === itemUpdateChoice.Users_id  && (item.status !== "Fait" && item.status !== "Abandonner" ));
-                
-                // console.log("listeDoublonChantiers dans Contact", listeDoublonChantiers);
-
-                setDoublonsChantiers(listeDoublonChantiers);
-
-            }
-
-        }
-
-    }, [allChantiers, itemUpdateChoice, component]);
     
     console.log("doublonsChantiers dans Contact", doublonsChantiers);
 
@@ -698,54 +609,7 @@ const Contact = ({allChantiers, itemUpdateChoice, setItemUpdateChoice,
 
     console.log("flagUsers dans Contact", flagUsers);
 
-    //mise à jour du state formData si itemUpdateChoice est modifié
-    useEffect(() => {
 
-        if (itemUpdateChoice && itemUpdateChoice.id) {
-
-            //utilisation du callback pour éviter une boucle infinie ainsi on compare les anciennes valeurs avec les nouvelles valeurs si c'est différent on met à jour le state si non on retourne les anciennes valeurs
-            setFormData((prevFormData) => {
-
-                if (JSON.stringify(prevFormData) !== JSON.stringify(itemUpdateChoice)) {
-                    return {
-                        ...formData,
-                        nom: itemUpdateChoice.nom, // || '',
-                        prenom: itemUpdateChoice.prenom, // || '',
-                        email: itemUpdateChoice.email, // || '',
-                        tel: itemUpdateChoice.tel, // || '',
-                        service: itemUpdateChoice.service, // || '',
-                        besoin: itemUpdateChoice.besoin, // || '',
-                        dateAppel: itemUpdateChoice.dateAppel,// || ''
-                        heureAppel: itemUpdateChoice.heureAppel ,// || ''
-                        genre: itemUpdateChoice.genre, // || '',
-                        typeClient: itemUpdateChoice.typeClient || 'Particulier',
-                        codePostal: itemUpdateChoice.codePostal,// || ''
-                        region: itemUpdateChoice.region || '',
-                        ville: itemUpdateChoice.ville ,// || ''
-                        adresse: itemUpdateChoice.adresse ,// || ''
-                        password: null, //itemUpdateChoice.password ,// || ''
-                        age: itemUpdateChoice.age,// || ''
-                        role: itemUpdateChoice.role,// || ''
-                        status: itemUpdateChoice.status,// || ''
-                        prix: itemUpdateChoice.prix,// || ''
-                        datePrestation: itemUpdateChoice.datePrestation,// || '',
-                        heurePrestation: itemUpdateChoice.heurePrestation ,//|| '',
-                        infoComplementaire: itemUpdateChoice.infoComplementaire || '',
-                        prestataire: itemUpdateChoice.prestataire,// || ''
-                        nombrePlaces: itemUpdateChoice.nombrePlaces,// || ''
-                        commentaire: itemUpdateChoice.commentaire || null
-                        // userCreatorId: itemUpdateChoice.userCreatorId,// || ''
-                    };
-                }
-                return prevFormData;
-
-            });
-
-
-        }
-
-    }, [itemUpdateChoice]);
-    
 
     // console.log("formData dans Contact", formData);
 
@@ -921,13 +785,13 @@ const Contact = ({allChantiers, itemUpdateChoice, setItemUpdateChoice,
                         // !isDashboard && (valComponentExist === "GetUsers" || !valComponentExist ) &&  //////////////////////////
                         <div className='form-group'>
                             <div className='itemInputContainer'>
-                                <label>Nom</label>
+                                <label>Nom*</label>
                                 <input type='text' name='nom' placeholder='Nom*' value={formData.nom} onChange={handleChange} className='form-control itemInput' style={getInputStyle('nom')} />
                                 {errors.nom && <p className="error">{errors.nom}</p>}
                             </div>
 
                             <div className='itemInputContainer'>
-                                <label>Prénom</label>
+                                <label>Prénom*</label>
                                 <input type='text' name='prenom' placeholder='Prénom*' value={formData.prenom} onChange={handleChange} className='form-control itemInput' style={getInputStyle('prenom')} />
                                 {errors.prenom && <p className="error">{errors.prenom}</p>}
                             </div>
@@ -1143,13 +1007,13 @@ const Contact = ({allChantiers, itemUpdateChoice, setItemUpdateChoice,
                          (!valComponentExist || valComponentExist === "GetChantiers" || valComponentExist === "GetUsers"  ) &&
                         <div className='form-group'>
                             <div className='itemInputContainer'>
-                                <label>Quand pouvons-nous vous appeler ?</label>
+                                <label>Quand pouvons-nous vous appeler ?*</label>
                                 <input type='date' name='dateAppel' value={formData.dateAppel} onChange={handleChange} className='form-control itemInput' style={getInputStyle('dateAppel')} />
                                 {errors.dateAppel && <p className="error">{errors.dateAppel}</p>}
                             </div>
 
                             <div className='itemInputContainer'>
-                                <label> A quelles Heure ?</label>
+                                <label> A quelles Heure ?*</label>
                                 <input type='time' name='heureAppel' value={formData.heureAppel} onChange={handleChange} className='form-control itemInput' style={getInputStyle('heureAppel')} />
                                 {errors.heureAppel && <p className="error">{errors.heureAppel}</p>}
                             </div>

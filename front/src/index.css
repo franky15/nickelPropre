@@ -2669,4 +2669,206 @@ table td .seeMoreTable {
   cursor: pointer;
 }
 
+* {
+  font-family: "Open Sans", sans-serif;
+  margin-inline: 0;
+  box-sizing: border-box;
+}
+
+.cancelComponent {
+  height: 1800px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 250px;
+  background-color: #1093EB;
+}
+.cancelComponent h1 {
+  margin-top: 50px;
+  margin-bottom: 50px;
+  font-size: 30px;
+  text-align: center;
+  color: white;
+}
+.cancelComponent h1 i {
+  color: #dc3545;
+}
+.cancelComponent p {
+  font-size: 23px;
+  font-weight: bold;
+  font-size: 23px;
+  color: white;
+  font-weight: bold;
+}
+@media (max-width: 728px) {
+  .cancelComponent {
+    padding-top: 250px;
+  }
+  .cancelComponent p {
+    text-align: center;
+    padding-inline: 10px;
+  }
+  .cancelComponent h1 {
+    font-size: 35px;
+    margin-bottom: 10px;
+  }
+  .cancelComponent h1 i {
+    color: #dc3545;
+  }
+}
+
+* {
+  font-family: "Open Sans", sans-serif;
+}
+
+html, body {
+  background-color: #F1F6F6;
+  margin: 0;
+  padding: 0;
+}
+
+.formPaiement {
+  height: 1500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 250px;
+  background-color: #1093EB;
+}
+.formPaiement h2 {
+  color: white;
+  font-size: 35px;
+  margin-bottom: 50px;
+}
+@media (max-width: 768px) {
+  .formPaiement h2 {
+    font-size: 18px;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+}
+.formPaiement div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.formPaiement label {
+  color: white;
+  font-size: 23px;
+}
+@media (max-width: 768px) {
+  .formPaiement label {
+    font-size: 13px;
+  }
+}
+.formPaiement .montant {
+  color: white;
+  font-size: 35px;
+  margin-bottom: 20px;
+}
+@media (max-width: 768px) {
+  .formPaiement .montant {
+    font-size: 18px;
+  }
+}
+.formPaiement input {
+  width: 300px;
+  height: 60px;
+  border-radius: 10px;
+  border: solid 2px #E0E0E0;
+  margin-bottom: 20px;
+  padding-left: 10px;
+}
+@media (max-width: 768px) {
+  .formPaiement input {
+    width: 250px;
+    height: 40px;
+    margin-bottom: 10px;
+  }
+}
+.formPaiement button {
+  width: 200px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  font-weight: bold;
+  background-color: none;
+  font-size: 23px;
+  color: black;
+  border-radius: 10px;
+  border: solid 2px #E0E0E0;
+  cursor: pointer;
+  /* Assurez-vous que cette mixin est bien définie */
+  background-color: #1093EB;
+  border: solid 3px white;
+  color: white;
+  transition: transform 200ms ease-in-out;
+}
+.formPaiement button:hover {
+  transform: scale(1.1);
+}
+@media (max-width: 768px) {
+  .formPaiement button {
+    margin-top: 10px;
+  }
+}
+
+* {
+  font-family: "Open Sans", sans-serif;
+  margin-inline: 0;
+  box-sizing: border-box;
+}
+
+.succesComponentCharge {
+  text-align: center;
+  font-size: 30px;
+  color: white;
+  height: 1800px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 250px;
+  background-color: #1093EB;
+}
+
+.succesComponent {
+  height: 1800px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 250px;
+  background-color: #1093EB;
+}
+.succesComponent h1 {
+  margin-top: 50px;
+  margin-bottom: 50px;
+  font-size: 30px;
+  text-align: center;
+  color: white;
+  padding-inline: 10px;
+}
+.succesComponent p {
+  font-size: 18px;
+  font-weight: bold;
+}
+.succesComponent span {
+  color: white;
+  font-weight: bold;
+}
+@media (max-width: 728px) {
+  .succesComponent {
+    padding-top: 230px;
+  }
+  .succesComponent p {
+    font-size: 18px;
+  }
+  .succesComponent h1 {
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
+}
+
 /*# sourceMappingURL=index.css.map */

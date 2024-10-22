@@ -1,5 +1,9 @@
+/* eslint-disable */
+
+
 import React,{useState, useEffect} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 
 import HistoriqueActionEffectuees from './HistoriqueActionEffectuees';
@@ -20,6 +24,8 @@ const Table = ({
 }) => {
 
     const dispatch = useDispatch();
+    const Navigate = useNavigate();
+
 
     //gestion du state de l'ouverture de la modal historique des actions effectuées
     const [modalHistorique, setModalHistorique] = useState(true);
@@ -82,23 +88,9 @@ const Table = ({
     });
     
 
-    const listeActionsEffectuees = ["nombreAppel", "nombreMail", "nombreSms"];
-    const listeStatutUser = ["Nouveau", "Contacté", "Converti", "Non converti", "Qualifié", "Chantiers"];
-    const headerTableChantiers = ["Services", "Statut", "Nbr de places/TV", "Date Prestation", "Prestataire", "Heure", "Nom du client", "Tel", "Adresse", "Actions"];
-    const hearderTableUsers = ["Nom Prospect", "Service", "Date arrivée", "Ville", "Adresse", "Tel", "Statu", "Nbr de relances", "Historique d'actions", "Besoin", "Actions"];
-    
-    // Vérifier que les props sont  bien définis
-    const propsValidated = (ComponentShowTable === "chantiers") 
-        ? (chantiers && allChantiers)
-        : (users && allUsers );
-        
-    // Affichage pendant la validation des props
-    if (!propsValidated) {
-        return <div>Chargement des données...</div>;
-    }
 
-    // Initialiser les checkedItems en fonction des chantiers ou users
-    useEffect(() => {
+     // Initialiser les checkedItems en fonction des chantiers ou users
+     useEffect(() => {
 
         const listeItems = ComponentShowTable === "chantiers" ? chantiers : users;
         
@@ -167,6 +159,50 @@ const Table = ({
 
     }, [chantiers, users, ComponentShowTable]);
 
+
+    // Constitution des sous-listes en fonction du nombre d'éléments par page
+    useEffect(() => {
+        const listeItems = ComponentShowTable === "chantiers" ? chantiers : users;
+
+        if (listeItems && listeItems.length > 0) {
+            const filteredListeItems = listeItems.filter(item => item && item.id);
+
+            const listElementsPerPage = filteredListeItems.reduce((accumulateur, _, indexAcc, array) => {
+                if (indexAcc % nombreLignes === 0) {
+                    accumulateur.push(array.slice(indexAcc, indexAcc + nombreLignes));
+                }
+                return accumulateur;
+            }, []);
+
+            setSousListe(listElementsPerPage);
+
+            console.log("users", users);
+        }
+
+    }, [chantiers, users, nombreLignes, ComponentShowTable]);
+
+
+
+
+
+
+    const listeActionsEffectuees = ["nombreAppel", "nombreMail", "nombreSms"];
+    const listeStatutUser = ["Nouveau", "Contacté", "Converti", "Non converti", "Qualifié", "Chantiers"];
+    const headerTableChantiers = ["Services", "Statut", "Nbr de places/TV", "Date Prestation", "Prestataire", "Heure", "Nom du client", "Tel", "Adresse", "Actions"];
+    const hearderTableUsers = ["Nom Prospect", "Service", "Date arrivée", "Ville", "Adresse", "Tel", "Statu", "Nbr de relances", "Historique d'actions", "Besoin", "Actions"];
+    
+    // Vérifier que les props sont  bien définis
+    const propsValidated = (ComponentShowTable === "chantiers") 
+        ? (chantiers && allChantiers)
+        : (users && allUsers );
+        
+    // Affichage pendant la validation des props
+    if (!propsValidated) {
+        return <div>Chargement des données...</div>;
+    }
+
+   
+
     
     // Fonction pour gérer les actions de chaque ligne
     const actionsLineTable = (item, choice) => {
@@ -191,6 +227,20 @@ const Table = ({
             if(component === "GetUsers"){
                 setShowHideInputUser((prev) => !prev);
             }
+
+        }else if (choice === "paiement") {
+
+            setactionsTable({
+                telecharger: false,
+                modifier: false,
+                supprimer: false,
+                paiement: !actionsTable.paiement,
+            });
+
+            //redirection vers la page de paiement en inserant l'id  et le prix du chantier dans l'url
+            
+            Navigate(`/stripe/paiement/${item.id}/${item.prix}`);
+
 
         } else if (choice === "telecharger") {
             setactionsTable({
@@ -242,28 +292,7 @@ const Table = ({
         setNombreLignes(value);
     };
 
-    // Constitution des sous-listes en fonction du nombre d'éléments par page
-    useEffect(() => {
-        const listeItems = ComponentShowTable === "chantiers" ? chantiers : users;
-
-        if (listeItems && listeItems.length > 0) {
-            const filteredListeItems = listeItems.filter(item => item && item.id);
-
-            const listElementsPerPage = filteredListeItems.reduce((accumulateur, _, indexAcc, array) => {
-                if (indexAcc % nombreLignes === 0) {
-                    accumulateur.push(array.slice(indexAcc, indexAcc + nombreLignes));
-                }
-                return accumulateur;
-            }, []);
-
-            setSousListe(listElementsPerPage);
-
-            console.log("users", users);
-        }
-
-    }, [chantiers, users, nombreLignes, ComponentShowTable]);
-
-
+    
     // const listeActionsEffectuees = ["Appel", "Mail", "SMS"];
     // const listeStatutUser = ["Nouveau", "Contacté", "Converti", "Non converti", "Qualifié", "Chantiers"];
 
@@ -444,6 +473,10 @@ const Table = ({
                                             <i className="fa-solid fa-download" onClick={() => actionsLineTable(item, "telecharger")}></i>
                                             <i className="fa-solid fa-pencil" onClick={() => actionsLineTable(item, "modifier")}></i>
                                             <i className="fa-solid fa-trash" onClick={() => actionsLineTable(item, "supprimer")}></i>
+                                            {
+                                                component === "GetChantiers" &&
+                                                <i class="fa-solid fa-money-check-dollar" onClick={() => actionsLineTable(item, "paiement")}></i>
+                                            }
                                         </div>
                                     </td>
                                 </>
